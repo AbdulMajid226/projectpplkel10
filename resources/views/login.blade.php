@@ -45,6 +45,13 @@
                     Lupa Password?
                 </a>
             </div>
+
+            <div class="mt-2">
+                <a href="{{ route('register') }}" class="text-sm text-teal-600 hover:underline">
+                    Belum punya akun? Daftar di sini
+                </a>
+            </div>
+
         </div>
 
         <!-- Bagian Kanan -->
