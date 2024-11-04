@@ -30,6 +30,13 @@
                     <span class="text-sm">Mahasiswa</span>
                 </div>
             </div>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="block w-full py-2.5 px-4 text-left rounded hover:bg-teal-700 text-white">Logout</button>
+            </form>
+
         </aside>
 
         <!-- Main Content -->
