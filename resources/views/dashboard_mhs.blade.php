@@ -12,9 +12,9 @@
 
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-teal-800 text-white flex flex-col">
-            <div class="p-4 flex items-center space-x-2">
-                <img src="{{ asset('images/logo_simak_only.png') }}" alt="SIMAK Logo" class="h-10 w-10">
+        <aside class="flex flex-col w-64 text-white bg-teal-800">
+            <div class="flex items-center p-4 space-x-2">
+                <img src="{{ asset('images/logo_simak_only.png') }}" alt="SIMAK Logo" class="w-10 h-10">
                 <span class="text-xl font-semibold">SIMAK Undip</span>
             </div>
             <nav class="flex-1 px-4">
@@ -23,8 +23,8 @@
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">IRS</a>
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">KHS</a>
             </nav>
-            <div class="p-4 flex items-center space-x-2 border-t border-teal-700">
-                <img src="{{ asset('images/Profile.png') }}" alt="Profile" class="h-10 w-10 rounded-full">
+            <div class="flex items-center p-4 space-x-2 border-t border-teal-700">
+                <img src="{{ asset('images/Profile.png') }}" alt="Profile" class="w-10 h-10 rounded-full">
                 <div>
                     <span>Jokowi </span>
                     <span class="text-sm">Mahasiswa</span>
@@ -35,17 +35,17 @@
         <!-- Main Content -->
         <main class="flex-1 p-8 space-y-6">
             <!-- Status Akademik -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-teal-600 text-white p-4 rounded-lg">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div class="p-4 text-white bg-teal-600 rounded-lg">
                     <h2 class="text-lg font-semibold">Status akademik</h2>
                     <p class="text-2xl font-bold">Aktif</p>
                     <p>Semester Akademik: 2024/2025 Ganjil</p>
                     <p>Semester Studi: 5</p>
                     <p>Dosen Wali: Dr.Eng. Adi Wibowo, S.Si., M.Kom.<br>(NIP: 198203092006041002)</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow">
+                <div class="p-4 bg-white rounded-lg shadow">
                     <h2 class="text-lg font-semibold">Prestasi akademik</h2>
-                    <div class="flex justify-between items-center mt-4">
+                    <div class="flex items-center justify-between mt-4">
                         <p>IPK: 3.81</p>
                         <p>SKS: 84</p>
                     </div>
@@ -55,15 +55,15 @@
 
             <!-- Jadwal Kuliah -->
             <div>
-                <h2 class="text-2xl font-bold mb-4">Jadwal Hari Ini</h2>
-                <div class="bg-white rounded-lg shadow overflow-hidden">
+                <h2 class="mb-4 text-2xl font-bold">Jadwal Hari Ini</h2>
+                <div class="overflow-hidden bg-white rounded-lg shadow">
                     <table class="min-w-full leading-normal">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2 bg-teal-600 text-white">Mata Kuliah</th>
-                                <th class="px-4 py-2 bg-teal-600 text-white">Hari, Tanggal</th>
-                                <th class="px-4 py-2 bg-teal-600 text-white">Waktu</th>
-                                <th class="px-4 py-2 bg-teal-600 text-white">Ruang</th>
+                                <th class="px-4 py-2 text-white bg-teal-600">Mata Kuliah</th>
+                                <th class="px-4 py-2 text-white bg-teal-600">Hari, Tanggal</th>
+                                <th class="px-4 py-2 text-white bg-teal-600">Waktu</th>
+                                <th class="px-4 py-2 text-white bg-teal-600">Ruang</th>
 
                             </tr>
                         </thead>
