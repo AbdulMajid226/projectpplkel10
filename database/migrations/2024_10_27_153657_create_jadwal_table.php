@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id('id_jadwal');
+            $table->string('kode_mk');
+            $table->string('kode_ruang');
+            $table->string('nidn');
+            $table->string('kelas');
             $table->string('hari');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
-            $table->string('ruang');
-            $table->unsignedBigInteger('id_mata_kuliah');
-            $table->unsignedBigInteger('id_dosen');
             $table->timestamps();
-    
-            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('mata_kuliah');
-            $table->foreign('id_dosen')->references('id_dosen')->on('dosen');
+
+            $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
+            $table->foreign('kode_ruang')->references('kode_ruang')->on('ruang')->onDelete('cascade');
+            $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
+            
         });
     }
 
