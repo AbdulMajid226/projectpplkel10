@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->string('nidn')->primary();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('gelar');
             $table->timestamps();
+
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });
     }
 

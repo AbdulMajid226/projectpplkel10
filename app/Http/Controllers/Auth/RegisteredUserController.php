@@ -35,16 +35,26 @@ class RegisteredUserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
+        // Tentukan role berdasarkan domain email
+        
+        if (str_contains($request->email, '@students')) {
+            $role = 'mahasiswa';
+        }
+        else if (str_contains($request->email, '@lecturer')) {
+            $role = 'dosen';
+        }
+
         Auth::login($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $role,
         ]));
 
-        // Redirect based on email domain
-        if (str_contains($user->email, '@students')) {
+        // Redirect berdasarkan role
+        if ($role === 'mahasiswa') {
             return redirect()->route('dashboard_mhs');
-        } elseif (str_contains($user->email, '@lecturer')) {
+        } elseif ($role === 'dosen') {
             return redirect()->route('dashboardpa');
         }
 

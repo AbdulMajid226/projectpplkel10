@@ -23,7 +23,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
-            $table->foreign('kode_ruang')->references('kode_ruang')->on('ruang')->onDelete('cascade');
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
             
         });
