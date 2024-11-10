@@ -31,16 +31,13 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            
-            // Check if email contains @students
-            if (str_contains($user->email, '@students')) {
+            //check role to redirect
+            if($user->role === 'mahasiswa'){
                 return redirect()->route('dashboard_mhs');
-            }
-
-            // Check if email contains @lecturer
-            if (str_contains($user->email, '@lecturer')) {
+            }elseif($user->role ==='dosen'){
                 return redirect()->route('dashboardpa');
             }
+           
         }
 
         return back()->withErrors([
