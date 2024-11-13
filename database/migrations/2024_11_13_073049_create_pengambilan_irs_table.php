@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mata_kuliah', function (Blueprint $table) {
-            $table->string('kode_mk')->primary();
-            $table->string('nama');
-            $table->integer('sks');
-            $table->integer('semester');
-            $table->enum('sifat', ['wajib', 'pilihan']);
+        Schema::create('pengambilan_irs', function (Blueprint $table) {
+            $table->foreignId('id_irs')->constrained('irs')->onDelete('cascade');
+            $table->foreignId('id_jadwal')->constrained('jadwal')->onDelete('cascade');
+            
+            $table->primary(['id_irs', 'id_jadwal']);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mata_kuliah');
+        Schema::dropIfExists('pengambilan_irs');
     }
 };

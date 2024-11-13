@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
+            $table->foreign('nidn')->references('nidn')->on('pembimbing_akademik')->onDelete('cascade');
         });
     }
 

@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id('id_jadwal');
             $table->string('kode_mk');
             $table->string('kode_ruang');
-            $table->string('nidn');
             $table->string('kelas');
+            $table->integer('kuota');
             $table->string('hari');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
             $table->timestamps();
 
             $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
-            $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
+            $table->foreign('kode_ruang')->references('kode_ruang')->on('ruang')->onDelete('cascade');
             
         });
     }
