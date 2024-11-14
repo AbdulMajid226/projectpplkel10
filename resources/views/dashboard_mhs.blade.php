@@ -11,33 +11,17 @@
 <body class="bg-gray-100">
 
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="flex flex-col w-64 text-white bg-teal-800">
-            <div class="flex items-center p-4 space-x-2">
-                <img src="{{ asset('images/logo_simak_only.png') }}" alt="SIMAK Logo" class="w-10 h-10">
-                <span class="text-xl font-semibold">SIMAK Undip</span>
-            </div>
-            <nav class="flex-1 px-4">
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">Dasbor</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">Registrasi</a>
+        <x-nav-bar>
+            <x-slot:items>
+                <a href="/dashboardpa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Dasbor</a>
+                <a href="irspa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Registrasi</a>
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">IRS</a>
                 <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">KHS</a>
-            </nav>
-            <div class="flex items-center p-4 space-x-2 border-t border-teal-700">
-                <img src="{{ asset('images/Profile.png') }}" alt="Profile" class="w-10 h-10 rounded-full">
-                <div>
-                    <span>Jokowi </span>
-                    <span class="text-sm">Mahasiswa</span>
-                </div>
-            </div>
+            </x-slot:items>
+            <x-slot:name>Jokowi</x-slot:name>
+            <x-slot:role>Mahasiswa</x-slot:role>
+        </x-nav-bar>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="block w-full py-2.5 px-4 text-left rounded hover:bg-teal-700 text-white">Logout</button>
-            </form>
-
-        </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-8 space-y-6">
