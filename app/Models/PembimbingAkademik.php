@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dosen extends Model
+class PembimbingAkademik extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,16 @@ class Dosen extends Model
 
     protected $fillable = [
         'nidn',
-        'gelar',
-        'prodi',
+        'user_id',
     ];
 
-    public function pengampuanDosen()
+    public function mahasiswa()
     {
-        return $this->belongsToMany(MataKuliah::class, 'pengampuan_dosen', 'nidn', 'kode_mk');
+        return $this->hasMany(Mahasiswa::class, 'nidn', 'nidn');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

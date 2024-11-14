@@ -8,15 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     use HasFactory;
-    protected $table = 'mata_kuliah';
-    
+
     protected $primaryKey = 'kode_mk';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kode_mk', 'nama', 'sks', 'semester'
+        'kode_mk',
+        'nama',
+        'sks',
+        'semester',
+        'sifat',
     ];
+
+    public function pengampuanDosen()
+    {
+        return $this->belongsToMany(Dosen::class, 'pengampuan_dosen', 'kode_mk', 'nidn');
+    }
 
     public function jadwal()
     {

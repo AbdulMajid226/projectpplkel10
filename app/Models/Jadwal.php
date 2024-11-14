@@ -8,10 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Jadwal extends Model
 {
     use HasFactory;
-    protected $table = 'jadwal';
+
+    protected $primaryKey = 'id_jadwal';
 
     protected $fillable = [
-        'kode_mk', 'kode_ruang', 'nidn', 'kelas', 'hari', 'jam_mulai', 'jam_selesai'
+        'kode_mk',
+        'kode_ruang',
+        'kelas',
+        'kuota',
+        'hari',
+        'jam_mulai',
+        'jam_selesai',
     ];
 
     public function mataKuliah()
@@ -19,8 +26,13 @@ class Jadwal extends Model
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
     }
 
-    public function dosen()
+    public function ruang()
     {
-        return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
+        return $this->belongsTo(Ruang::class, 'kode_ruang', 'kode_ruang');
+    }
+
+    public function irs()
+    {
+        return $this->belongsToMany(IRS::class, 'pengambilan_irs', 'id_jadwal', 'id_irs');
     }
 }
