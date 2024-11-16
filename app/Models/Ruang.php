@@ -14,12 +14,16 @@ class Ruang extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kode_ruang',
-        'kuota',
+        'kode_ruang', 'kuota', 'kode_prodi',
     ];
 
     public function jadwal()
     {
         return $this->hasMany(Jadwal::class, 'kode_ruang', 'kode_ruang');
+    }
+
+    public function programStudi()
+    {
+        return $this->belongsTo(ProgramStudi::class, 'kode_prodi');
     }
 }

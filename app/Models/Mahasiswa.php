@@ -14,7 +14,7 @@ class Mahasiswa extends Model
     protected $keyType = 'string';
     
     protected $fillable = [
-        'nim', 'angkatan','prodi','nidn','user_id',
+        'nim','nama' ,'angkatan','prodi','nidn','user_id',
     ];
 
     public function user(){

@@ -14,11 +14,7 @@ class MataKuliah extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kode_mk',
-        'nama',
-        'sks',
-        'semester',
-        'sifat',
+        'kode_mk', 'nama', 'sks', 'semester', 'sifat', 'kode_prodi',
     ];
 
     public function pengampuanDosen()
@@ -29,5 +25,10 @@ class MataKuliah extends Model
     public function jadwal()
     {
         return $this->hasMany(Jadwal::class, 'kode_mk', 'kode_mk');
+    }
+
+    public function programStudi()
+    {
+        return $this->belongsTo(ProgramStudi::class, 'kode_prodi');
     }
 }

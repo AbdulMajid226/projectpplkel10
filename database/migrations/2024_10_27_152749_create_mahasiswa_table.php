@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->string('nim')->primary();
+            $table->string('nama');
             $table->year('angkatan');
             $table->string('kode_prodi');
             $table->string('nidn');

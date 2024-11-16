@@ -17,4 +17,14 @@ class PengampuanDosen extends Model
         'nidn',
         'kode_mk',
     ];
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'nidn');
+    }
+
+    public function mataKuliah()
+    {
+        return $this->belongsTo(MataKuliah::class, 'kode_mk');
+    }
 }

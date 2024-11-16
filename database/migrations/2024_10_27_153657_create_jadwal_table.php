@@ -25,8 +25,8 @@ return new class extends Migration
             $table->foreign('kode_ruang')->references('kode_ruang')->on('ruang')->onDelete('cascade');
             $table->foreign('kelas')->references('kelas')->on('kelas')->onDelete('cascade');
             $table->foreign('kuota')->references('kuota')->on('kuota_kelas')->onDelete('cascade');
-            $table->foreign('thn_ajaran')->references('thn_ajaran')->on('tahun_ajaran_')->onDelete('cascade');
-            $table->foreignId(column: 'waktu')->constrained('waktu')->onDelete('cascade');
+            $table->foreign('thn_ajaran')->references('thn_ajaran')->on('tahun_ajaran')->onDelete('cascade');
+            $table->foreignId('waktu_id')->constrained('waktu')->onDelete('cascade');
         });
     }
 

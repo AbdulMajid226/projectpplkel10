@@ -12,13 +12,7 @@ class Jadwal extends Model
     protected $primaryKey = 'id_jadwal';
 
     protected $fillable = [
-        'kode_mk',
-        'kode_ruang',
-        'kelas',
-        'kuota',
-        'hari',
-        'jam_mulai',
-        'jam_selesai',
+        'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'waktu',
     ];
 
     public function mataKuliah()
@@ -34,5 +28,24 @@ class Jadwal extends Model
     public function irs()
     {
         return $this->belongsToMany(IRS::class, 'pengambilan_irs', 'id_jadwal', 'id_irs');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas', 'kelas');
+    }
+    public function kuota()
+    {
+        return $this->belongsTo(KuotaKelas::class, 'kuota', 'kuota');
+    }
+
+    public function tahunAjaran()
+    {
+        return $this->belongsTo(TahunAjaran::class, 'thn_ajaran', 'thn_ajaran');
+    }
+
+    public function waktu()
+    {
+        return $this->belongsTo(Waktu::class, 'waktu_id', 'id');
     }
 }
