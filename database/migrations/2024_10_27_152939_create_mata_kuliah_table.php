@@ -17,6 +17,9 @@ return new class extends Migration
             $table->integer('sks');
             $table->integer('semester');
             $table->enum('sifat', ['wajib', 'pilihan']);
+            $table->string('kode_prodi');
+            
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');
             $table->timestamps();
         });
     }

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ruang', function (Blueprint $table) {
-            $table->string('kode_ruang')->primary();
-            $table->integer('kuota');
-            $table->string('kode_prodi');
-            
-            $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');
+        Schema::create('program_studi', function (Blueprint $table) {
+            $table->string('kode_prodi')->primary();
+            $table->string('nama_prodi');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ruang');
+        Schema::dropIfExists('program_studi');
     }
 };

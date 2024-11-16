@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->string('nim')->primary();
             $table->year('angkatan');
-            $table->string('prodi');
+            $table->string('kode_prodi');
             $table->string('nidn');
             $table->timestamps();
 
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');   
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreign('nidn')->references('nidn')->on('pembimbing_akademik')->onDelete('cascade');
         });
