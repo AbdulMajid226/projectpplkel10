@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pembimbing Akademik</title>
-    @vite('resources/css/app.css')
-</head>
+<x-header>
+    <x-slot:title>Dashboard Pembimbing Akademik</x-slot:title>
+</x-header>
 
 <body class="bg-gray-100">
 
@@ -14,9 +11,9 @@
 
         <x-nav-bar>
             <x-slot:items>
-                <a href="/dashboardpa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Dasbor</a>
-                <a href="irspa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Pengesahan IRS</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">KHS Mahasiswa</a>
+                <x-nav-link href="/dashboardpa" :active="request()->is('dashboardpa')">Dashboard</x-nav-link>
+                <x-nav-link href="/irspa" :active="request()->is('irspa')">Pengesahan IRS</x-nav-link>
+                <x-nav-link href="/#" :active="request()->is('#')">KHS Mahasiswa</x-nav-link>
             </x-slot:items>
             <x-slot:name>Mulyono</x-slot:name>
             <x-slot:role>Pembimbing Akademik</x-slot:role>
