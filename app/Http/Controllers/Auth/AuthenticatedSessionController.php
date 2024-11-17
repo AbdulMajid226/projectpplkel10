@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('login');
     }
 
     /**
@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::user();
             //check role to redirect
             if($user->role === 'mhs'){
-                return redirect()->route(route: 'dashboard_mhs');
+                return redirect()->route('dashboard_mhs');
             }elseif($user->role ==='pa'){
                 return redirect()->route('dashboardpa');
             }
@@ -50,10 +50,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout(); // Logout pengguna
 
+        // Invalidate session dan regenerasi token CSRF
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
