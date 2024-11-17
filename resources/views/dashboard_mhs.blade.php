@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Mahasiswa</title>
-    @vite('resources/css/app.css')
-</head>
+<x-header>
+    <x-slot:title>Dashboard Mahasiswa</x-slot:title>
+</x-header>
 
 <body class="bg-gray-100">
 
     <div class="flex h-screen">
         <x-nav-bar>
             <x-slot:items>
-                <a href="/dashboardpa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Dasbor</a>
-                <a href="irspa" class="block py-2.5 px-4 rounded hover:bg-teal-700">Registrasi</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">IRS</a>
-                <a href="#" class="block py-2.5 px-4 rounded hover:bg-teal-700">KHS</a>
+                <x-nav-link href="/dashboard_mhs" :active="request()->is('dashboard_mhs')">Dashboard</x-nav-link>
+                <x-nav-link href="/#" :active="request()->is('#')">Registrasi</x-nav-link>
+                <x-nav-link href="/#" :active="request()->is('#')">IRS</x-nav-link>
+                <x-nav-link href="/#" :active="request()->is('#')">KHS</x-nav-link>
             </x-slot:items>
             <x-slot:name>Jokowi</x-slot:name>
             <x-slot:role>Mahasiswa</x-slot:role>
