@@ -9,6 +9,7 @@ class Mahasiswa extends Model
 {
     use HasFactory;
 
+    protected $table = 'mahasiswa';
     protected $primarykey  = 'nim';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -25,8 +26,5 @@ class Mahasiswa extends Model
     }
     public function irs(){
         return  $this->hasMany(IRS::class, 'nim', 'nim');
-    }
-    
-    
-    
+    }  
 }

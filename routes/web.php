@@ -17,7 +17,7 @@ Route::get('/dashboardpa', function () {
 
 Route::get('/irspa', function () {
     return view('irspa');
-})->middleware(['auth', 'verified'])->name('irspa');    
+})->middleware(['auth', 'verified'])->name('irspa');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -9,6 +9,7 @@ class MataKuliah extends Model
 {
     use HasFactory;
 
+    protected $table = 'mata_kuliah';
     protected $primaryKey = 'kode_mk';
     public $incrementing = false;
     protected $keyType = 'string';

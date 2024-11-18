@@ -9,7 +9,7 @@ class IRS extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_irs';
+    protected $table = 'irs';
 
     protected $fillable = [
         'nim',

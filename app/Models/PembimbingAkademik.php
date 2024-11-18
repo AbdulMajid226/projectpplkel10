@@ -9,6 +9,7 @@ class PembimbingAkademik extends Model
 {
     use HasFactory;
 
+    protected $table = 'pembimbing_akademik';
     protected $primaryKey = 'nidn';
     public $incrementing = false;
     protected $keyType = 'string';

@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\PembimbingAkademik;
+use App\Models\TahunAjaran;
 
-class PembimbingAkademikSeeder extends Seeder
+class TahunAjaranSeeder extends Seeder
 {
     public function run()
     {
-        PembimbingAkademik::insert([
-            ['nidn' => '123456', 'user_id' => 1],
+        TahunAjaran::insert([
+            ['thn_ajaran' => '2024/2025'],
         ]);
     }
 }

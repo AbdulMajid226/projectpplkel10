@@ -11,7 +11,7 @@ class PengampuanDosen extends Model
 
     protected $table = 'pengampuan_dosen';
 
-    public $timestamps = false;
+    public $timestamps = true; 
 
     protected $fillable = [
         'nidn',

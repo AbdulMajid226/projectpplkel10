@@ -11,10 +11,11 @@ class PengambilanIRS extends Model
 
     protected $table = 'pengambilan_irs';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id_irs',
         'id_jadwal',
     ];
+
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->year('angkatan');
             $table->string('kode_prodi');
-            $table->string('nidn');
+            $table->string('nidn')->nullable();
             $table->timestamps();
 
             $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');   

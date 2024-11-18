@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('irs', function (Blueprint $table) {
-            $table->id('id_irs');
+            $table->id();
             $table->string('nim');
             $table->enum('status_persetujuan', ['Pending', 'Disetujui', 'Ditolak'])->default('Pending');
             $table->date('tanggal_persetujuan')->nullable();

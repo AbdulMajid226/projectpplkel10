@@ -15,7 +15,6 @@ return new class extends Migration
             $table->foreignId('id_irs')->constrained('irs')->onDelete('cascade');
             $table->foreignId('id_jadwal')->constrained('jadwal')->onDelete('cascade');
             
-            $table->primary(['id_irs', 'id_jadwal']);
             $table->timestamps();
         });
     }
