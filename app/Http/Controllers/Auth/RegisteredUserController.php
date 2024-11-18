@@ -38,10 +38,10 @@ class RegisteredUserController extends Controller
         // Tentukan role berdasarkan domain email
         
         if (str_contains($request->email, '@students')) {
-            $role = 'mahasiswa';
+            $role = 'mhs';
         }
         else if (str_contains($request->email, '@lecturer')) {
-            $role = 'dosen';
+            $role = 'pa';
         }
 
         Auth::login($user = User::create([
@@ -52,9 +52,9 @@ class RegisteredUserController extends Controller
         ]));
 
         // Redirect berdasarkan role
-        if ($role === 'mahasiswa') {
+        if ($role === 'mhs') {
             return redirect()->route('dashboard_mhs');
-        } elseif ($role === 'dosen') {
+        } elseif ($role === 'pa') {
             return redirect()->route('dashboardpa');
         }
 

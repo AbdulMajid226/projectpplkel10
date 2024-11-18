@@ -13,7 +13,7 @@
             <x-slot:items>
                 <x-nav-link href="/dashboardpa" :active="request()->is('dashboardpa')">Dashboard</x-nav-link>
                 <x-nav-link href="/irspa" :active="request()->is('irspa')">Pengesahan IRS</x-nav-link>
-                <x-nav-link href="/#" :active="request()->is('#')">KHS Mahasiswa</x-nav-link>
+
             </x-slot:items>
             <x-slot:name>Mulyono</x-slot:name>
             <x-slot:role>Pembimbing Akademik</x-slot:role>
@@ -23,12 +23,13 @@
         <main class="flex-1 p-8 space-y-6">
             <!-- Informasi Pengisian IRS Mahasiswa -->
             <x-dropdown>
-                <x-slot:trigger> <button class="px-4 py-2 text-white bg-blue-600 rounded">Pilih Tahun Ajaran</button></x-slot:>
-                <x-slot:content>
-                    <x-dropdown-item>Opsi 1</x-dropdown-item>
-                    <x-dropdown-item>Opsi 2</x-dropdown-item>
-                    <x-dropdown-item>Opsi 3</x-dropdown-item>
-                </x-slot>
+                <x-slot:trigger> <button class="px-4 py-2 text-white bg-blue-600 rounded">Pilih Tahun Ajaran</button>
+                    </x-slot:>
+                    <x-slot:content>
+                        <x-dropdown-item>Opsi 1</x-dropdown-item>
+                        <x-dropdown-item>Opsi 2</x-dropdown-item>
+                        <x-dropdown-item>Opsi 3</x-dropdown-item>
+                        </x-slot>
             </x-dropdown>
             <h1 class="text-lg font-bold">Informasi Pengisian IRS Mahasiswa</h1>
             <h1 class="text-lg font-semibold">Semester Ganjil 2024/2025</h1>

@@ -11,9 +11,9 @@
         <x-nav-bar>
             <x-slot:items>
                 <x-nav-link href="/dashboard_mhs" :active="request()->is('dashboard_mhs')">Dashboard</x-nav-link>
-                <x-nav-link href="/#" :active="request()->is('#')">Registrasi</x-nav-link>
-                <x-nav-link href="/#" :active="request()->is('#')">IRS</x-nav-link>
-                <x-nav-link href="/#" :active="request()->is('#')">KHS</x-nav-link>
+                <x-nav-link href="" :active="request()->is('#')">Registrasi</x-nav-link>
+                <x-nav-link href="" :active="request()->is('#')">Buat IRS</x-nav-link>
+                <x-nav-link href="" :active="request()->is('#')">IRS</x-nav-link>
             </x-slot:items>
             <x-slot:name>Jokowi</x-slot:name>
             <x-slot:role>Mahasiswa</x-slot:role>

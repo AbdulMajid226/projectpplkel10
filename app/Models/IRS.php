@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class IRS extends Model
 {
     use HasFactory;
+
     protected $table = 'irs';
 
     protected $fillable = [
-        'nim', 'id_jadwal', 'status_persetujuan', 'tanggal_persetujuan'
+        'nim',
+        'status_persetujuan',
+        'tanggal_persetujuan',
     ];
 
     public function mahasiswa()
@@ -21,6 +24,6 @@ class IRS extends Model
 
     public function jadwal()
     {
-        return $this->belongsTo(Jadwal::class, 'id_jadwal', 'id_jadwal');
+        return $this->belongsToMany(Jadwal::class, 'pengambilan_irs', 'id_irs', 'id_jadwal');
     }
 }

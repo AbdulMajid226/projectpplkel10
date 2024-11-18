@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('irs', function (Blueprint $table) {
+            $table->id();
             $table->string('nim');
-            $table->foreignId('id_jadwal')->constrained('jadwal')->onDelete('cascade');
             $table->enum('status_persetujuan', ['Pending', 'Disetujui', 'Ditolak'])->default('Pending');
             $table->date('tanggal_persetujuan')->nullable();
             $table->timestamps();

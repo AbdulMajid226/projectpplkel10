@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dosen extends Model
+class Ruang extends Model
 {
     use HasFactory;
 
-    protected $table = 'dosen';
-    protected $primaryKey = 'nidn';
-    protected $keyType = 'string';
+    protected $table = 'ruang';
+    protected $primaryKey = 'kode_ruang';
     public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'nidn', 'nama', 'kode_prodi',
+        'kode_ruang', 'kuota', 'kode_prodi',
     ];
 
-    public function pengampuanDosen()
+    public function jadwal()
     {
-        return $this->belongsToMany(MataKuliah::class, 'pengampuan_dosen', 'nidn', 'kode_mk');
+        return $this->hasMany(Jadwal::class, 'kode_ruang', 'kode_ruang');
     }
 
     public function programStudi()

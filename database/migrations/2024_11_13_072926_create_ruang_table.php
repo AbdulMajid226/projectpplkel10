@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mata_kuliah', function (Blueprint $table) {
-            $table->string('kode_mk')->primary();
-            $table->string('nama');
-            $table->integer('sks');
-            $table->integer('semester');
-            $table->enum('sifat', ['wajib', 'pilihan']);
+        Schema::create('ruang', function (Blueprint $table) {
+            $table->string('kode_ruang')->primary();
+            $table->integer('kuota');
             $table->string('kode_prodi');
             
             $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mata_kuliah');
+        Schema::dropIfExists('ruang');
     }
 };
