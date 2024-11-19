@@ -12,7 +12,10 @@ class RuangSeeder extends Seeder
     {
         Ruang::insert([
             ['kode_ruang' => 'E101', 'kuota' => 50, 'kode_prodi' => 'IF'],
+            ['kode_ruang' => 'E102', 'kuota' => 50, 'kode_prodi' => 'IF'],
+            ['kode_ruang' => 'E103', 'kuota' => 50, 'kode_prodi' => 'IF'],
             ['kode_ruang' => 'A203', 'kuota' => 50, 'kode_prodi' => 'SI'],
+            ['kode_ruang' => 'A303', 'kuota' => 50, 'kode_prodi' => 'MTK'],
         ]);
     }
 }

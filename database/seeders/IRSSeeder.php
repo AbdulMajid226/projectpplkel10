@@ -19,5 +19,12 @@ class IRSSeeder extends Seeder
             'status_persetujuan' => 'Pending',
             'tanggal_persetujuan' => null ,
         ]);
+
+        
+        IRS::create([
+            'nim' => '24060122130002',
+            'status_persetujuan' => 'Pending',
+            'tanggal_persetujuan' => null ,
+        ]);
     }
 }

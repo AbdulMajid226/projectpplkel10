@@ -15,8 +15,19 @@ class PengambilanIRSSeeder extends Seeder
             'id_jadwal' => 1,
         ]);
         PengambilanIRS::create([
-            'id_irs' => 1,
+            'id_irs' => 2,
+            'id_jadwal' => 5,
+        ]);
+
+
+        
+        PengambilanIRS::create([
+            'id_irs' => 2,
             'id_jadwal' => 2,
+        ]);
+        PengambilanIRS::create([
+            'id_irs' => 2,
+            'id_jadwal' => 6,
         ]);
     }
 }

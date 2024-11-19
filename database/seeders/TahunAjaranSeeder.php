@@ -11,7 +11,10 @@ class TahunAjaranSeeder extends Seeder
     public function run()
     {
         TahunAjaran::insert([
-            ['thn_ajaran' => '2024/2025'],
+            ['thn_ajaran' => 'Genap 2024/2025'],
+            ['thn_ajaran' => 'Ganjil 2024/2025'],
+            ['thn_ajaran' => 'Genap 2025/2026'],
+            ['thn_ajaran' => 'Ganjil 2025/2026'],
         ]);
     }
 }
