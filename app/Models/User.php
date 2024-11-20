@@ -55,5 +55,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(PembimbingAkademik::class);
     }
+
+    public function bagianAkademik()
+    {
+        return $this->hasOne(BagianAkademik::class, 'user_id', 'id');
+    }
+
+    public function dekan()
+    {
+        return $this->hasOne(Dekan::class, 'user_id', 'id');
+    }
+
+    public function kaprodi()
+    {
+        return $this->hasOne(Kaprodi::class, 'user_id', 'id');
+    }
     
 }

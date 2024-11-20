@@ -36,6 +36,12 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->route('dashboard_mhs');
             }elseif($user->role ==='pa'){
                 return redirect()->route('dashboardpa');
+            }elseif ($user->role === 'dk') {
+                return redirect()->route('dashboard_dekan');
+            }elseif ($user->role === 'ba') {
+                return redirect()->route('dashboard_bagianAkademik');
+            }elseif ($user->role === 'kpr') {
+                return redirect()->route('dashboard_kaprodi');
             }
            
         }

@@ -43,6 +43,15 @@ class RegisteredUserController extends Controller
         else if (str_contains($request->email, '@lecturer')) {
             $role = 'pa';
         }
+        else if (str_contains($request->email, '@dean')) {
+            $role = 'dk';
+        }
+        else if (str_contains($request->email, '@academic')) {
+            $role = 'ba';
+        }
+        else if (str_contains($request->email, '@programhead')) {
+            $role = 'kpr';
+        }
 
         Auth::login($user = User::create([
             'name' => $request->name,
@@ -54,8 +63,14 @@ class RegisteredUserController extends Controller
         // Redirect berdasarkan role
         if ($role === 'mhs') {
             return redirect()->route('dashboard_mhs');
-        } elseif ($role === 'pa') {
+        }elseif ($role === 'pa') {
             return redirect()->route('dashboardpa');
+        }elseif ($role === 'dk') {
+            return redirect()->route('dashboard_dekan');
+        }elseif ($role === 'ba') {
+            return redirect()->route('dashboard_bagianAkademik');
+        }elseif ($role === 'kpr') {
+            return redirect()->route('dashboard_kaprodi');
         }
 
     }

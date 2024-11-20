@@ -20,7 +20,6 @@ class DosenSeeder extends Seeder
             ['nidn' => '998877', 'nama' => 'Dr. Mary Curie', 'kode_prodi' => 'ELK'],
             ['nidn' => '665544', 'nama' => 'Prof. Nikola Tesla', 'kode_prodi' => 'FIS'],
             ['nidn' => '776655', 'nama' => 'Dr. Rosalind Franklin', 'kode_prodi' => 'BIO'],
-            ['nidn' => '334455', 'nama' => 'Prof. Michael Porter', 'kode_prodi' => 'KEU'],
         ]);
     }
 }

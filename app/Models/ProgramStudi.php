@@ -16,6 +16,6 @@ class ProgramStudi extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'kode_prodi', 'nama_prodi',
+        'kode_prodi', 'nama_prodi', 'kode_fakultas',
     ];
 }
