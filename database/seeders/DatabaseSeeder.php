@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            FakultasSeeder::class,
             ProgramStudiSeeder::class,
             DosenSeeder::class,
             PembimbingAkademikSeeder::class,
@@ -31,6 +32,9 @@ class DatabaseSeeder extends Seeder
             IRSSeeder::class,
             JadwalSeeder::class,
             PengambilanIRSSeeder::class,
+            BagianAkademikSeeder::class,
+            DekanSeeder::class,
+            KaprodiSeeder::class,
         ]);
     }
 }

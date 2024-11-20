@@ -15,16 +15,14 @@ class ProgramStudiSeeder extends Seeder
     public function run(): void
     {
         ProgramStudi::insert([
-            ['kode_prodi' => 'IF', 'nama_prodi' => 'Informatika'],
-            ['kode_prodi' => 'SI', 'nama_prodi' => 'Sistem Informasi'],
-            ['kode_prodi' => 'TI', 'nama_prodi' => 'Teknik Industri'],
-            ['kode_prodi' => 'MTK', 'nama_prodi' => 'Matematika'],
-            ['kode_prodi' => 'ELK', 'nama_prodi' => 'Teknik Elektro'],
-            ['kode_prodi' => 'ARS', 'nama_prodi' => 'Arsitektur'],
-            ['kode_prodi' => 'FIS', 'nama_prodi' => 'Fisika'],
-            ['kode_prodi' => 'BIO', 'nama_prodi' => 'Biologi'],
-            ['kode_prodi' => 'KEU', 'nama_prodi' => 'Keuangan'],
-            ['kode_prodi' => 'AKT', 'nama_prodi' => 'Akuntansi'],
+            ['kode_prodi' => 'IF', 'nama_prodi' => 'Informatika', 'kode_fakultas' => 'FK001'],
+            ['kode_prodi' => 'SI', 'nama_prodi' => 'Sistem Informasi', 'kode_fakultas' => 'FK002'],
+            ['kode_prodi' => 'TI', 'nama_prodi' => 'Teknik Industri', 'kode_fakultas' => 'FK002'],
+            ['kode_prodi' => 'MTK', 'nama_prodi' => 'Matematika', 'kode_fakultas' => 'FK001'],
+            ['kode_prodi' => 'ELK', 'nama_prodi' => 'Teknik Elektro', 'kode_fakultas' => 'FK002'],
+            ['kode_prodi' => 'ARS', 'nama_prodi' => 'Arsitektur', 'kode_fakultas' => 'FK002'],
+            ['kode_prodi' => 'FIS', 'nama_prodi' => 'Fisika', 'kode_fakultas' => 'FK001'],
+            ['kode_prodi' => 'BIO', 'nama_prodi' => 'Biologi', 'kode_fakultas' => 'FK001'],
         ]);
     }
 }
