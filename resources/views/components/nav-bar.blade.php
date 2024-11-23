@@ -1,5 +1,5 @@
 <nav class="fixed top-0 z-50 w-full bg-teal-800 border-b border-gray-100">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="px-1 py-1 lg:px-3 lg:pl-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
