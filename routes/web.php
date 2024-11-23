@@ -8,6 +8,9 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', function () {
     return view('login');
 });
+Route::get('/test', function () {
+    return view('template');
+});
 
 //Mahasiswa
 Route::get('/dashboard_mhs', function () {
@@ -27,7 +30,7 @@ Route::get('/irspa', function () {
 //Bagian Akademik
 Route::get('/dashboard_bagianAkademik', function () {
     return view('dashboard_bagianAkademik');
-})->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
+});
 
 //Dekan
 Route::get('/dashboard_dekan', function () {
