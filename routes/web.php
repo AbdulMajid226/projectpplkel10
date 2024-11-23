@@ -30,12 +30,12 @@ Route::get('/irspa', function () {
 //Bagian Akademik
 Route::get('/dashboard_bagianAkademik', function () {
     return view('dashboard_bagianAkademik');
-});
+})->middleware(['auth', 'verified'])->name('dashboard_dekan');
 
 //Dekan
 Route::get('/dashboard_dekan', function () {
     return view('dashboard_dekan');
-})->middleware(['auth', 'verified'])->name('dashboard_dekan');
+})->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
 
 //Kaprodi
 Route::get('/dashboard_kaprodi', function () {
