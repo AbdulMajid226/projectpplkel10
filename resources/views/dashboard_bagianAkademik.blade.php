@@ -5,7 +5,7 @@
     <x-slot:title>Dashboard Bagian Akademik</x-slot:title>
 </x-header>
 
-<body class="bg-gray-100">
+<body class="bg-white">
     <!--Navbar  -->
     <x-nav-bar>
         <x-slot:name>Mulyono</x-slot:name>
@@ -20,7 +20,7 @@
                 <a href="/dashboard_bagianAkademik"
                     class="flex items-center p-2 text-gray-100  rounded-lg hover:bg-teal-700 group">
                     <!-- Logo dashboard -->
-                    <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-white " aria-hidden="true"
+                    <svg class="w-6 h-6 text-gray-400 transition duration-75 group-hover:text-white " aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                         <path
                             d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
@@ -33,7 +33,7 @@
             <li>
                 <a href="" class="flex items-center p-2 text-gray-100  rounded-lg hover:bg-teal-700 group">
                     <!-- Logo Ajukan Ruang Kuliah -->
-                    <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-white" aria-hidden="true"
+                    <svg class="w-6 h-6 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M18 18V6h-5v12h5Zm0 0h2M4 18h2.5m3.5-5.5V12M6 6l7-2v16l-7-2V6Z" />
@@ -45,7 +45,7 @@
             <li>
                 <a href="" class="flex items-center p-2 text-gray-100  rounded-lg hover:bg-teal-700 group">
                     <!-- Logo Kelola Ruang Kuliah -->
-                    <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-white " aria-hidden="true"
+                    <svg class="w-6 h-6 text-gray-400 transition duration-75 group-hover:text-white " aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         viewBox="0 0 24 24">
                         <path fill-rule="evenodd"
@@ -60,7 +60,7 @@
 
 
     <!-- Main Content -->
-    <main class=" p-8 space-y-6 sm:ml-2 md:ml-64 lg:ml-64 mt-14  ">
+    <main class=" p-8 space-y-6 sm:ml-2 md:ml-60 lg:ml-60 mt-10  ">
         <!-- Informasi Pengisian IRS Mahasiswa -->
         <x-dropdown>
             <x-slot:trigger> <button class="px-4 py-2 text-white bg-blue-600 rounded">Pilih Tahun
