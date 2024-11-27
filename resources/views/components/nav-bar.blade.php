@@ -42,6 +42,11 @@
 
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow "
                         id="dropdown-user">
+                        <div class="px-4 py-3" role="none">
+                            <p class="text-sm font-medium text-gray-900 truncate" role="none">
+                                {{$email}}
+                            </p>
+                        </div>
                         <ul class="py-1" role="none">
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
