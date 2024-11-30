@@ -47,7 +47,7 @@
 
 
     <!-- Main Content -->
-    <main class="flex-1 p-8 space-y-6 sm:ml-2 md:ml-60 lg:ml-60 mt-10">
+    <main class="flex-1 p-8 mt-10 space-y-6 sm:ml-2 md:ml-60 lg:ml-60">
         <!-- Informasi Pengisian IRS Mahasiswa -->
         <h1 class="text-[30px] font-bold">Pengesahan IRS</h1>
         <h1 class="font-semibold text-center text-[20px]">Ajuan IRS Mahasiswa <br> Semester Gasal Tahun Ajaran
@@ -62,6 +62,7 @@
                         <th class="px-4 py-2 border border-gray-300">Angkatan</th>
                         <th class="px-4 py-2 border border-gray-300">SKS</th>
                         <th class="px-4 py-2 border border-gray-300">Aksi</th>
+                        <th class="px-4 py-2 border border-gray-300">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,8 +72,8 @@
                         <td class="px-4 py-2 border border-gray-300">24060122131123</td>
                         <td class="px-4 py-2 border border-gray-300">2022</td>
                         <td class="px-4 py-2 border border-gray-300">19</td>
-                        <td class="px-4 py-2 border border-gray-300">Telah Disetujui <button
-                                class="px-4 py-2 ml-8 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-2 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300">Telah Disetujui </td>
                     </tr>
                     <tr class="bg-gray-50">
                         <td class="px-4 py-2 border border-gray-300">2</td>
@@ -80,8 +81,8 @@
                         <td class="px-4 py-2 border border-gray-300">24060122131124</td>
                         <td class="px-4 py-2 border border-gray-300">2022</td>
                         <td class="px-4 py-2 border border-gray-300">22</td>
-                        <td class="px-4 py-2 border border-gray-300">Telah Disetujui <button
-                                class="px-4 py-2 ml-8 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-2 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300">Telah Disetujui </td>
                     </tr>
                     </tr>
                     <tr>
@@ -93,6 +94,7 @@
                         <td class="px-4 py-2 border border-gray-300"> <button
                                 class="px-4 py-2 text-white bg-gray-900 rounded">Setujui</button> <button
                                 class="px-4 py-2 ml-8 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300">Belum Disetujui </td>
                     </tr>
                     </tr>
                 </tbody>

@@ -23,16 +23,16 @@
                     </button>
                     <a href="https://flowbite.com" class="flex ms-2 md:me-24">
                         <img src="{{ asset('images/logo_simak_only.png') }}" alt="SIMAK Logo" class="w-10 h-10">
-                        <span class="self-center text-xl font-semibold sm:text-2xl text-gray-100 pl-2 "> SIMAK
+                        <span class="self-center pl-2 text-xl font-semibold text-gray-100 sm:text-2xl "> SIMAK
                             Undip</span>
                     </a>
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3 ">
                         <div class="px-5 ">
-                            <span class="text-gray-100"> Jhon Doe ddsadasd</span>
+                            <span class="text-gray-100"> Jhon Doe</span>
                             <br>
-                            <span class="text-gray-200 text-sm flex justify-end">Mahasiswa</span>
+                            <span class="flex justify-end text-sm text-gray-200">Mahasiswa</span>
                         </div>
 
                         <div>
@@ -52,7 +52,7 @@
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"
-                                            class="block px-4 py-2 text-sm rounded hover:bg-gray-100 text-gray-700">
+                                            class="block px-4 py-2 text-sm text-gray-700 rounded hover:bg-gray-100">
                                             Logout
                                         </button>
                                     </form>
@@ -71,7 +71,7 @@
         <div class="h-full px-3 pb-4 overflow-y-auto bg-teal-800 ">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#" class="flex items-center p-2 text-gray-100  rounded-lg hover:bg-teal-700 group">
+                    <a href="#" class="flex items-center p-2 text-gray-100 rounded-lg hover:bg-teal-700 group">
                         <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-white "
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 22 21">

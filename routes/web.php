@@ -31,15 +31,36 @@ Route::get('/dashboard_bagianAkademik', function () {
     return view('dashboard_bagianAkademik');
 })->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
 
+Route::get('/ajukanruangkuliah', function () {
+    return view('ajukanruangkuliah');
+})->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
+
+Route::get('/kelolaruangkuliah', function () {
+    return view('kelolaruangkuliah');
+})->middleware(['auth', 'verified'])->name('kelolaruangkuliah');
+
+
 //Dekan
 Route::get('/dashboard_dekan', function () {
     return view('dashboard_dekan');
 })->middleware(['auth', 'verified'])->name('dashboard_dekan');
 
+Route::get('/pengesahanruangkuliah', function () {
+    return view('pengesahanruangkuliah');
+})->middleware(['auth', 'verified'])->name('pengesahanruangkuliah');
+
+Route::get('/pengesahanjadwalkuliah', function () {
+    return view('pengesahanjadwalkuliah');
+})->middleware(['auth', 'verified'])->name('pengesahanjadwalkuliah');
+
 //Kaprodi
 Route::get('/dashboard_kaprodi', function () {
     return view('dashboard_kaprodi');
 })->middleware(['auth', 'verified'])->name('dashboard_kaprodi');
+
+Route::get('/buatjadwalkuliah', function () {
+    return view('buatjadwalkuliah');
+})->middleware(['auth', 'verified'])->name('buatjadwalkuliah');
 
 
 Route::middleware('auth')->group(function () {
