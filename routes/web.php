@@ -17,6 +17,10 @@ Route::get('/dashboard_mhs', function () {
     return view('dashboard_mhs');
 })->middleware(['auth', 'verified'])->name('dashboard_mhs');
 
+Route::get('/registrasi_mhs', function () {
+    return view('registrasi_mhs');
+})->middleware(['auth', 'verified'])->name('registrasi_mhs');
+
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
     return view('dashboardpa');
