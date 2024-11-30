@@ -2,7 +2,7 @@
 <html lang="en">
 
 <x-header>
-    <x-slot:title>Dashboard Dekan</x-slot:title>
+    <x-slot:title>Pengesahan Ruang Kuliah</x-slot:title>
 </x-header>
 
 <body class="bg-gray-100">
@@ -57,43 +57,7 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-8 mt-10 space-y-6 sm:ml-2 md:ml-60 lg:ml-60">
-        <!-- Informasi Pengesahan Ruang Kuliah -->
-
-        <h1 class="text-lg font-bold">Informasi Pengesahan Ruang Kuliah</h1>
-
-        <div class="grid grid-cols-1 gap-4 p-3 bg-teal-600 rounded-lg shadow md:grid-cols-3">
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Sudah Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Belum Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Ditolak</p>
-                <p>10</p>
-            </div>
-        </div>
-
-        <!-- Informasi Pengesahan Jadwal Kuliah -->
-
-        <h1 class="text-lg font-bold">Informasi Pengesahan Jadwal Kuliah</h1>
-
-        <div class="grid grid-cols-1 gap-4 p-3 bg-teal-600 rounded-lg shadow md:grid-cols-3">
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Sudah Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Belum Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Ditolak</p>
-                <p>10</p>
-            </div>
-        </div>
+       <h1>ini adalah halaman pengesahan ruang kuliah</h1>
     </main>
 
 

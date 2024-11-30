@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-50 w-full bg-gradient-to-t from-teal-800 to-teal-600 border-b border-gray-100">
+<nav class="fixed top-0 z-50 w-full border-b border-gray-100 bg-gradient-to-t from-teal-800 to-teal-600">
     <div class="px-1 py-1 lg:px-3 lg:pl-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -16,7 +16,7 @@
                 <a href="" class="flex ms-2 md:me-24">
                     <!-- Logo Undip -->
                     <img src="{{ asset('images/logo_simak_only.png') }}" alt="SIMAK Logo" class="w-10 h-10">
-                    <span class="self-center text-xl font-semibold sm:text-2xl text-gray-100 pl-2 "> SIMAK
+                    <span class="self-center pl-2 text-xl font-semibold text-gray-100 sm:text-2xl "> SIMAK
                         Undip</span>
                 </a>
             </div>
@@ -26,7 +26,7 @@
                     <div class="px-5 ">
                         <span class="text-gray-100">{{ $name }}</span>
                         <br>
-                        <span class="text-gray-200 text-sm flex justify-end">{{ $role }}</span>
+                        <span class="flex justify-end text-sm text-gray-200">{{ $role }}</span>
                     </div>
 
                     <div>
@@ -52,7 +52,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
-                                        class="px-4 py-2 text-sm rounded hover:bg-gray-100 text-gray-700">
+                                        class="px-4 py-2 text-sm text-gray-700 rounded hover:bg-gray-100">
                                         Logout
                                     </button>
                                 </form>
