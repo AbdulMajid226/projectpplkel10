@@ -24,32 +24,42 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ]);
-
+    
+        // Coba autentikasi pengguna
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            //check role to redirect
-            if($user->role === 'mhs'){
-                return redirect()->route('dashboard_mhs');
-            }elseif($user->role ==='pa'){
-                return redirect()->route('dashboardpa');
-            }elseif ($user->role === 'dk') {
-                return redirect()->route('dashboard_dekan');
-            }elseif ($user->role === 'ba') {
-                return redirect()->route('dashboard_bagianAkademik');
-            }elseif ($user->role === 'kpr') {
-                return redirect()->route('dashboard_kaprodi');
+    
+            // Redirect berdasarkan peran pengguna (role)
+            switch ($user->role) {
+                case 'mhs': // Mahasiswa
+                    return redirect()->route('dashboard_mhs');
+                case 'pa': // Pembimbing Akademik
+                    return redirect()->route('dashboardpa');
+                case 'dk': // Dekan
+                    return redirect()->route('dashboard_dekan');
+                case 'ba': // Bagian Akademik
+                    return redirect()->route('dashboard_bagianAkademik');
+                case 'kpr': // Kaprodi
+                    return redirect()->route('dashboard_kaprodi');
+                default:
+                    Auth::logout();
+                    return back()->withErrors([
+                        'role' => 'Role Anda tidak dikenali. Silakan hubungi administrator.',
+                    ]);
             }
-           
         }
-
+    
+        // Jika kredensial salah, kembalikan error
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+            'email' => 'Email atau password yang Anda masukkan salah.',
+        ])->withInput($request->only('email')); // Mengingat email yang dimasukkan
     }
+    
 
     /**
      * Destroy an authenticated session.
