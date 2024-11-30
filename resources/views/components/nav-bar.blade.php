@@ -4,7 +4,7 @@
             <div class="flex items-center justify-start rtl:justify-end">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-gray-200">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-6 h-6 text-gray-200 " aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -42,12 +42,17 @@
 
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow "
                         id="dropdown-user">
+                        <div class="px-4 py-3" role="none">
+                            <p class="text-sm font-medium text-gray-900 truncate" role="none">
+                                {{$email}}
+                            </p>
+                        </div>
                         <ul class="py-1" role="none">
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
-                                        class="block px-4 py-2 text-sm rounded hover:bg-gray-100 text-gray-700">
+                                        class="px-4 py-2 text-sm rounded hover:bg-gray-100 text-gray-700">
                                         Logout
                                     </button>
                                 </form>
