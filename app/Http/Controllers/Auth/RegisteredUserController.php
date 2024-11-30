@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
         ]);
 
         // Tentukan role berdasarkan domain email
-        
+
         if (str_contains($request->email, '@students')) {
             $role = 'mhs';
         }

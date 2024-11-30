@@ -65,7 +65,7 @@
 
 
     <!-- Main Content -->
-    <main class="flex-1 p-8 space-y-6 sm:ml-2 md:ml-60 lg:ml-60 mt-10">
+    <main class="flex-1 p-8 mt-10 space-y-6 sm:ml-2 md:ml-60 lg:ml-60">
         <!-- Status Akademik -->
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div class="p-4 text-white bg-teal-600 rounded-lg">

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <x-header>
-    <x-slot:title>Dashboard Bagian Akademik</x-slot:title>
+    <x-slot:title>Ajukan Ruang Kuliah</x-slot:title>
 </x-header>
 
 <body class="bg-white">
@@ -58,33 +58,7 @@
 
     <!-- Main Content -->
     <main class="p-8 mt-10 space-y-6 sm:ml-2 md:ml-60 lg:ml-60">
-        <!-- Informasi Pengisian IRS Mahasiswa -->
-        <x-dropdown>
-            <x-slot:trigger> <button class="px-4 py-2 text-white bg-blue-600 rounded">Pilih Tahun
-                    Ajaran</button>
-                </x-slot:>
-                <x-slot:content>
-                    <x-dropdown-item>Opsi 1</x-dropdown-item>
-                    <x-dropdown-item>Opsi 2</x-dropdown-item>
-                    <x-dropdown-item>Opsi 3</x-dropdown-item>
-                    </x-slot>
-        </x-dropdown>
-        <h1 class="text-lg font-bold">Informasi Pengajuan Ruang</h1>
-        <h1 class="text-lg font-semibold">Semester Ganjil 2024/2025</h1>
-        <div class="grid grid-cols-1 gap-4 p-3 bg-teal-600 rounded-lg shadow md:grid-cols-3">
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Sudah Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Belum Disetujui</p>
-                <p>20</p>
-            </div>
-            <div class="p-4 text-center bg-white rounded-lg shadow">
-                <p class="text-2xl font-bold">Ditolak</p>
-                <p>10</p>
-            </div>
-        </div>
+        <h1>ini adalah halaman ajukan ruang kuliah</h1>
     </main>
 </body>
 
