@@ -9,7 +9,8 @@
 
     <!--Navbar  -->
     <x-nav-bar>
-        <x-slot:name>Mulyono</x-slot:name>
+        <x-slot:name>{{ Auth::user()->name }}</x-slot:name>
+        <x-slot:email>{{ Auth::user()->email }}</x-slot:email>
         <x-slot:role>Pembimbing Akademik</x-slot:role>
     </x-nav-bar>
 

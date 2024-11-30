@@ -17,7 +17,6 @@ Route::get('/dashboard_mhs', function () {
     return view('dashboard_mhs');
 })->middleware(['auth', 'verified'])->name('dashboard_mhs');
 
-
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
     return view('dashboardpa');
@@ -41,7 +40,6 @@ Route::get('/dashboard_dekan', function () {
 Route::get('/dashboard_kaprodi', function () {
     return view('dashboard_kaprodi');
 })->middleware(['auth', 'verified'])->name('dashboard_kaprodi');
-// 
 
 
 Route::middleware('auth')->group(function () {
