@@ -114,7 +114,7 @@
                 </button>
 
                 <div class="hidden" id="semester-{{ $sem['semester'] }}-content">
-                    @include('mahasiswa.irs-table', ['matakuliah' => $sem['matakuliah']])
+                    @include('mahasiswa.irs_table', ['matakuliah' => $sem['matakuliah']])
                     
                     <!-- Tombol Print PDF -->
                     <div class="bg-gray-50 px-6 py-3 border-t">
