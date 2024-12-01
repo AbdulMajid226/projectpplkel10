@@ -15,7 +15,7 @@ class Ruang extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kode_ruang', 'kuota', 'kode_prodi',
+        'kode_ruang', 'kuota', 'kode_prodi', 'status',
     ];
 
     public function jadwal()
