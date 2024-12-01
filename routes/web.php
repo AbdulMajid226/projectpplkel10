@@ -1,71 +1,73 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RuangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JadwalController;
 
 //LOGIN
 Route::get('/', function () {
     return view('login');
 });
-Route::get('/test', function () {
-    return view('template');
-});
 
 //Mahasiswa
 Route::get('/dashboard_mhs', function () {
-    return view('dashboard_mhs');
+    return view('mahasiswa.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard_mhs');
 
 Route::get('/registrasi_mhs', function () {
-    return view('registrasi_mhs');
+    return view('mahasiswa.registrasi');
 })->middleware(['auth', 'verified'])->name('registrasi_mhs');
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
-    return view('dashboardpa');
+    return view('dosen_pa.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboardpa');
 
 Route::get('/irspa', function () {
-    return view('irspa');
+    return view('dosen_pa.irs');
 })->middleware(['auth', 'verified'])->name('irspa');
 
 //Bagian Akademik
 Route::get('/dashboard_bagianAkademik', function () {
-    return view('dashboard_bagianAkademik');
+    return view('bagian_akademik.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
 
 Route::get('/ajukanruangkuliah', function () {
-    return view('ajukanruangkuliah');
+    return view('bagian_akademik.ajukan_ruang');
 })->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
 
-Route::get('/kelolaruangkuliah', function () {
-    return view('kelolaruangkuliah');
-})->middleware(['auth', 'verified'])->name('kelolaruangkuliah');
-
+// API routes untuk ruang
+Route::get('/api/rooms', [RuangController::class, 'getRoomsByStatus'])->middleware(['auth', 'verified']);
+Route::put('/api/rooms/{kodeRuang}', [RuangController::class, 'updateRoom'])->middleware(['auth', 'verified']);
+Route::delete('/api/rooms/{kodeRuang}', [RuangController::class, 'deleteRoom'])->middleware(['auth', 'verified']);
+Route::get('/api/room-counts', [RuangController::class, 'getRoomCounts'])->middleware(['auth', 'verified']);
 
 //Dekan
 Route::get('/dashboard_dekan', function () {
-    return view('dashboard_dekan');
+    return view('dekan.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard_dekan');
 
 Route::get('/pengesahanruangkuliah', function () {
-    return view('pengesahanruangkuliah');
+    return view('dekan.pengesahan_ruang');
 })->middleware(['auth', 'verified'])->name('pengesahanruangkuliah');
 
 Route::get('/pengesahanjadwalkuliah', function () {
-    return view('pengesahanjadwalkuliah');
+    return view('dekan.pengesahan_jadwal');
 })->middleware(['auth', 'verified'])->name('pengesahanjadwalkuliah');
 
 //Kaprodi
-Route::get('/dashboard_kaprodi', function () {
-    return view('dashboard_kaprodi');
-})->middleware(['auth', 'verified'])->name('dashboard_kaprodi');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard_kaprodi', function () {
+        return view('kaprodi.dashboard');
+    })->name('dashboard_kaprodi');
 
-Route::get('/buatjadwalkuliah', function () {
-    return view('buatjadwalkuliah');
-})->middleware(['auth', 'verified'])->name('buatjadwalkuliah');
-
+    Route::get('/buatjadwalkuliah', [JadwalController::class, 'index'])->name('buatjadwalkuliah');
+    Route::post('/buatjadwalkuliah', [JadwalController::class, 'store'])->name('jadwal.store');
+    Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
+    Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

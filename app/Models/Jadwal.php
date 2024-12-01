@@ -24,7 +24,6 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Ruang::class, 'kode_ruang', 'kode_ruang');
     }
-
     public function irs()
     {
         return $this->belongsToMany(IRS::class, 'pengambilan_irs', 'id_jadwal', 'id_irs');
