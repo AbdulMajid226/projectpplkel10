@@ -5,6 +5,7 @@ use App\Http\Controllers\RuangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\IRSController;
 
 //LOGIN
 Route::get('/', function () {
@@ -16,9 +17,15 @@ Route::get('/dashboard_mhs', function () {
     return view('mahasiswa.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard_mhs');
 
+Route::get('/irs_mhs', function () {
+    return view('mahasiswa.irs');
+})->middleware(['auth', 'verified'])->name('irs_mhs');
+
 Route::get('/registrasi_mhs', function () {
     return view('mahasiswa.registrasi');
 })->middleware(['auth', 'verified'])->name('registrasi_mhs');
+
+Route::get('/mahasiswa/irs/print/{semester}', [IRSController::class, 'printPDF'])->name('mahasiswa.irs.print');
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
