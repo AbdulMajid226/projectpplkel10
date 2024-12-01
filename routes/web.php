@@ -25,8 +25,6 @@ Route::get('/registrasi_mhs', function () {
     return view('mahasiswa.registrasi');
 })->middleware(['auth', 'verified'])->name('registrasi_mhs');
 
-Route::get('/mahasiswa/irs/print/{semester}', [IRSController::class, 'printPDF'])->name('mahasiswa.irs.print');
-
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
     return view('dosen_pa.dashboard');
