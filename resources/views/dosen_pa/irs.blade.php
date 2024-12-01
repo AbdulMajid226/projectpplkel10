@@ -23,13 +23,13 @@
             <table class="min-w-full border border-collapse border-gray-300">
                 <thead>
                     <tr class="text-left bg-teal-500">
-                        <th class="px-4 py-2 border border-gray-300">No</th>
-                        <th class="px-4 py-2 border border-gray-300">Nama</th>
-                        <th class="px-4 py-2 border border-gray-300">NIM</th>
-                        <th class="px-4 py-2 border border-gray-300">Angkatan</th>
-                        <th class="px-4 py-2 border border-gray-300">SKS</th>
-                        <th class="px-4 py-2 border border-gray-300">Aksi</th>
-                        <th class="px-4 py-2 border border-gray-300">Status</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[20%]">Nama</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[5%]">Angkatan</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[5%]">SKS</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[20%]">Aksi</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[15%]">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +39,7 @@
                         <td class="px-4 py-2 border border-gray-300">24060122131123</td>
                         <td class="px-4 py-2 border border-gray-300">2022</td>
                         <td class="px-4 py-2 border border-gray-300">19</td>
-                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-2 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-1 text-black bg-gray-300 rounded">Detail</button></td>
                         <td class="px-4 py-2 border border-gray-300">Telah Disetujui </td>
                     </tr>
                     <tr class="bg-gray-50">
@@ -48,7 +48,7 @@
                         <td class="px-4 py-2 border border-gray-300">24060122131124</td>
                         <td class="px-4 py-2 border border-gray-300">2022</td>
                         <td class="px-4 py-2 border border-gray-300">22</td>
-                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-2 text-black bg-gray-300 rounded">Detail</button></td>
+                        <td class="px-4 py-2 border border-gray-300"><button class="px-4 py-2 ml-1 text-black bg-gray-300 rounded">Detail</button></td>
                         <td class="px-4 py-2 border border-gray-300">Telah Disetujui </td>
                     </tr>
                     </tr>
