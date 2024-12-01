@@ -28,23 +28,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Kuota</label>
                         <input type="number" name="kuota" class="w-full p-2 border rounded" required>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Fasilitas</label>
-                        <div class="space-y-2">
-                            <div>
-                                <input type="checkbox" id="ac" name="fasilitas[]" value="ac">
-                                <label for="ac">AC</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="proyektor" name="fasilitas[]" value="proyektor">
-                                <label for="proyektor">Proyektor</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="komputer" name="fasilitas[]" value="komputer">
-                                <label for="komputer">Komputer</label>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="mt-6">
                     <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
