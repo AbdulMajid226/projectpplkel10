@@ -25,7 +25,7 @@
                         Anda akan mengikuti kegiatan perkuliahan pada semester ini serta mengisi Isian Rencana
                         Studi (IRS).
                     </p>
-                    <form action="{{ route('mahasiswa.buat-irs') }}" method="POST" class="inline">
+                    <form action="{{ route('mahasiswa.aktif') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
                                 @if(auth()->user()->mahasiswa->status !== 'BelumRegistrasi') disabled @endif

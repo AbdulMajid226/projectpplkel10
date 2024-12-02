@@ -14,7 +14,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'nim' => '24060122130001',
                 'nama' => 'Alice',
-                'angkatan' => 2022,
+                'angkatan' => 2024,
                 'kode_prodi' => 'IF',
                 'nidn' => '123456',
                 'user_id' => 2,
