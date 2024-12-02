@@ -41,6 +41,10 @@ Route::get('/khs_mhs', function () {
     return view('mahasiswa.khs');
 })->middleware(['auth', 'verified'])->name('khs_mhs');
 
+Route::get('/buat_irs_mhs', function () {
+    return view('mahasiswa.buat_irs');
+})->middleware(['auth', 'verified'])->name('buat_irs_mhs');
+
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
     return view('dosen_pa.dashboard');
