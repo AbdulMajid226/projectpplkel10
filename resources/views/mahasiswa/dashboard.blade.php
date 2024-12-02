@@ -24,16 +24,16 @@
                     <p class="text-lg font-medium">{{ $semester }}</p>
                 </div>
                 <div>
-                    <p class="text-sm opacity-80 mb-1">Semester Saat Ini</p>
+                    <p class="text-sm opacity-80 mb-1">Semester Studi</p>
                     <p class="text-2xl font-medium">{{ $mahasiswa->semester_aktif }}</p>
                 </div>
             </div>
 
             <div class="border-t border-white/20 pt-3">
-                <p class="text-sm opacity-80 mb-1">Dosen Pembimbing Akademik:</p>
+                <p class="text-sm opacity-80 mb-1">Dosen Wali:</p>
                 @if($mahasiswa->pembimbingAkademik)
                     <p class="text-lg font-medium">{{ $mahasiswa->pembimbingAkademik->nama }}</p>
-                    <p class="text-sm opacity-80">NIDN: {{ $mahasiswa->pembimbingAkademik->nidn }}</p>
+                    <p class="text-sm opacity-80">(NIDN: {{ $mahasiswa->pembimbingAkademik->nidn }})</p>
                 @else
                     <p class="text-lg italic">Belum ditentukan</p>
                 @endif
