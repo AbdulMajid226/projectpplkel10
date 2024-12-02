@@ -17,9 +17,11 @@ return new class extends Migration
             $table->year('angkatan');
             $table->string('kode_prodi');
             $table->string('nidn')->nullable();
+            $table->enum('status', ['Aktif', 'Cuti', 'BelumRegistrasi'])->default('BelumRegistrasi');
+            $table->integer('semester_aktif');
             $table->timestamps();
 
-            $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');   
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreign('nidn')->references('nidn')->on('pembimbing_akademik')->onDelete('cascade');
         });

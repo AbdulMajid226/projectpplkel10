@@ -11,8 +11,26 @@ class MahasiswaSeeder extends Seeder
     public function run()
     {
         Mahasiswa::insert([
-            ['nim' => '24060122130001', 'nama' => 'Alice', 'angkatan' => 2022, 'kode_prodi' => 'IF', 'nidn' => '123456', 'user_id' => 2],
-            ['nim' => '24060122130002', 'nama' => 'Bob', 'angkatan' => 2022, 'kode_prodi' => 'SI', 'nidn' => '123456', 'user_id' => 3],
+            [
+                'nim' => '24060122130001',
+                'nama' => 'Alice',
+                'angkatan' => 2022,
+                'kode_prodi' => 'IF',
+                'nidn' => '123456',
+                'user_id' => 2,
+                'status' => 'BelumRegistrasi',
+                'semester_aktif' => 5
+            ],
+            [
+                'nim' => '24060122130002',
+                'nama' => 'Bob',
+                'angkatan' => 2022,
+                'kode_prodi' => 'SI',
+                'nidn' => '123456',
+                'user_id' => 3,
+                'status' => 'BelumRegistrasi',
+                'semester_aktif' => 5
+            ],
         ]);
     }
 }
