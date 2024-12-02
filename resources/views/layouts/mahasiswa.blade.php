@@ -33,7 +33,6 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M18 5V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5M9 3v4a1 1 0 0 1-1 1H4m11.383.772 2.745 2.746m1.215-3.906a2.089 2.089 0 0 1 0 2.953l-6.65 6.646L9 17.95l.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z" />
         </svg>
-
         <span class="ms-3">Buat IRS</span>
     </x-nav-link>
 
@@ -45,6 +44,16 @@
                 d="M10 3v4a1 1 0 0 1-1 1H5m4 8h6m-6-4h6m4-8v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z" />
         </svg>
         <span class="ms-3">IRS</span>
+    </x-nav-link>
+
+    <x-nav-link href="/khs_mhs" :active="request()->is('khs_mhs')">
+        <!-- Icon KHS -->
+        <svg class="w-6 h-6 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 17h6M8 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0Zm-3.5 6.5h14a1 1 0 0 0 1-1v-11a1 1 0 0 0-1-1h-14a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1Zm13.5-13h-13v-1a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v1Z"/>
+        </svg>
+        <span class="ms-3">KHS</span>
     </x-nav-link>
 @endsection
 
