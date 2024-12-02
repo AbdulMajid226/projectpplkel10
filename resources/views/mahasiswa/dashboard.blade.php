@@ -5,9 +5,9 @@
     <!-- Dasbor -->
     <h1 class="text-2xl font-bold">Dasbor</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="flex flex-wrap gap-6">
         <!-- Status Akademik -->
-        <div class="bg-emerald-500 rounded-2xl p-4 text-white">
+        <div class="bg-emerald-500 rounded-2xl p-4 text-white w-96 ">
             <h2 class="text-lg font-semibold mb-3">Status Akademik</h2>
 
             <h1 class="text-3xl font-medium mb-6">{{ $mahasiswa->status }}</h1>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Prestasi Akademik -->
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div class="bg-white rounded-2xl p-4 shadow w-96">
             <h2 class="text-lg font-semibold mb-4">Prestasi akademik</h2>
 
             <div class="flex items-center justify-between mb-6">
