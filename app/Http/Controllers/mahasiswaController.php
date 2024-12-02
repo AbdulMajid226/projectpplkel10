@@ -15,7 +15,7 @@ class mahasiswaController extends Controller
             $mahasiswa->status = 'Aktif';
             $mahasiswa->save();
 
-            return redirect()->route('buat_irs_mhs')
+            return redirect()->route('dashboard_mhs')
                 ->with('success', 'Status berhasil diubah menjadi Aktif. Silakan isi IRS Anda.');
         }
 

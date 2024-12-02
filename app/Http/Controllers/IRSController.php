@@ -23,10 +23,13 @@ class IRSController extends Controller
             // Ambil semester aktif mahasiswa
             $semesterAktif = $mahasiswa->semester_aktif;
 
-            // Ambil mata kuliah sesuai semester
-            $mataKuliah = MataKuliah::where('semester', $semesterAktif)
-                                   ->where('kode_prodi', $mahasiswa->kode_prodi)
-                                   ->get();
+            // Ambil mata kuliah sesuai semester beserta jadwalnya
+            $mataKuliah = MataKuliah::with(['jadwal' => function($query) {
+                $query->with('waktu'); // Load relasi waktu
+            }])
+            ->where('semester', $semesterAktif)
+            ->where('kode_prodi', $mahasiswa->kode_prodi)
+            ->get();
 
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => $mahasiswa,
@@ -34,7 +37,6 @@ class IRSController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // Return view dengan array kosong jika terjadi error
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => null,
                 'mataKuliah' => collect([])
