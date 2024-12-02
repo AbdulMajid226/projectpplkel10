@@ -60,4 +60,9 @@ class Mahasiswa extends Model
             'nidn_dosen_wali' => $this->nidn
         ];
     }
+
+    public function programStudi()
+    {
+        return $this->belongsTo(ProgramStudi::class, 'kode_prodi', 'kode_prodi');
+    }
 }

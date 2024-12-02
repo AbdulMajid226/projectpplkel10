@@ -11,6 +11,7 @@ use App\Models\Mahasiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use App\Models\IRS;
+use App\Http\Controllers\IRSController;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -50,9 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('mahasiswa.khs');
     })->name('khs_mhs');
 
-    Route::get('/buat_irs_mhs', function () {
-        return view('mahasiswa.buat_irs');
-    })->name('buat_irs_mhs');
+    Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
 
     Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
         ->name('mahasiswa.buat-irs');

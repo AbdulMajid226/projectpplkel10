@@ -24,6 +24,8 @@
     <main class="flex-1 p-8 mt-10 space-y-6 sm:ml-2 md:ml-60 lg:ml-60">
         @yield('content')
     </main>
+
+    @stack('scripts')
 </body>
 
 </html>

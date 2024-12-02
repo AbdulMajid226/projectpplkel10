@@ -21,7 +21,7 @@ class MataKuliahSeeder extends Seeder
             ['kode_mk' => 'PAIK6202', 'nama' => 'Algoritma dan Pemrograman', 'sks' => 4, 'semester' => 2, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6203', 'nama' => 'Organisasi dan Arsitektur Komputer', 'sks' => 3, 'semester' => 2, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6204', 'nama' => 'Aljabar Linear', 'sks' => 3, 'semester' => 2, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
-            
+
             ['kode_mk' => 'PAIK6301', 'nama' => 'Struktur Data', 'sks' => 4, 'semester' => 3, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6302', 'nama' => 'Sistem Operasi', 'sks' => 3, 'semester' => 3, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6303', 'nama' => 'Basis Data', 'sks' => 4, 'semester' => 3, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
@@ -53,14 +53,14 @@ class MataKuliahSeeder extends Seeder
             ['kode_mk' => 'PAIK6702', 'nama' => 'Teori Bahasa dan Otomata', 'sks' => 3, 'semester' => 7, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
 
             ['kode_mk' => 'PAIK6801', 'nama' => 'Tugas Akhir', 'sks' => 6, 'semester' => 8, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
-        
-            
+
+
             ['kode_mk' => 'MTK101', 'nama' => 'Matematika Dasar', 'sks' => 3, 'semester' => 1, 'sifat' => 'wajib', 'kode_prodi' => 'MTK'],
             ['kode_mk' => 'MTK102', 'nama' => 'Kalkulus', 'sks' => 3, 'semester' => 1, 'sifat' => 'wajib', 'kode_prodi' => 'MTK'],
             ['kode_mk' => 'SMTK103', 'nama' => 'Matematika 2', 'sks' => 3, 'semester' => 1, 'sifat' => 'wajib', 'kode_prodi' => 'MTK'],
 
             ['kode_mk' => 'SI201', 'nama' => 'Analisis Sistem', 'sks' => 2, 'semester' => 2, 'sifat' => 'pilihan', 'kode_prodi' => 'SI'],
-            
+
         ]);
     }
 }
