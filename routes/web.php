@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Models\Mahasiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
+use App\Models\IRS;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -62,7 +63,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
-    return view('dosen_pa.dashboard');
+    $jumlahstatus = ['belumMengisi' => IRS::countByStatus('Belum Mengisi'),
+            'menungguPersetujuan' => IRS::countByStatus('Menunggu Persetujuan'),
+            'sudahDisetujui' => IRS::countByStatus('Sudah Disetujui')];
+
+    return view('dosen_pa.dashboard', compact('jumlahstatus'));
+
 })->middleware(['auth', 'verified'])->name('dashboardpa');
 
 Route::get('/irspa', function () {
