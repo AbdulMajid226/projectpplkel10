@@ -37,7 +37,7 @@
         <span class="ms-3">Buat IRS</span>
     </x-nav-link>
 
-    <x-nav-link href="/irs_mhs" :active="request()->is('IRS_mhs')">
+    <x-nav-link href="/irs_mhs" :active="request()->is('irs_mhs')">
         <!-- Icon IRS -->
         <svg class="w-6 h-6 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
