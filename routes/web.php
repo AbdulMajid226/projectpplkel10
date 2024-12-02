@@ -28,29 +28,37 @@ Route::middleware('guest')->group(function () {
 });
 
 //Mahasiswa
-Route::get('/dashboard_mhs', function () {
-    $mahasiswa = Mahasiswa::with('pembimbingAkademik')
-                         ->where('user_id', Auth::id())
-                         ->first();
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard_mhs', function () {
+        $mahasiswa = Mahasiswa::with('pembimbingAkademik')
+                             ->where('user_id', Auth::id())
+                             ->first();
 
-    return view('mahasiswa.dashboard', compact('mahasiswa'));
-})->middleware(['auth', 'verified'])->name('dashboard_mhs');
+        return view('mahasiswa.dashboard', compact('mahasiswa'));
+    })->name('dashboard_mhs');
 
-Route::get('/irs_mhs', function () {
-    return view('mahasiswa.irs');
-})->middleware(['auth', 'verified'])->name('irs_mhs');
+    Route::get('/irs_mhs', function () {
+        return view('mahasiswa.irs');
+    })->name('irs_mhs');
 
-Route::get('/registrasi_mhs', function () {
-    return view('mahasiswa.registrasi');
-})->middleware(['auth', 'verified'])->name('registrasi_mhs');
+    Route::get('/registrasi_mhs', function () {
+        return view('mahasiswa.registrasi');
+    })->name('registrasi_mhs');
 
-Route::get('/khs_mhs', function () {
-    return view('mahasiswa.khs');
-})->middleware(['auth', 'verified'])->name('khs_mhs');
+    Route::get('/khs_mhs', function () {
+        return view('mahasiswa.khs');
+    })->name('khs_mhs');
 
-Route::get('/buat_irs_mhs', function () {
-    return view('mahasiswa.buat_irs');
-})->middleware(['auth', 'verified'])->name('buat_irs_mhs');
+    Route::get('/buat_irs_mhs', function () {
+        return view('mahasiswa.buat_irs');
+    })->name('buat_irs_mhs');
+
+    Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
+        ->name('mahasiswa.buat-irs');
+
+    Route::post('/mahasiswa/cuti', [App\Http\Controllers\MahasiswaController::class, 'setStatusCuti'])
+        ->name('mahasiswa.ajukan-cuti');
+});
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {

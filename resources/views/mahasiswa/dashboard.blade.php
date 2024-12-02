@@ -7,7 +7,17 @@
 
     <div class="flex flex-wrap gap-6">
         <!-- Status Akademik -->
-        <div class="bg-emerald-500 rounded-2xl p-4 text-white w-96 ">
+        <?php
+        $bgColor = 'bg-emerald-500'; // Default color
+
+        if ($mahasiswa->status == 'BelumRegistrasi') {
+            $bgColor = 'bg-red-500';
+        } elseif ($mahasiswa->status == 'Cuti') {
+            $bgColor = 'bg-teal-900';
+        }
+        ?>
+
+        <div class="{{ $bgColor }} rounded-2xl p-4 text-white w-96">
             <h2 class="text-lg font-semibold mb-3">Status Akademik</h2>
 
             <h1 class="text-3xl font-medium mb-6">{{ $mahasiswa->status }}</h1>
