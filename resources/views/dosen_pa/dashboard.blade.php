@@ -18,15 +18,15 @@
 <div class="grid grid-cols-1 gap-4 p-3 bg-teal-600 rounded-lg shadow md:grid-cols-3">
     <div onclick="toggleTable('belum')" class="p-4 text-center bg-white rounded-lg shadow cursor-pointer hover:bg-gray-50">
         <p class="text-2xl font-bold">Belum Mengisi</p>
-        <p>20</p>
+        <p>{{ $jumlahstatus['belumMengisi'] }}</p>
     </div>
     <div onclick="toggleTable('menunggu')" class="p-4 text-center bg-white rounded-lg shadow cursor-pointer hover:bg-gray-50">
         <p class="text-2xl font-bold">Menunggu Persetujuan</p>
-        <p>20</p>
+        <p>{{ $jumlahstatus['menungguPersetujuan'] }}</p>
     </div>
     <div onclick="toggleTable('disetujui')" class="p-4 text-center bg-white rounded-lg shadow cursor-pointer hover:bg-gray-50">
         <p class="text-2xl font-bold">Sudah Disetujui</p>
-        <p>10</p>
+        <p>{{ $jumlahstatus['sudahDisetujui'] }}</p>
     </div>
 </div>
 

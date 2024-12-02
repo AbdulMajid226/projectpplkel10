@@ -26,4 +26,9 @@ class IRS extends Model
     {
         return $this->belongsToMany(Jadwal::class, 'pengambilan_irs', 'id_irs', 'id_jadwal');
     }
+
+    public static function countbyStatus($status)
+    {
+        return self::where('status_persetujuan', $status)->count();
+    }
 }
