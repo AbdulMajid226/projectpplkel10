@@ -16,6 +16,7 @@ class PembimbingAkademik extends Model
 
     protected $fillable = [
         'nidn',
+        'nama',
         'user_id',
     ];
 

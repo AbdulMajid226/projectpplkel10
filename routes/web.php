@@ -7,6 +7,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Models\Mahasiswa;
+use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Auth;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -26,7 +29,11 @@ Route::middleware('guest')->group(function () {
 
 //Mahasiswa
 Route::get('/dashboard_mhs', function () {
-    return view('mahasiswa.dashboard');
+    $mahasiswa = Mahasiswa::with('pembimbingAkademik')
+                         ->where('user_id', Auth::id())
+                         ->first();
+
+    return view('mahasiswa.dashboard', compact('mahasiswa'));
 })->middleware(['auth', 'verified'])->name('dashboard_mhs');
 
 Route::get('/irs_mhs', function () {

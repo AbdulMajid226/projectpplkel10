@@ -11,7 +11,7 @@ class PembimbingAkademikSeeder extends Seeder
     public function run()
     {
         PembimbingAkademik::insert([
-            ['nidn' => '123456', 'user_id' => 1],
+            ['nidn' => '123456', 'nama' => 'Dr. John Doe', 'user_id' => 1],
         ]);
     }
 }

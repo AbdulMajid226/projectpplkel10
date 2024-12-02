@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pembimbing_akademik', function (Blueprint $table) {
             $table->string('nidn')->primary();
-            
+            $table->string('nama');
+
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            
+
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
             $table->timestamps();
         });
