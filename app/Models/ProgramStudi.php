@@ -18,4 +18,14 @@ class ProgramStudi extends Model
     protected $fillable = [
         'kode_prodi', 'nama_prodi', 'kode_fakultas',
     ];
+
+    public function fakultas()
+    {
+        return $this->belongsTo(Fakultas::class, 'kode_fakultas', 'kode_fakultas');
+    }
+
+    public function ruangan()
+    {
+        return $this->hasMany(Ruang::class, 'kode_prodi', 'kode_prodi');
+    }
 }

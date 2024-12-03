@@ -25,6 +25,6 @@ class Ruang extends Model
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class, 'kode_prodi');
+        return $this->belongsTo(ProgramStudi::class, 'kode_prodi', 'kode_prodi');
     }
 }
