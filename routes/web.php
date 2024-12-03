@@ -79,10 +79,10 @@ Route::get('/dashboard_bagianAkademik', function () {
     return view('bagian_akademik.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
 
-Route::get('/ajukanruangkuliah', function () {
-    return view('bagian_akademik.ajukan_ruang');
-})->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
+Route::get('/ajukanruangkuliah', [RuangController::class, 'index'])->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
 
+Route::post('/ajukanruang', [RuangController::class, 'store'])->name('ajukanruang.store');
+Route::get('/ajukanruang', [RuangController::class, 'index'])->name('ajukanruang.index');
 
 //Dekan
 Route::get('/dashboard_dekan', function () {
