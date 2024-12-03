@@ -16,14 +16,14 @@ class IRSSeeder extends Seeder
 
         IRS::create([
             'nim' => '24060122130001',
-            'status_persetujuan' => 'BelumDisetujui',
+            'status_persetujuan' => 'Menunggu Persetujuan',
             'tanggal_persetujuan' => null ,
         ]);
 
 
         IRS::create([
             'nim' => '24060122130002',
-            'status_persetujuan' => 'BelumDisetujui',
+            'status_persetujuan' => 'Belum Mengisi',
             'tanggal_persetujuan' => null ,
         ]);
     }

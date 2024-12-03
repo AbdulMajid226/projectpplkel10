@@ -16,12 +16,12 @@
         </div>
 
         <!-- Informasi Pengajuan Ruang -->
-        <div class="p-6 mb-8 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl shadow-lg">
+        <div class="p-6 mb-8 shadow-lg bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">
             <h2 class="mb-6 text-xl font-semibold text-white">Informasi Pengajuan Ruang</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <!-- Card Sudah Disetujui -->
-                <div onclick="filterRooms('disetujui')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
-                    <div class="flex justify-between items-center">
+                <div onclick="filterRooms('disetujui')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
+                    <div class="flex items-center justify-between">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Sudah Disetujui</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $approvedCount }}</p>
@@ -35,8 +35,8 @@
                 </div>
 
                 <!-- Card Menunggu Persetujuan -->
-                <div onclick="filterRooms('BelumDisetujui')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
-                    <div class="flex justify-between items-center">
+                <div onclick="filterRooms('BelumDisetujui')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
+                    <div class="flex items-center justify-between">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Menunggu Persetujuan</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $pendingCount }}</p>
@@ -50,8 +50,8 @@
                 </div>
 
                 <!-- Card Ditolak -->
-                <div onclick="filterRooms('ditolak')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
-                    <div class="flex justify-between items-center">
+                <div onclick="filterRooms('ditolak')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
+                    <div class="flex items-center justify-between">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Ditolak</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $rejectedCount }}</p>
@@ -67,8 +67,8 @@
         </div>
 
         <!-- Daftar Pengajuan Ruangan -->
-        <div class="p-6 bg-white rounded-xl shadow-md">
-            <div class="flex justify-between items-center mb-6">
+        <div class="p-6 bg-white shadow-md rounded-xl">
+            <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-semibold text-gray-800">Daftar Pengajuan Ruangan</h2>
                 <div id="statusFilter" class="flex gap-2">
                     <button onclick="filterRooms('all')" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 active-filter">
@@ -155,13 +155,13 @@
     <!-- Modal Edit -->
     <div id="editModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
 
-            <div class="relative bg-white rounded-lg w-full max-w-md p-6">
-                <div class="flex justify-between items-center mb-4">
+            <div class="relative w-full max-w-md p-6 bg-white rounded-lg">
+                <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Edit Ruang Kuliah</h3>
                     <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -172,18 +172,18 @@
                     @method('PUT')
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Kode Ruang</label>
-                        <input type="text" name="kode_ruang" id="editKodeRuang" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <input type="text" name="kode_ruang" id="editKodeRuang" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program Studi</label>
-                        <select name="program_studi" id="editProgramStudi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <select name="program_studi" id="editProgramStudi" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Kuota</label>
-                        <input type="number" name="kuota" id="editKuota" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <input type="number" name="kuota" id="editKuota" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
                     </div>
 
                     <div class="flex justify-end gap-3">
