@@ -75,19 +75,18 @@ Route::get('/irspa', function () {
 })->middleware(['auth', 'verified'])->name('irspa');
 
 //Bagian Akademik
-Route::get('/dashboard_bagianAkademik', function () {
-    return view('bagian_akademik.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
+Route::get('/dashboard_bagianAkademik', [RuangController::class, 'dashboard'])->name('dashboard_bagianAkademik');
 
-Route::get('/ajukanruangkuliah', function () {
-    return view('bagian_akademik.ajukan_ruang');
-})->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
 
-// API routes untuk ruang
-Route::get('/api/rooms', [RuangController::class, 'getRoomsByStatus'])->middleware(['auth', 'verified']);
-Route::put('/api/rooms/{kodeRuang}', [RuangController::class, 'updateRoom'])->middleware(['auth', 'verified']);
-Route::delete('/api/rooms/{kodeRuang}', [RuangController::class, 'deleteRoom'])->middleware(['auth', 'verified']);
-Route::get('/api/room-counts', [RuangController::class, 'getRoomCounts'])->middleware(['auth', 'verified']);
+Route::get('/ajukanruangkuliah', [RuangController::class, 'index'])->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
+
+Route::post('/ajukanruang', [RuangController::class, 'store'])->name('ajukanruang.store');
+Route::get('/ajukanruang', [RuangController::class, 'index'])->name('ajukanruang.index');
+
+Route::delete('/ruang/{ruang}', [RuangController::class, 'destroy'])->name('ruang.destroy');
+
+Route::get('/ruang/{ruang}/edit', [RuangController::class, 'edit'])->name('ruang.edit');
+Route::put('/ruang/{ruang}', [RuangController::class, 'update'])->name('ruang.update');
 
 //Dekan
 Route::get('/dashboard_dekan', function () {

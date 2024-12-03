@@ -15,7 +15,10 @@ class Ruang extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kode_ruang', 'kuota', 'kode_prodi', 'status',
+        'kode_ruang',
+        'kode_prodi',
+        'kuota',
+        'status'
     ];
 
     public function jadwal()
@@ -25,6 +28,6 @@ class Ruang extends Model
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class, 'kode_prodi');
+        return $this->belongsTo(ProgramStudi::class, 'kode_prodi', 'kode_prodi');
     }
 }

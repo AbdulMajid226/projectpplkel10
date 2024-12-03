@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('kode_ruang')->primary();
             $table->integer('kuota');
             $table->string('kode_prodi');
-            $table->string('status')->default('Belum Disetujui');
+            $table->enum('status', ['BelumDisetujui', 'disetujui', 'ditolak'])->default('BelumDisetujui');
 
             $table->foreign('kode_prodi')->references('kode_prodi')->on('program_studi');
             $table->timestamps();
