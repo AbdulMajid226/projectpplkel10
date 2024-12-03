@@ -62,12 +62,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
-    $jumlahstatus = ['belumMengisi' => IRS::countByStatus('Belum Mengisi'),
-            'menungguPersetujuan' => IRS::countByStatus('Menunggu Persetujuan'),
-            'sudahDisetujui' => IRS::countByStatus('Sudah Disetujui')];
+    $jumlahstatus = [
+        'belumMengisi' => IRS::countByStatus('Belum Mengisi'),
+        'menungguPersetujuan' => IRS::countByStatus('Menunggu Persetujuan'),
+        'disetujui' => IRS::countByStatus('Sudah Disetujui')
+    ];
 
-    return view('dosen_pa.dashboard', compact('jumlahstatus'));
+    $irsData = [
+        'belumMengisi' => IRS::getIRSByStatus('Belum Mengisi'),
+        'menungguPersetujuan' => IRS::getIRSByStatus('Menunggu Persetujuan'),
+        'disetujui' => IRS::getIRSByStatus('Sudah Disetujui')
+    ];
 
+    return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData'));
 })->middleware(['auth', 'verified'])->name('dashboardpa');
 
 Route::get('/irspa', function () {

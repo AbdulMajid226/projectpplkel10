@@ -3,8 +3,8 @@
 @section('title', 'Pengesahan IRS')
 
 @section('content')
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-gray-800 mb-10">Pengesahan IRS</h1>
+    <div class="container px-4 mx-auto">
+        <h1 class="mb-10 text-4xl font-bold text-gray-800">Pengesahan IRS</h1>
         <h1 class="font-semibold text-center text-[20px]">Ajuan IRS Mahasiswa <br> Semester Gasal Tahun Ajaran
             2024/2025</h1>
         <!-- Filter dan Pencarian -->
@@ -71,11 +71,11 @@
         <!-- Pagination -->
         <div class="flex justify-center mt-6">
             <nav class="flex items-center space-x-2">
-                <button class="px-3 py-1 rounded border">Previous</button>
-                <button class="px-3 py-1 rounded border bg-blue-600 text-white">1</button>
-                <button class="px-3 py-1 rounded border">2</button>
-                <button class="px-3 py-1 rounded border">3</button>
-                <button class="px-3 py-1 rounded border">Next</button>
+                <button class="px-3 py-1 border rounded">Previous</button>
+                <button class="px-3 py-1 text-white bg-blue-600 border rounded">1</button>
+                <button class="px-3 py-1 border rounded">2</button>
+                <button class="px-3 py-1 border rounded">3</button>
+                <button class="px-3 py-1 border rounded">Next</button>
             </nav>
         </div>
     </div>

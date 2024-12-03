@@ -26,37 +26,46 @@
     </div>
     <div onclick="toggleTable('disetujui')" class="p-4 text-center bg-white rounded-lg shadow cursor-pointer hover:bg-gray-50">
         <p class="text-2xl font-bold">Sudah Disetujui</p>
-        <p>{{ $jumlahstatus['sudahDisetujui'] }}</p>
+        <p>{{ $jumlahstatus['disetujui'] }}</p>
     </div>
 </div>
 
-<!-- Tabel untuk masing-masing status (hidden by default) -->
+<!-- Tabel Belum Mengisi -->
 <div id="table-belum" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
             <thead>
                 <tr class="text-left bg-teal-500">
                     <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
-                    <th class="px-4 py-2 border border-gray-300 w-[20%]">Nama</th>
-                    <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
-                    <th class="px-4 py-2 border border-gray-300 w-[5%]">Angkatan</th>
-                    <th class="px-4 py-2 border border-gray-300 w-[5%]">SKS</th>
+                    <th class="px-4 py-2 border border-gray-300 w-[30%]">Nama</th>
+                    <th class="px-4 py-2 border border-gray-300 w-[20%]">NIM</th>
+                    <th class="px-4 py-2 border border-gray-300 w-[20%]">Angkatan</th>
+                    <th class="px-4 py-2 border border-gray-300 w-[20%]">Status Mahasiswa</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Data untuk status Belum Mengisi -->
+                @foreach($irsData['belumMengisi'] as $index => $irs)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->status }}</td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- Tabel Menunggu Persetujuan -->
 <div id="table-menunggu" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
             <thead>
                 <tr class="text-left bg-teal-500">
                     <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
-                    <th class="px-4 py-2 border border-gray-300 w-[20%]">Nama</th>
+                    <th class="px-4 py-2 border border-gray-300 w-[30%]">Nama</th>
                     <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
                     <th class="px-4 py-2 border border-gray-300 w-[5%]">Angkatan</th>
                     <th class="px-4 py-2 border border-gray-300 w-[5%]">SKS</th>
@@ -64,12 +73,26 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data untuk status Menunggu Persetujuan -->
+                @foreach($irsData['menungguPersetujuan'] as $index => $irs)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                    <td class="px-4 py-2 border border-gray-300">
+                        <button class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
+                        <button class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
+                        <button class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button>
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- Tabel Sudah Disetujui -->
 <div id="table-disetujui" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
@@ -84,7 +107,18 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data untuk status Sudah Disetujui -->
+                @foreach($irsData['disetujui'] as $index => $irs)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                    <td class="px-4 py-2 border border-gray-300">
+                        <button class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">Lihat Detail</button>
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
