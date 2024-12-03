@@ -3,7 +3,7 @@
 @section('content')
     <!-- Informasi Tahun  -->
     <div class="flex flex-wrap gap-4 mb-6">
-        <select class="p-2 border rounded">
+        <select class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500"">
             <option>Pilih Tahun Ajaran</option>
             <option>2023/2024 Ganjil</option>
             <option>2023/2024 Genap</option>
@@ -34,8 +34,8 @@
 <div id="table-belum" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
-            <thead>
-                <tr class="text-left bg-teal-500">
+            <thead class="text-xs text-white uppercase bg-teal-600">
+                <tr class="text-left">
                     <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
                     <th class="px-4 py-2 border border-gray-300 w-[30%]">Nama</th>
                     <th class="px-4 py-2 border border-gray-300 w-[20%]">NIM</th>
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
                 @foreach($irsData['belumMengisi'] as $index => $irs)
-                <tr class="hover:bg-gray-50">
+                <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
                     <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
@@ -62,8 +62,8 @@
 <div id="table-menunggu" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
-            <thead>
-                <tr class="text-left bg-teal-500">
+            <thead class="text-xs text-white uppercase bg-teal-600">
+                <tr class="text-left">
                     <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
                     <th class="px-4 py-2 border border-gray-300 w-[30%]">Nama</th>
                     <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
@@ -74,7 +74,7 @@
             </thead>
             <tbody>
                 @foreach($irsData['menungguPersetujuan'] as $index => $irs)
-                <tr class="hover:bg-gray-50">
+                <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
                     <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
@@ -96,8 +96,8 @@
 <div id="table-disetujui" class="hidden mt-4">
     <div class="overflow-x-auto">
         <table class="min-w-full border border-collapse border-gray-300">
-            <thead>
-                <tr class="text-left bg-teal-500">
+            <thead class="text-xs text-white uppercase bg-teal-600">
+                <tr class="text-left">
                     <th class="px-4 py-2 border border-gray-300 w-[3%]">No</th>
                     <th class="px-4 py-2 border border-gray-300 w-[20%]">Nama</th>
                     <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
@@ -108,7 +108,7 @@
             </thead>
             <tbody>
                 @foreach($irsData['disetujui'] as $index => $irs)
-                <tr class="hover:bg-gray-50">
+                <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
                     <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                     <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
