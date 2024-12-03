@@ -15,6 +15,8 @@ class Jadwal extends Model
         'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'waktu',
     ];
 
+    protected $with = ['waktu'];
+
     public function mataKuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');

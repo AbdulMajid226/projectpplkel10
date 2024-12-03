@@ -37,10 +37,9 @@ class IRSController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            return view('mahasiswa.buat_irs', [
-                'mahasiswa' => null,
-                'mataKuliah' => collect([])
-            ])->with('error', 'Terjadi kesalahan saat memuat data');
+            return redirect()
+                ->route('mahasiswa.dashboard')
+                ->with('error', 'Terjadi kesalahan saat memuat data: ' . $e->getMessage());
         }
     }
 }

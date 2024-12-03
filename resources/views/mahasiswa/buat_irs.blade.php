@@ -3,177 +3,195 @@
 @section('title', 'Buat IRS')
 
 @section('content')
-    <div class="container mx-auto px-4 py-6">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Buat IRS</h1>
-            <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
-        </div>
-
-        <!-- Informasi Akademik -->
-        <div class="bg-gray-100 p-4 rounded-lg mb-6">
-            <div class="grid grid-cols-3 gap-4">
-                <div>
-                    <p class="text-gray-600">IP Semester Lalu: 4.00</p>
-                </div>
-                <div>
-                    <p class="text-gray-600">IPK: 4.00</p>
-                </div>
-                <div>
-                    <p class="text-gray-600">Maks.Beban SKS: 24 SKS</p>
-                </div>
+    @if(Auth::user()->mahasiswa->status !== 'Aktif')
+        <div class="flex flex-col justify-center items-center py-6 min-h-screen bg-gray-100">
+            <div class="p-8 text-center bg-white rounded-lg shadow-md">
+                <svg class="mx-auto w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <h2 class="mt-4 text-xl font-semibold text-gray-800">Anda Belum Bisa Membuat IRS</h2>
+                <p class="mt-2 text-gray-600">Status anda saat ini: {{ Auth::user()->mahasiswa->status }}</p>
+                <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
+                <a href="{{ route('registrasi_mhs') }}" 
+                   class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                    Lakukan Registrasi
+                </a>
             </div>
         </div>
-
-        <!-- Pencarian Mata Kuliah -->
-        <div class="mb-6 relative">
-            <div class="relative">
-                <input type="text"
-                       id="searchMataKuliah"
-                       placeholder="Cari Mata Kuliah"
-                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                       autocomplete="off">
-                <button class="absolute right-3 top-3">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+    @else
+        <div class="container px-4 py-6 mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Buat IRS</h1>
+                <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
             </div>
 
-            <!-- Dropdown hasil pencarian -->
-            <div id="searchResults" class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg hidden">
-                <div class="p-2 space-y-2 max-h-60 overflow-y-auto">
-                    @if($mataKuliah && $mataKuliah->count() > 0)
-                        @foreach($mataKuliah as $mk)
-                        <div class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer mata-kuliah-item"
-                             data-kode="{{ $mk->kode_mk }}"
-                             data-nama="{{ $mk->nama }}"
-                             data-sks="{{ $mk->sks }}">
-                            <h3 class="font-medium">{{ $mk->nama }}</h3>
-                            <div class="flex justify-between items-center">
-                                <p class="text-sm text-gray-600">{{ $mk->kode_mk }} SMT {{ $mk->semester }} {{ strtoupper($mk->sifat) }}</p>
-                                <p class="text-sm text-gray-500">{{ $mk->sks }} SKS</p>
+            <!-- Informasi Akademik -->
+            <div class="p-4 mb-6 bg-gray-100 rounded-lg">
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <p class="text-gray-600">IP Semester Lalu: 4.00</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">IPK: 4.00</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Maks.Beban SKS: 24 SKS</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pencarian Mata Kuliah -->
+            <div class="relative mb-6">
+                <div class="relative">
+                    <input type="text"
+                           id="searchMataKuliah"
+                           placeholder="Cari Mata Kuliah"
+                           class="p-3 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                           autocomplete="off">
+                    <button class="absolute top-3 right-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Dropdown hasil pencarian -->
+                <div id="searchResults" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg">
+                    <div class="overflow-y-auto p-2 space-y-2 max-h-60">
+                        @if($mataKuliah && $mataKuliah->count() > 0)
+                            @foreach($mataKuliah as $mk)
+                            <div class="p-3 rounded-lg cursor-pointer hover:bg-gray-50 mata-kuliah-item"
+                                 data-kode="{{ $mk->kode_mk }}"
+                                 data-nama="{{ $mk->nama }}"
+                                 data-sks="{{ $mk->sks }}">
+                                <h3 class="font-medium">{{ $mk->nama }}</h3>
+                                <div class="flex justify-between items-center">
+                                    <p class="text-sm text-gray-600">{{ $mk->kode_mk }} SMT {{ $mk->semester }} {{ strtoupper($mk->sifat) }}</p>
+                                    <p class="text-sm text-gray-500">{{ $mk->sks }} SKS</p>
+                                </div>
                             </div>
-                        </div>
+                            @endforeach
+                        @else
+                            <div class="p-3 text-center text-gray-500">
+                                Tidak ada mata kuliah yang tersedia
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- List Mata Kuliah yang Dipilih -->
+            <div class="mb-6 bg-white rounded-lg shadow">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold">List Mata Kuliah</h2>
+                </div>
+                <div class="p-4">
+                    <div class="space-y-3" id="selectedMataKuliah">
+                        <!-- Mata kuliah yang dipilih akan ditampilkan di sini -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jadwal -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="grid grid-cols-6 border-b">
+                    <div class="p-4 font-semibold">Jam</div>
+                    <div class="p-4 font-semibold">Senin</div>
+                    <div class="p-4 font-semibold">Selasa</div>
+                    <div class="p-4 font-semibold">Rabu</div>
+                    <div class="p-4 font-semibold">Kamis</div>
+                    <div class="p-4 font-semibold">Jumat</div>
+                </div>
+
+                @php
+                $waktu = [
+                    '07:00' => ['height' => 60],
+                    '08:00' => ['height' => 60],
+                    '09:00' => ['height' => 60],
+                    '10:00' => ['height' => 60],
+                    '11:00' => ['height' => 60],
+                    '12:00' => ['height' => 60],
+                    '13:00' => ['height' => 60],
+                    '14:00' => ['height' => 60],
+                    '15:00' => ['height' => 60],
+                    '16:00' => ['height' => 60],
+                ];
+
+                $jadwal = [
+                    [
+                        'nama' => 'Proyek Perangkat Lunak',
+                        'kode' => 'WAJIB (PAIK6023)',
+                        'kelas' => 'Kelas : C 3/3 SKS',
+                        'waktu' => '07:00 - 09:30',
+                        'hari' => 'Kamis'
+                    ],
+                    [
+                        'nama' => 'Proyek Perangkat Lunak',
+                        'kode' => 'WAJIB (PAIK6023)',
+                        'kelas' => 'Kelas : D 3/3 SKS',
+                        'waktu' => '09:40 - 12:10',
+                        'hari' => 'Kamis'
+                    ],
+                    [
+                        'nama' => 'Proyek Perangkat Lunak',
+                        'kode' => 'WAJIB (PAIK6023)',
+                        'kelas' => 'Kelas : B 3/3 SKS',
+                        'waktu' => '13:00 - 15:30',
+                        'hari' => 'Rabu'
+                    ],
+                    [
+                        'nama' => 'Proyek Perangkat Lunak',
+                        'kode' => 'WAJIB (PAIK6023)',
+                        'kelas' => 'Kelas : A 3/3 SKS',
+                        'waktu' => '08:40 - 12:10',
+                        'hari' => 'Jumat'
+                    ],
+                ];
+                @endphp
+
+                <div class="grid relative grid-cols-6">
+                    <!-- Kolom waktu -->
+                    <div class="border-r">
+                        @foreach($waktu as $jam => $config)
+                            <div class="border-b h-[60px] px-4 py-2 text-sm">
+                                {{ $jam }}
+                            </div>
                         @endforeach
-                    @else
-                        <div class="p-3 text-center text-gray-500">
-                            Tidak ada mata kuliah yang tersedia
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
+                    </div>
 
-        <!-- List Mata Kuliah yang Dipilih -->
-        <div class="bg-white rounded-lg shadow mb-6">
-            <div class="p-4 border-b">
-                <h2 class="text-lg font-semibold">List Mata Kuliah</h2>
-            </div>
-            <div class="p-4">
-                <div class="space-y-3" id="selectedMataKuliah">
-                    <!-- Mata kuliah yang dipilih akan ditampilkan di sini -->
-                </div>
-            </div>
-        </div>
+                    <!-- Kolom hari -->
+                    @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
+                        <div class="relative border-r">
+                            @foreach($jadwal as $kelas)
+                                @if($kelas['hari'] == $hari)
+                                    @php
+                                        $waktuMulai = explode(' - ', $kelas['waktu'])[0];
+                                        $waktuSelesai = explode(' - ', $kelas['waktu'])[1];
+                                        $jamMulai = (int) explode(':', $waktuMulai)[0];
+                                        $menitMulai = (int) explode(':', $waktuMulai)[1];
+                                        $jamSelesai = (int) explode(':', $waktuSelesai)[0];
+                                        $menitSelesai = (int) explode(':', $waktuSelesai)[1];
 
-        <!-- Jadwal -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="grid grid-cols-6 border-b">
-                <div class="p-4 font-semibold">Jam</div>
-                <div class="p-4 font-semibold">Senin</div>
-                <div class="p-4 font-semibold">Selasa</div>
-                <div class="p-4 font-semibold">Rabu</div>
-                <div class="p-4 font-semibold">Kamis</div>
-                <div class="p-4 font-semibold">Jumat</div>
-            </div>
+                                        $topPosition = ($jamMulai - 7) * 60 + $menitMulai;
+                                        $height = ($jamSelesai - $jamMulai) * 60 + ($menitSelesai - $menitMulai);
+                                    @endphp
 
-            @php
-            $waktu = [
-                '07:00' => ['height' => 60],
-                '08:00' => ['height' => 60],
-                '09:00' => ['height' => 60],
-                '10:00' => ['height' => 60],
-                '11:00' => ['height' => 60],
-                '12:00' => ['height' => 60],
-                '13:00' => ['height' => 60],
-                '14:00' => ['height' => 60],
-                '15:00' => ['height' => 60],
-                '16:00' => ['height' => 60],
-            ];
-
-            $jadwal = [
-                [
-                    'nama' => 'Proyek Perangkat Lunak',
-                    'kode' => 'WAJIB (PAIK6023)',
-                    'kelas' => 'Kelas : C 3/3 SKS',
-                    'waktu' => '07:00 - 09:30',
-                    'hari' => 'Kamis'
-                ],
-                [
-                    'nama' => 'Proyek Perangkat Lunak',
-                    'kode' => 'WAJIB (PAIK6023)',
-                    'kelas' => 'Kelas : D 3/3 SKS',
-                    'waktu' => '09:40 - 12:10',
-                    'hari' => 'Kamis'
-                ],
-                [
-                    'nama' => 'Proyek Perangkat Lunak',
-                    'kode' => 'WAJIB (PAIK6023)',
-                    'kelas' => 'Kelas : B 3/3 SKS',
-                    'waktu' => '13:00 - 15:30',
-                    'hari' => 'Rabu'
-                ],
-                [
-                    'nama' => 'Proyek Perangkat Lunak',
-                    'kode' => 'WAJIB (PAIK6023)',
-                    'kelas' => 'Kelas : A 3/3 SKS',
-                    'waktu' => '08:40 - 12:10',
-                    'hari' => 'Jumat'
-                ],
-            ];
-            @endphp
-
-            <div class="grid grid-cols-6 relative">
-                <!-- Kolom waktu -->
-                <div class="border-r">
-                    @foreach($waktu as $jam => $config)
-                        <div class="border-b h-[60px] px-4 py-2 text-sm">
-                            {{ $jam }}
+                                    <div class="absolute w-[95%] mx-1 bg-gray-100 rounded-lg p-2 text-xs"
+                                         style="top: {{ $topPosition }}px; height: {{ $height }}px;">
+                                        <p class="font-medium">{{ $kelas['nama'] }}</p>
+                                        <p class="text-gray-600">{{ $kelas['kode'] }}</p>
+                                        <p class="text-gray-600">{{ $kelas['kelas'] }}</p>
+                                        <p class="text-gray-500">{{ $kelas['waktu'] }}</p>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     @endforeach
                 </div>
-
-                <!-- Kolom hari -->
-                @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
-                    <div class="border-r relative">
-                        @foreach($jadwal as $kelas)
-                            @if($kelas['hari'] == $hari)
-                                @php
-                                    $waktuMulai = explode(' - ', $kelas['waktu'])[0];
-                                    $waktuSelesai = explode(' - ', $kelas['waktu'])[1];
-                                    $jamMulai = (int) explode(':', $waktuMulai)[0];
-                                    $menitMulai = (int) explode(':', $waktuMulai)[1];
-                                    $jamSelesai = (int) explode(':', $waktuSelesai)[0];
-                                    $menitSelesai = (int) explode(':', $waktuSelesai)[1];
-
-                                    $topPosition = ($jamMulai - 7) * 60 + $menitMulai;
-                                    $height = ($jamSelesai - $jamMulai) * 60 + ($menitSelesai - $menitMulai);
-                                @endphp
-
-                                <div class="absolute w-[95%] mx-1 bg-gray-100 rounded-lg p-2 text-xs"
-                                     style="top: {{ $topPosition }}px; height: {{ $height }}px;">
-                                    <p class="font-medium">{{ $kelas['nama'] }}</p>
-                                    <p class="text-gray-600">{{ $kelas['kode'] }}</p>
-                                    <p class="text-gray-600">{{ $kelas['kelas'] }}</p>
-                                    <p class="text-gray-500">{{ $kelas['waktu'] }}</p>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                @endforeach
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @push('scripts')

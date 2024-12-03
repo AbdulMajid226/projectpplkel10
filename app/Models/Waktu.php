@@ -10,4 +10,9 @@ class Waktu extends Model
     use HasFactory;
     protected $table = 'waktu';
     protected $fillable = ['jam_mulai', 'jam_selesai'];
+
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }
