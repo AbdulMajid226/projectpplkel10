@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('irs', function (Blueprint $table) {
             $table->id();
             $table->string('nim');
-            $table->enum('status_persetujuan', ['Pending', 'Disetujui', 'Ditolak'])->default('Pending');
+            $table->enum('status_persetujuan', ['Pending', 'BelumDisetujui', 'Disetujui', 'Ditolak'])->default('Pending');
             $table->date('tanggal_persetujuan')->nullable();
             $table->timestamps();
 
