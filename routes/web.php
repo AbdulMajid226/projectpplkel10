@@ -75,14 +75,15 @@ Route::get('/irspa', function () {
 })->middleware(['auth', 'verified'])->name('irspa');
 
 //Bagian Akademik
-Route::get('/dashboard_bagianAkademik', function () {
-    return view('bagian_akademik.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard_bagianAkademik');
+Route::get('/dashboard_bagianAkademik', [RuangController::class, 'dashboard'])->name('dashboard_bagianAkademik');
+
 
 Route::get('/ajukanruangkuliah', [RuangController::class, 'index'])->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
 
 Route::post('/ajukanruang', [RuangController::class, 'store'])->name('ajukanruang.store');
 Route::get('/ajukanruang', [RuangController::class, 'index'])->name('ajukanruang.index');
+
+Route::delete('/ruang/{ruang}', [RuangController::class, 'destroy'])->name('ruang.destroy');
 
 //Dekan
 Route::get('/dashboard_dekan', function () {

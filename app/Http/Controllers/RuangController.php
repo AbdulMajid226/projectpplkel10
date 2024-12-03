@@ -40,18 +40,6 @@ class RuangController extends Controller
         return response()->json(['message' => 'Ruang berhasil dihapus.']);
     }
 
-    public function getRoomCounts()
-    {
-        $approvedCount = Ruang::where('status', 'Sudah Disetujui')->count();
-        $pendingCount = Ruang::where('status', 'Belum Disetujui')->count();
-        $rejectedCount = Ruang::where('status', 'Ditolak')->count();
-
-        return response()->json([
-            'approved' => $approvedCount,
-            'pending' => $pendingCount,
-            'rejected' => $rejectedCount,
-        ]);
-    }
 
     public function store(Request $request)
     {
@@ -75,5 +63,23 @@ class RuangController extends Controller
     {
         $ruangs = Ruang::all(); // Mengambil semua data ruang
         return view('bagian_akademik.ajukan_ruang', compact('ruangs'));
+    }
+
+    public function dashboard()
+    {
+        $approvedCount = Ruang::where('status', 'disetujui')->count();
+        $pendingCount = Ruang::where('status', 'BelumDisetujui')->count();
+        $rejectedCount = Ruang::where('status', 'ditolak')->count();
+        $ruangs = Ruang::with('programStudi')->get();
+
+        return view('bagian_akademik.dashboard', compact('approvedCount', 'pendingCount', 'rejectedCount', 'ruangs'));
+    }
+
+    public function destroy($kodeRuang)
+    {
+        $ruang = Ruang::findOrFail($kodeRuang);
+        $ruang->delete();
+
+        return redirect()->back()->with('success', 'Pengajuan ruang berhasil dihapus');
     }
 }
