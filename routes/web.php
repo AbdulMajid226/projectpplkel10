@@ -83,11 +83,6 @@ Route::get('/ajukanruangkuliah', function () {
     return view('bagian_akademik.ajukan_ruang');
 })->middleware(['auth', 'verified'])->name('ajukanruangkuliah');
 
-// API routes untuk ruang
-Route::get('/api/rooms', [RuangController::class, 'getRoomsByStatus'])->middleware(['auth', 'verified']);
-Route::put('/api/rooms/{kodeRuang}', [RuangController::class, 'updateRoom'])->middleware(['auth', 'verified']);
-Route::delete('/api/rooms/{kodeRuang}', [RuangController::class, 'deleteRoom'])->middleware(['auth', 'verified']);
-Route::get('/api/room-counts', [RuangController::class, 'getRoomCounts'])->middleware(['auth', 'verified']);
 
 //Dekan
 Route::get('/dashboard_dekan', function () {
