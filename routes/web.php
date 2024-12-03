@@ -85,6 +85,9 @@ Route::get('/ajukanruang', [RuangController::class, 'index'])->name('ajukanruang
 
 Route::delete('/ruang/{ruang}', [RuangController::class, 'destroy'])->name('ruang.destroy');
 
+Route::get('/ruang/{ruang}/edit', [RuangController::class, 'edit'])->name('ruang.edit');
+Route::put('/ruang/{ruang}', [RuangController::class, 'update'])->name('ruang.update');
+
 //Dekan
 Route::get('/dashboard_dekan', function () {
     return view('dekan.dashboard');

@@ -151,4 +151,103 @@
             color: white;
         }
     </style>
+
+    <!-- Modal Edit -->
+    <div id="editModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <div class="relative bg-white rounded-lg w-full max-w-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Edit Ruang Kuliah</h3>
+                    <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="editForm" class="space-y-4">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Kode Ruang</label>
+                        <input type="text" name="kode_ruang" id="editKodeRuang" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Program Studi</label>
+                        <select name="program_studi" id="editProgramStudi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Kuota</label>
+                        <input type="number" name="kuota" id="editKuota" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                    </div>
+
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-md hover:bg-teal-700">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function editRoom(kodeRuang) {
+            fetch(`/ruang/${kodeRuang}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    const ruang = data.ruang;
+                    const programStudis = data.programStudis;
+
+                    document.getElementById('editKodeRuang').value = ruang.kode_ruang;
+                    document.getElementById('editKuota').value = ruang.kuota;
+
+                    const selectElement = document.getElementById('editProgramStudi');
+                    selectElement.innerHTML = '';
+                    programStudis.forEach(prodi => {
+                        const option = new Option(prodi.nama_prodi, prodi.kode_prodi);
+                        option.selected = prodi.kode_prodi === ruang.kode_prodi;
+                        selectElement.appendChild(option);
+                    });
+
+                    const form = document.getElementById('editForm');
+                    form.action = `/ruang/${kodeRuang}`;
+
+                    document.getElementById('editModal').classList.remove('hidden');
+                });
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                closeEditModal();
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 @endsection

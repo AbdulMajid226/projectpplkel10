@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ruang;
+use App\Models\ProgramStudi;
 
 class RuangController extends Controller
 {
@@ -81,5 +82,54 @@ class RuangController extends Controller
         $ruang->delete();
 
         return redirect()->back()->with('success', 'Pengajuan ruang berhasil dihapus');
+    }
+
+    public function edit($kodeRuang)
+    {
+        $ruang = Ruang::with('programStudi')->findOrFail($kodeRuang);
+        $programStudis = ProgramStudi::all();
+
+        return response()->json([
+            'ruang' => $ruang,
+            'programStudis' => $programStudis
+        ]);
+    }
+
+    public function update(Request $request, $kodeRuang)
+    {
+        try {
+            $request->validate([
+                'kode_ruang' => 'required|string|max:255|unique:ruang,kode_ruang,'.$kodeRuang.',kode_ruang',
+                'program_studi' => 'required|exists:program_studi,kode_prodi',
+                'kuota' => 'required|integer|min:1',
+            ]);
+
+            $ruang = Ruang::findOrFail($kodeRuang);
+
+            $updated = $ruang->update([
+                'kode_ruang' => $request->kode_ruang,
+                'kode_prodi' => $request->program_studi,
+                'kuota' => $request->kuota,
+                'status' => 'BelumDisetujui'
+            ]);
+
+            if($updated) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Ruang berhasil diperbarui'
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui ruang'
+            ], 500);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
