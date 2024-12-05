@@ -70,10 +70,21 @@
         <div class="p-6 bg-white rounded-xl shadow-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-semibold text-gray-800">Daftar Pengajuan Ruangan</h2>
-                <div id="statusFilter" class="flex gap-2">
-                    <button onclick="filterRooms('all')" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 active-filter">
-                        Semua
-                    </button>
+                <div class="flex gap-4">
+                    <!-- Filter Program Studi -->
+                    <select id="prodiFilter" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        <option value="all">Semua Program Studi</option>
+                        @foreach($getProgramStudis as $prodi)
+                            <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                        @endforeach
+                    </select>
+
+                    <!-- Filter Status -->
+                    <div id="statusFilter" class="flex gap-2">
+                        <button onclick="filterRooms('all')" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 active-filter">
+                            Semua
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -90,7 +101,7 @@
                     </thead>
                     <tbody id="roomsList" class="bg-white divide-y divide-gray-200">
                         @foreach($ruangs as $ruang)
-                        <tr class="room-item" data-status="{{ $ruang->status }}">
+                        <tr class="room-item" data-status="{{ $ruang->status }}" data-prodi="{{ $ruang->programStudi->kode_prodi }}">
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->kode_ruang }}</td>
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->programStudi->nama_prodi }}</td>
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->kuota }}</td>
@@ -133,16 +144,28 @@
     <script>
         function filterRooms(status) {
             const rooms = document.querySelectorAll('.room-item');
+            const selectedProdi = document.getElementById('prodiFilter').value;
 
             rooms.forEach(room => {
-                if (status === 'all' || room.dataset.status === status) {
+                const roomStatus = room.dataset.status;
+                const roomProdi = room.dataset.prodi;
+
+                const matchStatus = status === 'all' || roomStatus === status;
+                const matchProdi = selectedProdi === 'all' || roomProdi === selectedProdi;
+
+                if (matchStatus && matchProdi) {
                     room.style.display = '';
                 } else {
                     room.style.display = 'none';
                 }
             });
-
         }
+
+        // Event listener untuk filter program studi
+        document.getElementById('prodiFilter').addEventListener('change', function() {
+            const status = document.querySelector('.active-filter').getAttribute('onclick').match(/'(.*?)'/)[1];
+            filterRooms(status);
+        });
     </script>
 
     <style>
