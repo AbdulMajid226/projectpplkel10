@@ -12,13 +12,11 @@
                 </svg>
                 <h2 class="mt-4 text-xl font-semibold text-gray-800">Anda Belum Bisa Membuat IRS</h2>
                 <p class="mt-2 text-gray-600">Status anda saat ini: {{ Auth::user()->mahasiswa->status }}</p>
-                @if(Auth::user()->mahasiswa->status !== 'Cuti')
-                    <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
-                    <a href="{{ route('registrasi_mhs') }}"
-                       class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
-                        Lakukan Registrasi
-                    </a>
-                @endif
+                <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
+                <a href="{{ route('registrasi_mhs') }}"
+                   class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                    Lakukan Registrasi
+                </a>
             </div>
         </div>
     @else
@@ -28,168 +26,101 @@
                 <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
             </div>
 
-            <!-- Informasi Akademik -->
-            <div class="p-4 mb-6 bg-gray-100 rounded-lg">
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <p class="text-gray-600">IP Semester Lalu: 4.00</p>
+            <div class="flex gap-6">
+                <!-- Kolom Kiri -->
+                <div class="space-y-6 w-1/3">
+                    <!-- Informasi Akademik -->
+                    <div class="p-4 bg-white rounded-lg shadow">
+                        <h2 class="mb-4 text-lg font-semibold">Informasi Akademik</h2>
+                        <div class="space-y-2">
+                            <p class="text-gray-600">IP Semester Lalu: 4.00</p>
+                            <p class="text-gray-600">IPK: 4.00</p>
+                            <p class="text-gray-600">Maks.Beban SKS: 24 SKS</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-gray-600">IPK: 4.00</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600">Maks.Beban SKS: 24 SKS</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Pencarian Mata Kuliah -->
-            <div class="relative mb-6">
-                <div class="relative">
-                    <input type="text"
-                           id="searchMataKuliah"
-                           placeholder="Cari Mata Kuliah"
-                           class="p-3 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                           autocomplete="off">
-                    <button class="absolute top-3 right-3">
-                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                    <!-- Pencarian Mata Kuliah -->
+                    <div class="relative">
+                        <div class="relative">
+                            <input type="text"
+                                   id="searchMataKuliah"
+                                   placeholder="Cari Mata Kuliah"
+                                   class="p-3 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                   autocomplete="off">
+                            <button class="absolute top-3 right-3">
+                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
 
-                <!-- Dropdown hasil pencarian -->
-                <div id="searchResults" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg">
-                    <div class="overflow-y-auto p-2 space-y-2 max-h-60">
-                        @if($mataKuliah && $mataKuliah->count() > 0)
-                            @foreach($mataKuliah as $mk)
-                            <div class="p-3 rounded-lg cursor-pointer hover:bg-gray-50 mata-kuliah-item"
-                                 data-kode="{{ $mk->kode_mk }}"
-                                 data-nama="{{ $mk->nama }}"
-                                 data-sks="{{ $mk->sks }}">
-                                <h3 class="font-medium">{{ $mk->nama }}</h3>
-                                <div class="flex justify-between items-center">
-                                    <p class="text-sm text-gray-600">{{ $mk->kode_mk }} SMT {{ $mk->semester }} {{ strtoupper($mk->sifat) }}</p>
-                                    <p class="text-sm text-gray-500">{{ $mk->sks }} SKS</p>
-                                </div>
+                        <!-- Dropdown hasil pencarian -->
+                        <div id="searchResults" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg">
+                            <div class="overflow-y-auto p-2 space-y-2 max-h-60">
+                                @if($mataKuliah && $mataKuliah->count() > 0)
+                                    @foreach($mataKuliah as $mk)
+                                    <div class="p-3 rounded-lg cursor-pointer hover:bg-gray-50 mata-kuliah-item"
+                                         data-kode="{{ $mk->kode_mk }}"
+                                         data-nama="{{ $mk->nama }}"
+                                         data-sks="{{ $mk->sks }}">
+                                        <h3 class="font-medium">{{ $mk->nama }}</h3>
+                                        <div class="flex justify-between items-center">
+                                            <p class="text-sm text-gray-600">{{ $mk->kode_mk }} SMT {{ $mk->semester }} {{ strtoupper($mk->sifat) }}</p>
+                                            <p class="text-sm text-gray-500">{{ $mk->sks }} SKS</p>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @else
+                                    <div class="p-3 text-center text-gray-500">
+                                        Tidak ada mata kuliah yang tersedia
+                                    </div>
+                                @endif
                             </div>
-                            @endforeach
-                        @else
-                            <div class="p-3 text-center text-gray-500">
-                                Tidak ada mata kuliah yang tersedia
+                        </div>
+                    </div>
+
+                    <!-- List Mata Kuliah yang Dipilih -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-4 border-b">
+                            <h2 class="text-lg font-semibold">List Mata Kuliah</h2>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3" id="selectedMataKuliah">
+                                <!-- Mata kuliah yang dipilih akan ditampilkan di sini -->
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- List Mata Kuliah yang Dipilih -->
-            <div class="mb-6 bg-white rounded-lg shadow">
-                <div class="p-4 border-b">
-                    <h2 class="text-lg font-semibold">List Mata Kuliah</h2>
-                </div>
-                <div class="p-4">
-                    <div class="space-y-3" id="selectedMataKuliah">
-                        <!-- Mata kuliah yang dipilih akan ditampilkan di sini -->
+                <!-- Kolom Kanan - Jadwal -->
+                <div class="w-2/3 bg-white rounded-lg shadow">
+                    <div class="grid grid-cols-6 border-b">
+                        <div class="p-4 font-semibold">Jam</div>
+                        <div class="p-4 font-semibold">Senin</div>
+                        <div class="p-4 font-semibold">Selasa</div>
+                        <div class="p-4 font-semibold">Rabu</div>
+                        <div class="p-4 font-semibold">Kamis</div>
+                        <div class="p-4 font-semibold">Jumat</div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Jadwal -->
-            <div class="bg-white rounded-lg shadow">
-                <div class="grid grid-cols-6 border-b">
-                    <div class="p-4 font-semibold">Jam</div>
-                    <div class="p-4 font-semibold">Senin</div>
-                    <div class="p-4 font-semibold">Selasa</div>
-                    <div class="p-4 font-semibold">Rabu</div>
-                    <div class="p-4 font-semibold">Kamis</div>
-                    <div class="p-4 font-semibold">Jumat</div>
-                </div>
+                    <div class="grid relative grid-cols-6">
+                        <!-- Kolom waktu -->
+                        <div class="border-r">
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">07:00 - 09:00</div>
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">09:00 - 11:00</div>
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">11:00 - 13:00</div>
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">13:00 - 15:00</div>
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">15:00 - 17:00</div>
+                            <div class="border-b h-[120px] px-4 py-2 text-sm">17:00 - 19:00</div>
+                        </div>
 
-                @php
-                $waktu = [
-                    '07:00' => ['height' => 60],
-                    '08:00' => ['height' => 60],
-                    '09:00' => ['height' => 60],
-                    '10:00' => ['height' => 60],
-                    '11:00' => ['height' => 60],
-                    '12:00' => ['height' => 60],
-                    '13:00' => ['height' => 60],
-                    '14:00' => ['height' => 60],
-                    '15:00' => ['height' => 60],
-                    '16:00' => ['height' => 60],
-                ];
-
-                $jadwal = [
-                    [
-                        'nama' => 'Proyek Perangkat Lunak',
-                        'kode' => 'WAJIB (PAIK6023)',
-                        'kelas' => 'Kelas : C 3/3 SKS',
-                        'waktu' => '07:00 - 09:30',
-                        'hari' => 'Kamis'
-                    ],
-                    [
-                        'nama' => 'Proyek Perangkat Lunak',
-                        'kode' => 'WAJIB (PAIK6023)',
-                        'kelas' => 'Kelas : D 3/3 SKS',
-                        'waktu' => '09:40 - 12:10',
-                        'hari' => 'Kamis'
-                    ],
-                    [
-                        'nama' => 'Proyek Perangkat Lunak',
-                        'kode' => 'WAJIB (PAIK6023)',
-                        'kelas' => 'Kelas : B 3/3 SKS',
-                        'waktu' => '13:00 - 15:30',
-                        'hari' => 'Rabu'
-                    ],
-                    [
-                        'nama' => 'Proyek Perangkat Lunak',
-                        'kode' => 'WAJIB (PAIK6023)',
-                        'kelas' => 'Kelas : A 3/3 SKS',
-                        'waktu' => '08:40 - 12:10',
-                        'hari' => 'Jumat'
-                    ],
-                ];
-                @endphp
-
-                <div class="grid relative grid-cols-6">
-                    <!-- Kolom waktu -->
-                    <div class="border-r">
-                        @foreach($waktu as $jam => $config)
-                            <div class="border-b h-[60px] px-4 py-2 text-sm">
-                                {{ $jam }}
+                        <!-- Kolom hari -->
+                        @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
+                            <div class="relative border-r" id="jadwal-{{ strtolower($hari) }}">
+                                <!-- Jadwal akan diisi melalui JavaScript -->
                             </div>
                         @endforeach
                     </div>
-
-                    <!-- Kolom hari -->
-                    @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
-                        <div class="relative border-r">
-                            @foreach($jadwal as $kelas)
-                                @if($kelas['hari'] == $hari)
-                                    @php
-                                        $waktuMulai = explode(' - ', $kelas['waktu'])[0];
-                                        $waktuSelesai = explode(' - ', $kelas['waktu'])[1];
-                                        $jamMulai = (int) explode(':', $waktuMulai)[0];
-                                        $menitMulai = (int) explode(':', $waktuMulai)[1];
-                                        $jamSelesai = (int) explode(':', $waktuSelesai)[0];
-                                        $menitSelesai = (int) explode(':', $waktuSelesai)[1];
-
-                                        $topPosition = ($jamMulai - 7) * 60 + $menitMulai;
-                                        $height = ($jamSelesai - $jamMulai) * 60 + ($menitSelesai - $menitMulai);
-                                    @endphp
-
-                                    <div class="absolute w-[95%] mx-1 bg-gray-100 rounded-lg p-2 text-xs"
-                                         style="top: {{ $topPosition }}px; height: {{ $height }}px;">
-                                        <p class="font-medium">{{ $kelas['nama'] }}</p>
-                                        <p class="text-gray-600">{{ $kelas['kode'] }}</p>
-                                        <p class="text-gray-600">{{ $kelas['kelas'] }}</p>
-                                        <p class="text-gray-500">{{ $kelas['waktu'] }}</p>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endforeach
                 </div>
             </div>
         </div>
