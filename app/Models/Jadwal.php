@@ -12,7 +12,7 @@ class Jadwal extends Model
     protected $table = 'jadwal';
 
     protected $fillable = [
-        'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'waktu',
+        'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'waktu_id',
     ];
 
     protected $with = ['waktu'];

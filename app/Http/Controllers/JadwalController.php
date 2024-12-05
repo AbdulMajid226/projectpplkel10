@@ -8,6 +8,8 @@ use App\Models\Dosen;
 use App\Models\Ruang;
 use App\Models\Jadwal;
 use App\Models\Waktu;
+use App\Models\Kelas;
+use App\Models\TahunAjaran;
 
 class JadwalController extends Controller
 {
@@ -18,8 +20,10 @@ class JadwalController extends Controller
         $ruangs = Ruang::all();
         $waktus = Waktu::all();
         $jadwals = Jadwal::with(['mataKuliah', 'ruang', 'waktu'])->get();
+        $kelas = Kelas::all();
+        $tahunAjaran = TahunAjaran::all();
 
-        return view('kaprodi.buat_jadwal', compact('mataKuliahs', 'dosens', 'ruangs', 'waktus', 'jadwals'));
+        return view('kaprodi.buat_jadwal', compact('mataKuliahs', 'dosens', 'ruangs', 'waktus', 'jadwals', 'kelas', 'tahunAjaran'));
     }
 
     public function store(Request $request)
@@ -65,6 +69,8 @@ class JadwalController extends Controller
         ]);
 
         $jadwal = Jadwal::findOrFail($id);
+        
+        // Update jadwal
         $jadwal->update([
             'kode_mk' => $request->mata_kuliah,
             'kode_ruang' => $request->ruang,
@@ -72,12 +78,14 @@ class JadwalController extends Controller
             'thn_ajaran' => $request->thn_ajaran,
             'hari' => $request->hari,
             'waktu_id' => $request->waktu_id,
+            'updated_at' => now() // Explicitly set updated_at
         ]);
 
-        // Update relasi dosen
+        // Update dosen relationships
         $jadwal->mataKuliah->pengampuanDosen()->sync($request->dosen);
 
-        return redirect()->back()->with('success', 'Jadwal berhasil diperbarui!');
+        return redirect()->route('buatjadwalkuliah')
+            ->with('success', 'Jadwal berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -89,5 +97,26 @@ class JadwalController extends Controller
 
         $jadwal->delete();
         return redirect()->back()->with('success', 'Jadwal berhasil dihapus!');
+    }
+
+    public function edit($id)
+    {
+        $jadwal = Jadwal::with(['mataKuliah', 'ruang', 'waktu'])->findOrFail($id);
+        $mataKuliahs = MataKuliah::all();
+        $dosens = Dosen::all();
+        $ruangs = Ruang::all();
+        $waktus = Waktu::all();
+        $kelas = Kelas::all();
+        $tahunAjaran = TahunAjaran::all();
+
+        return view('kaprodi.edit_jadwal', compact(
+            'jadwal', 
+            'mataKuliahs', 
+            'dosens', 
+            'ruangs', 
+            'waktus', 
+            'kelas', 
+            'tahunAjaran'
+        ));
     }
 }
