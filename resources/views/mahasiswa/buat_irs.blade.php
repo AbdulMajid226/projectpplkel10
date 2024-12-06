@@ -7,16 +7,18 @@
         <div class="flex flex-col justify-center items-center py-6 min-h-screen bg-gray-100">
             <div class="p-8 text-center bg-white rounded-lg shadow-md">
                 <svg class="mx-auto w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
                 <h2 class="mt-4 text-xl font-semibold text-gray-800">Anda Belum Bisa Membuat IRS</h2>
                 <p class="mt-2 text-gray-600">Status anda saat ini: {{ Auth::user()->mahasiswa->status }}</p>
-                <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
-                <a href="{{ route('registrasi_mhs') }}" 
-                   class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
-                    Lakukan Registrasi
-                </a>
+                @if(Auth::user()->mahasiswa->status !== 'Cuti')
+                    <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
+                    <a href="{{ route('registrasi_mhs') }}"
+                       class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                        Lakukan Registrasi
+                    </a>
+                @endif
             </div>
         </div>
     @else

@@ -31,6 +31,7 @@ Route::middleware('guest')->group(function () {
 
 //Mahasiswa
 Route::middleware(['auth', 'verified'])->group(function () {
+    //dashboard mahasiswa
     Route::get('/dashboard_mhs', function () {
         $mahasiswa = Mahasiswa::with('pembimbingAkademik')
                              ->where('user_id', Auth::id())
@@ -39,25 +40,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('mahasiswa.dashboard', compact('mahasiswa'));
     })->name('dashboard_mhs');
 
-    Route::get('/irs_mhs', function () {
-        return view('mahasiswa.irs');
-    })->name('irs_mhs');
-
+    //Registrasi mahasiswa
     Route::get('/registrasi_mhs', function () {
         return view('mahasiswa.registrasi');
     })->name('registrasi_mhs');
-
-    Route::get('/khs_mhs', function () {
-        return view('mahasiswa.khs');
-    })->name('khs_mhs');
-
-    Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
 
     Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
         ->name('mahasiswa.aktif');
 
     Route::post('/mahasiswa/cuti', [App\Http\Controllers\MahasiswaController::class, 'setStatusCuti'])
         ->name('mahasiswa.ajukan-cuti');
+
+    //Buat IRS mahasiswa
+    Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
+
+    //IRS mahasiswa
+    Route::get('/irs_mhs', function () {
+        return view('mahasiswa.irs');
+    })->name('irs_mhs');
+
+    //KHS mahasiswa
+    Route::get('/khs_mhs', function () {
+        return view('mahasiswa.khs');
+    })->name('khs_mhs');
+
+
+
+
 });
 
 //Pembimbing Akademik
