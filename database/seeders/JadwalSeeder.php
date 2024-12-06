@@ -19,6 +19,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -28,6 +29,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -37,6 +39,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -46,6 +49,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
 
         //Matkul Dasar Pemrograman kelas A , B , C , D
@@ -57,6 +61,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -66,6 +71,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Selasa',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -75,6 +81,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -84,6 +91,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
-    }
+}
 }

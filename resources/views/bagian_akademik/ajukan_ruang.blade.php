@@ -27,9 +27,9 @@
                         <select name="program_studi"
                             class="p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" required>
                             <option value="">Pilih Program Studi</option>
-                            <option value="IF">Informatika</option>
-                            <option value="SI">Sistem Informasi</option>
-                            <option value="TI">Teknik Industri</option>
+                            @foreach($getProgramStudis as $prodi)
+                                <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>

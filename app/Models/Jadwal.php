@@ -12,10 +12,23 @@ class Jadwal extends Model
     protected $table = 'jadwal';
 
     protected $fillable = [
-        'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'waktu',
+        'kode_mk', 'kode_ruang', 'kelas', 'kuota', 'thn_ajaran', 'hari', 'status', 'waktu_id',
     ];
 
     protected $with = ['waktu'];
+
+    const STATUS_MENUNGGU = 'Menunggu Persetujuan';
+    const STATUS_DISETUJUI = 'Sudah Disetujui';
+    const STATUS_DITOLAK = 'Ditolak';
+
+    public static function getStatusOptions()
+    {
+        return [
+            self::STATUS_MENUNGGU,
+            self::STATUS_DISETUJUI,
+            self::STATUS_DITOLAK,
+        ];
+    }
 
     public function mataKuliah()
     {
