@@ -7,6 +7,7 @@ use App\Models\IRS;
 use App\Models\MataKuliah;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Jadwal;
 
 class IRSController extends Controller
 {
@@ -19,7 +20,6 @@ class IRSController extends Controller
             if (!$mahasiswa) {
                 throw new \Exception('Data mahasiswa tidak ditemukan');
             }
-
             // Ambil semester aktif mahasiswa
             $semesterAktif = $mahasiswa->semester_aktif;
 
@@ -31,9 +31,14 @@ class IRSController extends Controller
             ->where('kode_prodi', $mahasiswa->kode_prodi)
             ->get();
 
+            $jadwal = Jadwal::with(['mataKuliah', 'waktu'])
+            ->where('status', 'Sudah Disetujui')
+            ->get();
+
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => $mahasiswa,
-                'mataKuliah' => $mataKuliah
+                'mataKuliah' => $mataKuliah,
+                'jadwal' => $jadwal
             ]);
 
         } catch (\Exception $e) {
