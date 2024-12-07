@@ -47,4 +47,84 @@ class IRSController extends Controller
                 ->with('error', 'Terjadi kesalahan saat memuat data: ' . $e->getMessage());
         }
     }
+
+    public function getIRSByStatus($status)
+    {
+        try {
+            if ($status == 'Belum Mengisi') {
+                return IRS::with(['mahasiswa' => function($query) {
+                    $query->select('nim', 'nama', 'angkatan', 'status');
+                }])
+                ->where('status_persetujuan', $status)
+                ->get();
+            }
+            return IRS::where('status_persetujuan', $status)->get();
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil data IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function countByStatus($status)
+    {
+        try {
+            return IRS::where('status_persetujuan', $status)->count();
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    public function approve($id)
+    {
+        try {
+            $irs = IRS::findOrFail($id);
+            $irs->update([
+                'status_persetujuan' => 'Sudah Disetujui',
+                'tanggal_persetujuan' => now()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'IRS berhasil disetujui',
+                'newCounts' => [
+                    'belumMengisi' => $this->countByStatus('Belum Mengisi'),
+                    'menungguPersetujuan' => $this->countByStatus('Menunggu Persetujuan'),
+                    'disetujui' => $this->countByStatus('Sudah Disetujui')
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyetujui IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function cancelApproval($id)
+    {
+        try {
+            $irs = IRS::findOrFail($id);
+            $irs->update([
+                'status_persetujuan' => 'Menunggu Persetujuan',
+                'tanggal_persetujuan' => null
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Persetujuan IRS berhasil dibatalkan',
+                'newCounts' => [
+                    'belumMengisi' => $this->countByStatus('Belum Mengisi'),
+                    'menungguPersetujuan' => $this->countByStatus('Menunggu Persetujuan'),
+                    'disetujui' => $this->countByStatus('Sudah Disetujui')
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membatalkan persetujuan IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <!-- Informasi Tahun  -->
-    <div class="flex flex-wrap gap-4 mb-6">
+    <!-- Informasi Tahun  >
+    <div-- class="flex flex-wrap gap-4 mb-6">
         <select class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500">
             <option>Pilih Tahun Ajaran</option>
             <option>2023/2024 Ganjil</option>
@@ -23,7 +23,7 @@
             <option>2024/2025 Ganjil</option>
             <option>2024/2025 Genap</option>
         </select>
-    </div>
+    </div-->
 
     <!-- Card Rekapan Status IRS -->
     <div class="p-6 mb-8 shadow-lg bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">
@@ -34,7 +34,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Belum Mengisi</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $jumlahstatus['belumMengisi'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="belumMengisi">{{ $jumlahstatus['belumMengisi'] }}</p>
                     </div>
                     <div class="p-3 bg-red-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +49,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Menunggu Persetujuan</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $jumlahstatus['menungguPersetujuan'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="menungguPersetujuan">{{ $jumlahstatus['menungguPersetujuan'] }}</p>
                     </div>
                     <div class="p-3 bg-yellow-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +64,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Sudah Disetujui</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $jumlahstatus['disetujui'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="disetujui">{{ $jumlahstatus['disetujui'] }}</p>
                     </div>
                     <div class="p-3 bg-green-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -127,9 +127,16 @@
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
                         <td class="px-4 py-2 border border-gray-300">
-                            <button class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
-                            <button class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
-                            <button class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button>
+                            <button
+                                onclick="approveIRS({{ $irs->id }})"
+                                class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">
+                                Setujui
+                            </button>
+                            <button
+                                class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                                onclick="showDetail({{ $irs->id }})">
+                                Detail
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -149,7 +156,7 @@
                         <th class="px-4 py-2 border border-gray-300 w-[10%]">NIM</th>
                         <th class="px-4 py-2 border border-gray-300 w-[5%]">Angkatan</th>
                         <th class="px-4 py-2 border border-gray-300 w-[5%]">SKS</th>
-                        <th class="px-4 py-2 border border-gray-300 w-[20%]">Detail</th>
+                        <th class="px-4 py-2 border border-gray-300 w-[20%]">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,7 +168,16 @@
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
                         <td class="px-4 py-2 border border-gray-300">
-                            <button class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">Lihat Detail</button>
+                            <button
+                                class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                                onclick="showDetail({{ $irs->id }})">
+                                Detail
+                            </button>
+                            <button
+                                class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                                onclick="cancelApproval({{ $irs->id }})">
+                                Batalkan Persetujuan
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -170,8 +186,136 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+
+            <!-- Modal Content -->
+            <div class="relative z-50 w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-xl">
+                <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900" id="modalTitle">
+                        Konfirmasi
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500" id="modalMessage">
+                            Apakah Anda yakin ingin menyetujui IRS ini?
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="confirmButton"
+                        class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Ya, Setuju
+                    </button>
+                    <button type="button" id="cancelButton"
+                        class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script untuk toggle tabel -->
     <script>
+        function showModal(title, message, confirmCallback) {
+            const modal = document.getElementById('confirmModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const confirmButton = document.getElementById('confirmButton');
+            const cancelButton = document.getElementById('cancelButton');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            // Show modal
+            modal.classList.remove('hidden');
+
+            // Handle confirm button
+            confirmButton.onclick = () => {
+                modal.classList.add('hidden');
+                confirmCallback();
+            };
+
+            // Handle cancel button
+            cancelButton.onclick = () => {
+                modal.classList.add('hidden');
+            };
+        }
+
+        function approveIRS(irsId) {
+            showModal(
+                'Konfirmasi Persetujuan',
+                'Apakah Anda yakin ingin menyetujui IRS ini?',
+                () => {
+                    fetch(`/irs/approve/${irsId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update jumlah status
+                            document.querySelector('[data-status="belumMengisi"]').textContent = data.newCounts.belumMengisi;
+                            document.querySelector('[data-status="menungguPersetujuan"]').textContent = data.newCounts.menungguPersetujuan;
+                            document.querySelector('[data-status="disetujui"]').textContent = data.newCounts.disetujui;
+
+                            // Refresh halaman untuk memperbarui tabel
+                            window.location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menyetujui IRS');
+                    });
+                }
+            );
+        }
+
+        function cancelApproval(irsId) {
+            showModal(
+                'Konfirmasi Pembatalan',
+                'Apakah Anda yakin ingin membatalkan persetujuan IRS ini?',
+                () => {
+                    fetch(`/irs/cancel/${irsId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update jumlah status
+                            document.querySelector('[data-status="belumMengisi"]').textContent = data.newCounts.belumMengisi;
+                            document.querySelector('[data-status="menungguPersetujuan"]').textContent = data.newCounts.menungguPersetujuan;
+                            document.querySelector('[data-status="disetujui"]').textContent = data.newCounts.disetujui;
+
+                            // Refresh halaman untuk memperbarui tabel
+                            window.location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat membatalkan persetujuan IRS');
+                    });
+                }
+            );
+        }
+
+        function showDetail(irsId) {
+            // Implementasi untuk menampilkan detail IRS
+            alert('Fitur detail akan segera tersedia');
+        }
+
         function toggleTable(status) {
             // Sembunyikan semua tabel terlebih dahulu
             document.getElementById('table-belum').classList.add('hidden');
