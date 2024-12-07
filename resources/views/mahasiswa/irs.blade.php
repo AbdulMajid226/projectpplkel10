@@ -11,17 +11,17 @@
             <div>
                 <div class="mb-4">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">Nama</label>
-                    <p class="text-base font-medium text-gray-900">Alice Bob</p>
+                    <p class="text-base font-medium text-gray-900">{{ auth()->user()->mahasiswa->nama }}</p>
                 </div>
                 <div class="mb-1">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">NIM</label>
-                    <p class="text-base font-medium text-gray-900">24060122130099</p>
+                    <p class="text-base font-medium text-gray-900">{{ auth()->user()->mahasiswa->nim }}</p>
                 </div>
             </div>
             <div>
                 <div class="mb-4">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">Angkatan</label>
-                    <p class="text-base font-medium text-gray-900">2022</p>
+                    <p class="text-base font-medium text-gray-900">{{ auth()->user()->mahasiswa->angkatan }}</p>
                 </div>
                 <div class="mb-1">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">IPS (Semester Lalu)</label>
@@ -32,90 +32,68 @@
 
         <!-- Semester Sections -->
         <div class="space-y-2">
-            @php
-            $semesters = [
-                [
-                    'semester' => 1, 
-                    'tahun' => '2022/2023', 
-                    'periode' => 'Ganjil', 
-                    'sks' => 10,
-                    'matakuliah' => [
-                        ['kode_mk' => 'PAIK6501', 'nama_mk' => 'Pengembangan Berbasis Platform', 'semester' => '1', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '4'],
-                        ['kode_mk' => 'PAIK6502', 'nama_mk' => 'Komputasi Tersebar dan Paralel', 'semester' => '1', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6503', 'nama_mk' => 'Sistem Informasi', 'semester' => '1', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3']
-                    ]
-                ],
-                [
-                    'semester' => 2, 
-                    'tahun' => '2022/2023', 
-                    'periode' => 'Genap', 
-                    'sks' => 9,
-                    'matakuliah' => [
-                        ['kode_mk' => 'PAIK6504', 'nama_mk' => 'Proyek Perangkat Lunak', 'semester' => '2', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6505', 'nama_mk' => 'Pembelajaran Mesin', 'semester' => '2', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6506', 'nama_mk' => 'Keamanan Jaminan dan Informasi', 'semester' => '2', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3']
-                    ]
-                ],
-                [
-                    'semester' => 3, 
-                    'tahun' => '2023/2024', 
-                    'periode' => 'Ganjil', 
-                    'sks' => 10,
-                    'matakuliah' => [
-                        ['kode_mk' => 'PAIK6501', 'nama_mk' => 'Pengembangan Berbasis Platform', 'semester' => '3', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '4'],
-                        ['kode_mk' => 'PAIK6502', 'nama_mk' => 'Komputasi Tersebar dan Paralel', 'semester' => '3', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6503', 'nama_mk' => 'Sistem Informasi', 'semester' => '3', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3']
-                    ]
-                ],
-                [
-                    'semester' => 4, 
-                    'tahun' => '2023/2024', 
-                    'periode' => 'Genap', 
-                    'sks' => 9,
-                    'matakuliah' => [
-                        ['kode_mk' => 'PAIK6504', 'nama_mk' => 'Proyek Perangkat Lunak', 'semester' => '4', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6505', 'nama_mk' => 'Pembelajaran Mesin', 'semester' => '4', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6506', 'nama_mk' => 'Keamanan Jaminan dan Informasi', 'semester' => '4', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3']
-                    ]
-                ],
-                [
-                    'semester' => 5, 
-                    'tahun' => '2024/2025', 
-                    'periode' => 'Ganjil', 
-                    'sks' => 19,
-                    'matakuliah' => [
-                        ['kode_mk' => 'PAIK6501', 'nama_mk' => 'Pengembangan Berbasis Platform', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '4'],
-                        ['kode_mk' => 'PAIK6502', 'nama_mk' => 'Komputasi Tersebar dan Paralel', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6503', 'nama_mk' => 'Sistem Informasi', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6504', 'nama_mk' => 'Proyek Perangkat Lunak', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6505', 'nama_mk' => 'Pembelajaran Mesin', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3'],
-                        ['kode_mk' => 'PAIK6506', 'nama_mk' => 'Keamanan Jaminan dan Informasi', 'semester' => '5', 'kelas' => 'D', 'status' => 'Baru', 'sks' => '3']
-                    ]
-                ]
-            ];
-            @endphp
-
-            @foreach($semesters as $sem)
+            @foreach($irs_data as $irs_per_semester)
             <div class="border rounded-lg overflow-hidden">
                 <button class="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none flex justify-between items-center" 
-                        onclick="toggleSemester({{ $sem['semester'] }})">
+                        onclick="toggleSemester({{ $irs_per_semester['semester'] }})">
                     <div class="flex items-center space-x-4">
-                        <span class="text-lg font-semibold text-blue-600">Semester-{{ $sem['semester'] }}</span>
+                        <span class="text-lg font-semibold text-blue-600">Semester-{{ $irs_per_semester['semester'] }}</span>
                         <span class="text-gray-600">|</span>
-                        <span class="text-gray-800">Tahun Ajaran {{ $sem['tahun'] }} {{ $sem['periode'] }}</span>
+                        <span class="text-gray-800">Tahun Ajaran {{ $irs_per_semester['thn_ajaran'] }}</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <span class="text-gray-600">Jumlah SKS {{ $sem['sks'] }}</span>
-                        <svg class="w-5 h-5 transform transition-transform" id="arrow-{{ $sem['semester'] }}"
+                        <span class="text-gray-600">
+                            @php
+                                $totalSks = $irs_per_semester['matakuliah']->sum('sks');
+                            @endphp
+                            Jumlah SKS {{ $totalSks }}
+                        </span>
+                        <svg class="w-5 h-5 transform transition-transform" id="arrow-{{ $irs_per_semester['semester'] }}"
                              fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
                 </button>
 
-                <div class="hidden" id="semester-{{ $sem['semester'] }}-content">
-                    @include('mahasiswa.irs_table', ['matakuliah' => $sem['matakuliah']])
-                    
+                <div class="hidden" id="semester-{{ $irs_per_semester['semester'] }}-content">
+                    <!-- Tabel Mata Kuliah -->
+                    <div class="bg-white">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">No</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kode Mata Kuliah</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Nama Mata Kuliah</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Semester</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kelas</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Status</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">SKS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach($irs_per_semester['matakuliah'] as $index => $mk)
+                                <tr>
+                                    <td class="px-6 py-4">{{ $index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ $mk['kode_mk'] }}</td>
+                                    <td class="px-6 py-4">{{ $mk['nama_mk'] }}</td>
+                                    <td class="px-6 py-4">{{ $mk['semester'] }}</td>
+                                    <td class="px-6 py-4">{{ $mk['kelas'] }}</td>
+                                    <td class="px-6 py-4">{{ $mk['status_pengambilan'] }}</td>
+                                    <td class="px-6 py-4">{{ $mk['sks'] }}</td>
+                                </tr>
+                                @endforeach
+                                
+                                <!-- Baris Total SKS -->
+                                <tr class="bg-gray-50 font-semibold">
+                                    <td colspan="6" class="px-6 py-4 text-right">Total SKS:</td>
+                                    <td class="px-6 py-4">
+                                        {{ $totalSks }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+
                     <!-- Tombol Print PDF -->
                     <div class="bg-gray-50 px-6 py-3 border-t">
                         <button type="button" 

@@ -13,6 +13,8 @@ class IRS extends Model
 
     protected $fillable = [
         'nim',
+        'semester',
+        'thn_ajaran',
         'status_persetujuan',
         'tanggal_persetujuan',
     ];
@@ -29,6 +31,13 @@ class IRS extends Model
 
     public function pengambilanIrs()
     {
-        return $this->hasMany(PengambilanIRS::class, 'id_irs');
+        if ($status == 'Belum Mengisi') {
+            return self::with(['mahasiswa' => function($query) {
+            $query->select('nim', 'nama', 'angkatan', 'status');
+            }])
+        ->where('status_persetujuan', $status)
+        ->get();
     }
+     return self::where('status_persetujuan', $status)->get();
+}
 }
