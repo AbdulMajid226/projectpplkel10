@@ -16,6 +16,7 @@ class PengambilanIRS extends Model
     protected $fillable = [
         'id_irs',
         'id_jadwal',
+        'status_pengambilan'
     ];
 
     // Tambahkan relasi ke model Jadwal

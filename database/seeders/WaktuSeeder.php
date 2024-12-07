@@ -13,23 +13,23 @@ class WaktuSeeder extends Seeder
         Waktu::create([
             'id' => 1,
             'waktu_mulai' => '07:00',
-            'waktu_selesai' => '09:00',
+            'waktu_selesai' => '09:30',
         ]);
 
         Waktu::create([
             'id' => 2,
-            'waktu_mulai' => '09:00',
-            'waktu_selesai' => '11:00',
+            'waktu_mulai' => '09:40',
+            'waktu_selesai' => '12:10',
         ]);
         Waktu::create([
             'id' => 3,
             'waktu_mulai' => '13:00',
-            'waktu_selesai' => '15:00',
+            'waktu_selesai' => '15:30',
         ]);
         Waktu::create([
             'id' => 4,
-            'waktu_mulai' => '15:00',
-            'waktu_selesai' => '17:00',
+            'waktu_mulai' => '15:40',
+            'waktu_selesai' => '18:10',
         ]);
 
 

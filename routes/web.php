@@ -65,6 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Buat IRS mahasiswa
     Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
+    Route::post('/buat_irs_mhs', [IRSController::class, 'storePengambilanIRS'])->name('mahasiswa.store_pengambilan_irs');
 
     //KHS mahasiswa
     Route::get('/khs_mhs', function () {

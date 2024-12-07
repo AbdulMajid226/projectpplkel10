@@ -8,6 +8,7 @@ use App\Models\MataKuliah;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Jadwal;
+use App\Models\PengambilanIRS;
 
 class IRSController extends Controller
 {
@@ -20,25 +21,42 @@ class IRSController extends Controller
             if (!$mahasiswa) {
                 throw new \Exception('Data mahasiswa tidak ditemukan');
             }
+
             // Ambil semester aktif mahasiswa
             $semesterAktif = $mahasiswa->semester_aktif;
 
             // Ambil mata kuliah sesuai semester beserta jadwalnya
             $mataKuliah = MataKuliah::with(['jadwal' => function($query) {
-                $query->with('waktu'); // Load relasi waktu
+                $query->with(['waktu', 'ruang'])
+                      ->where('status', 'Sudah Disetujui');
             }])
             ->where('semester', $semesterAktif)
             ->where('kode_prodi', $mahasiswa->kode_prodi)
             ->get();
 
-            $jadwal = Jadwal::with(['mataKuliah', 'waktu'])
-            ->where('status', 'Sudah Disetujui')
-            ->get();
+            // Ambil semua jadwal yang sudah disetujui
+            $jadwal = Jadwal::with(['mataKuliah', 'waktu', 'ruang'])
+                            ->where('status', 'Sudah Disetujui')
+                            ->get();
+
+            // Kirim data jadwal dengan format yang benar
+            $jadwalData = $jadwal->map(function($j) {
+                return [
+                    'id' => $j->id, // Tambahkan id jadwal
+                    'kode_mk' => $j->kode_mk,
+                    'nama_mk' => $j->mataKuliah->nama,
+                    'hari' => $j->hari,
+                    'waktu_mulai' => $j->waktu->waktu_mulai,
+                    'waktu_selesai' => $j->waktu->waktu_selesai,
+                    'kelas' => $j->kelas,
+                    'ruang' => $j->ruang->kode_ruang
+                ];
+            });
 
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => $mahasiswa,
                 'mataKuliah' => $mataKuliah,
-                'jadwal' => $jadwal
+                'jadwal' => $jadwalData // Kirim jadwalData yang sudah diformat
             ]);
 
         } catch (\Exception $e) {
@@ -146,6 +164,45 @@ class IRSController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal mengambil detail IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storePengambilanIRS(Request $request)
+    {
+        try {
+            $mahasiswa = Auth::user()->mahasiswa;
+
+            // Cek apakah sudah ada IRS untuk semester ini
+            $irs = IRS::where('nim', $mahasiswa->nim)
+                      ->where('semester', $mahasiswa->semester_aktif)
+                      ->first();
+
+            // Jika belum ada, buat IRS baru
+            if (!$irs) {
+                $irs = IRS::create([
+                    'nim' => $mahasiswa->nim,
+                    'semester' => $mahasiswa->semester_aktif,
+                    'thn_ajaran' => $mahasiswa->tahun_ajaran_aktif,
+                    'status_persetujuan' => 'Menunggu Persetujuan'
+                ]);
+            }
+
+            // Simpan pengambilan jadwal
+            $pengambilanIRS = PengambilanIRS::create([
+                'id_irs' => $irs->id,
+                'id_jadwal' => $request->jadwal_id,
+                'status_pengambilan' => 'Baru'
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Jadwal berhasil dipilih'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memilih jadwal: ' . $e->getMessage()
             ], 500);
         }
     }

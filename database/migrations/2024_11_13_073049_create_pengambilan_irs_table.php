@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pengambilan_irs', function (Blueprint $table) {
             $table->foreignId('id_irs')->constrained('irs')->onDelete('cascade');
             $table->foreignId('id_jadwal')->constrained('jadwal')->onDelete('cascade');
-            $table->enum('status_pengambilan', ['Baru', 'Perbaikan', 'Mengulang'])->default('baru');
+            $table->enum('status_pengambilan', ['Baru', 'Perbaikan', 'Mengulang'])->default('Baru');
             $table->timestamps();
         });
     }
