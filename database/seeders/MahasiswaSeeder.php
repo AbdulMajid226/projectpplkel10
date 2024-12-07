@@ -19,7 +19,7 @@ class MahasiswaSeeder extends Seeder
                 'nidn' => '123456',
                 'user_id' => 2,
                 'status' => 'BelumRegistrasi',
-                'semester_aktif' => 1
+                'semester_aktif' => 5
             ],
             [
                 'nim' => '24060122130002',

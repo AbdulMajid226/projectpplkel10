@@ -11,7 +11,6 @@ use App\Models\Mahasiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use App\Models\IRS;
-use App\Http\Controllers\IRSController;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -40,7 +39,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard_mhs');
 
     Route::get('/irs_mhs', function () {
-        return view('mahasiswa.irs');
+        $nim = Auth::user()->mahasiswa->nim;
+        $jumlah_semester = IRS::countIRSByNIM($nim);
+        
+        $irs_data = IRS::getIRSByNIM($nim);
+        
+        return view('mahasiswa.irs', compact('jumlah_semester', 'irs_data'));
     })->name('irs_mhs');
 
     Route::get('/registrasi_mhs', function () {
@@ -50,8 +54,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/khs_mhs', function () {
         return view('mahasiswa.khs');
     })->name('khs_mhs');
-
-    Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
 
     Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
         ->name('mahasiswa.aktif');

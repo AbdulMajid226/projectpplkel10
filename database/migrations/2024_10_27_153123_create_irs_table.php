@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('irs', function (Blueprint $table) {
             $table->id();
             $table->string('nim');
+            $table->integer('semester');
+            $table->string('thn_ajaran');
             $table->string('status_persetujuan')->default('Belum Mengisi');
             $table->date('tanggal_persetujuan')->nullable();
             $table->timestamps();
@@ -30,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('irs');
     }
 };
+
