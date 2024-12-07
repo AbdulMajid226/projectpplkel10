@@ -39,7 +39,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('mahasiswa.dashboard', compact('mahasiswa'));
     })->name('dashboard_mhs');
 
-<<<<<<< HEAD
     Route::get('/irs_mhs', function () {
         $nim = Auth::user()->mahasiswa->nim;
         $jumlah_semester = IRS::countIRSByNIM($nim);
@@ -49,20 +48,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('mahasiswa.irs', compact('jumlah_semester', 'irs_data'));
     })->name('irs_mhs');
 
-=======
     //Registrasi mahasiswa
->>>>>>> main
     Route::get('/registrasi_mhs', function () {
         return view('mahasiswa.registrasi');
     })->name('registrasi_mhs');
 
-<<<<<<< HEAD
     Route::get('/khs_mhs', function () {
         return view('mahasiswa.khs');
     })->name('khs_mhs');
 
-=======
->>>>>>> main
     Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
         ->name('mahasiswa.aktif');
 
