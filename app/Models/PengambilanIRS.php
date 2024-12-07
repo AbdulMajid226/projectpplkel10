@@ -18,4 +18,15 @@ class PengambilanIRS extends Model
         'id_jadwal',
     ];
 
+    // Tambahkan relasi ke model Jadwal
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'id_jadwal');
+    }
+
+    // Tambahkan relasi ke model IRS
+    public function irs()
+    {
+        return $this->belongsTo(IRS::class, 'id_irs');
+    }
 }

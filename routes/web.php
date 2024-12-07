@@ -67,33 +67,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Buat IRS mahasiswa
     Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
 
-    //IRS mahasiswa
-    // Route::get('/irs_mhs', function () {
-    //     return view('mahasiswa.irs');
-    // })->name('irs_mhs');
-
     //KHS mahasiswa
     Route::get('/khs_mhs', function () {
         return view('mahasiswa.khs');
     })->name('khs_mhs');
 
+    // Tambahkan route baru dalam group middleware auth
+    Route::post('/irs/approve/{id}', [IRSController::class, 'approve'])->name('irs.approve');
 
+    Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
 
+    Route::get('/irs/detail/{id}', [IRSController::class, 'getDetail'])->name('irs.detail');
 
 });
 
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
+    $irsController = new IRSController();
+
     $jumlahstatus = [
-        'belumMengisi' => IRS::countByStatus('Belum Mengisi'),
-        'menungguPersetujuan' => IRS::countByStatus('Menunggu Persetujuan'),
-        'disetujui' => IRS::countByStatus('Sudah Disetujui')
+        'belumMengisi' => $irsController->countByStatus('Belum Mengisi'),
+        'menungguPersetujuan' => $irsController->countByStatus('Menunggu Persetujuan'),
+        'disetujui' => $irsController->countByStatus('Sudah Disetujui')
     ];
 
     $irsData = [
-        'belumMengisi' => IRS::getIRSByStatus('Belum Mengisi'),
-        'menungguPersetujuan' => IRS::getIRSByStatus('Menunggu Persetujuan'),
-        'disetujui' => IRS::getIRSByStatus('Sudah Disetujui')
+        'belumMengisi' => $irsController->getIRSByStatus('Belum Mengisi'),
+        'menungguPersetujuan' => $irsController->getIRSByStatus('Menunggu Persetujuan'),
+        'disetujui' => $irsController->getIRSByStatus('Sudah Disetujui')
     ];
 
     return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData'));
