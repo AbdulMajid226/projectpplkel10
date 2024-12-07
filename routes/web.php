@@ -44,7 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $nim = Auth::user()->mahasiswa->nim;
         $jumlah_semester = IRS::countIRSByNIM($nim);
         $irs_data = IRS::getIRSByNIM($nim);
-        
+
         return view('mahasiswa.irs', compact('jumlah_semester', 'irs_data'));
     })->name('irs_mhs');
 
@@ -65,11 +65,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Buat IRS mahasiswa
     Route::get('/buat_irs_mhs', [IRSController::class, 'create'])->name('mahasiswa.buat_irs');
-
-    //IRS mahasiswa
-    Route::get('/irs_mhs', function () {
-        return view('mahasiswa.irs');
-    })->name('irs_mhs');
 
     //KHS mahasiswa
     Route::get('/khs_mhs', function () {
