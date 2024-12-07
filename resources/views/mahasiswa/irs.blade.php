@@ -87,9 +87,6 @@
                                 <tr class="bg-gray-50 font-semibold">
                                     <td colspan="6" class="px-6 py-4 text-right">Total SKS:</td>
                                     <td class="px-6 py-4">
-                                        @php
-                                        $totalSks = $irs_per_semester['matakuliah']->sum('sks');
-                                        @endphp
                                         {{ $totalSks }}
                                     </td>
                                 </tr>

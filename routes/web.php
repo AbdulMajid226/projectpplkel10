@@ -43,7 +43,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/irs_mhs', function () {
         $nim = Auth::user()->mahasiswa->nim;
         $jumlah_semester = IRS::countIRSByNIM($nim);
-        
         $irs_data = IRS::getIRSByNIM($nim);
         
         return view('mahasiswa.irs', compact('jumlah_semester', 'irs_data'));
