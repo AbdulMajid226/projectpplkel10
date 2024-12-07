@@ -136,9 +136,11 @@
                         <select name="ruang" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('ruang') border-red-500 @enderror">
                             <option value="">Pilih Ruang</option>
                             @foreach($ruangs as $ruang)
-                                <option value="{{ $ruang->kode_ruang }}" {{ old('ruang') == $ruang->kode_ruang ? 'selected' : '' }}>
-                                    {{ $ruang->kode_ruang }}
-                                </option>
+                                @if($ruang->status === 'disetujui')
+                                    <option value="{{ $ruang->kode_ruang }}" {{ old('ruang') == $ruang->kode_ruang ? 'selected' : '' }}>
+                                        {{ $ruang->kode_ruang }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                         @error('ruang')

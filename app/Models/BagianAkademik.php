@@ -9,7 +9,7 @@ class BagianAkademik extends Model
 {
     use HasFactory;
 
-    protected $table = 'bagian_akademik'; 
+    protected $table = 'bagian_akademik';
     protected $fillable = ['nama', 'user_id', 'kode_fakultas'];
 
     public function fakultas()
@@ -21,4 +21,9 @@ class BagianAkademik extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function getProgramStudi(){
+        return $this->hasMany(ProgramStudi::class, 'kode_fakultas', 'kode_fakultas');
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ruang;
 use App\Models\ProgramStudi;
+use Illuminate\Support\Facades\Auth;
 
 class RuangController extends Controller
 {
@@ -50,9 +51,12 @@ class RuangController extends Controller
             'kuota' => 'required|integer|min:1',
         ]);
 
+        $programStudi = ProgramStudi::where('kode_prodi', $request->input('program_studi'))->firstOrFail();
+
         Ruang::create([
             'kode_ruang' => $request->input('kode_ruang'),
-            'kode_prodi' => $request->input('program_studi'),
+            'kode_prodi' => $programStudi->kode_prodi,
+            'kode_fakultas' => $programStudi->kode_fakultas,
             'kuota' => $request->input('kuota'),
             'status' => 'BelumDisetujui',
         ]);
@@ -62,18 +66,23 @@ class RuangController extends Controller
 
     public function index()
     {
-        $ruangs = Ruang::all(); // Mengambil semua data ruang
-        return view('bagian_akademik.ajukan_ruang', compact('ruangs'));
+        $bagianAkademik = auth('web')->user()->bagianAkademik;
+        $getProgramStudis = $bagianAkademik->getProgramStudi; // Mengambil data program studi berdasarkan fakultas dari bagian akademik
+        $ruangs = Ruang::where('kode_fakultas', $bagianAkademik->kode_fakultas)->get();
+        return view('bagian_akademik.ajukan_ruang', compact('ruangs', 'getProgramStudis'));
     }
 
     public function dashboard()
     {
-        $approvedCount = Ruang::where('status', 'disetujui')->count();
-        $pendingCount = Ruang::where('status', 'BelumDisetujui')->count();
-        $rejectedCount = Ruang::where('status', 'ditolak')->count();
-        $ruangs = Ruang::with('programStudi')->get();
 
-        return view('bagian_akademik.dashboard', compact('approvedCount', 'pendingCount', 'rejectedCount', 'ruangs'));
+        $bagianAkademik = auth('web')->user()->bagianAkademik;
+        $getProgramStudis = $bagianAkademik->getProgramStudi;
+        $ruangs = Ruang::where('kode_fakultas', $bagianAkademik->kode_fakultas)->get();
+        $approvedCount = $ruangs->where('status', 'disetujui')->count();
+        $pendingCount = $ruangs->where('status', 'BelumDisetujui')->count();
+        $rejectedCount = $ruangs->where('status', 'ditolak')->count();
+
+        return view('bagian_akademik.dashboard', compact('approvedCount', 'pendingCount', 'rejectedCount', 'ruangs','getProgramStudis'));
     }
 
     public function destroy($kodeRuang)
@@ -87,7 +96,9 @@ class RuangController extends Controller
     public function edit($kodeRuang)
     {
         $ruang = Ruang::with('programStudi')->findOrFail($kodeRuang);
-        $programStudis = ProgramStudi::all();
+
+        $bagianAkademik = auth('web')->user()->bagianAkademik;
+        $programStudis = $bagianAkademik->getProgramStudi;
 
         return response()->json([
             'ruang' => $ruang,
@@ -104,11 +115,14 @@ class RuangController extends Controller
                 'kuota' => 'required|integer|min:1',
             ]);
 
+            $programStudi = ProgramStudi::where('kode_prodi', $request->input('program_studi'))->firstOrFail();
+
             $ruang = Ruang::findOrFail($kodeRuang);
 
             $updated = $ruang->update([
                 'kode_ruang' => $request->kode_ruang,
-                'kode_prodi' => $request->program_studi,
+                'kode_prodi' => $programStudi->kode_prodi,
+                'kode_fakultas' => $programStudi->kode_fakultas,
                 'kuota' => $request->kuota,
                 'status' => 'BelumDisetujui'
             ]);

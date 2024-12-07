@@ -17,6 +17,7 @@ class Ruang extends Model
     protected $fillable = [
         'kode_ruang',
         'kode_prodi',
+        'kode_fakultas',
         'kuota',
         'status'
     ];
@@ -29,5 +30,10 @@ class Ruang extends Model
     public function programStudi()
     {
         return $this->belongsTo(ProgramStudi::class, 'kode_prodi', 'kode_prodi');
+    }
+
+    public function fakultas()
+    {
+        return $this->belongsTo(Fakultas::class, 'kode_fakultas', 'kode_fakultas');
     }
 }

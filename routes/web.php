@@ -5,13 +5,13 @@ use App\Http\Controllers\RuangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\IRSController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Models\Mahasiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use App\Models\IRS;
-use App\Http\Controllers\IRSController;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -40,10 +40,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('mahasiswa.dashboard', compact('mahasiswa'));
     })->name('dashboard_mhs');
 
+    Route::get('/irs_mhs', function () {
+        $nim = Auth::user()->mahasiswa->nim;
+        $jumlah_semester = IRS::countIRSByNIM($nim);
+        $irs_data = IRS::getIRSByNIM($nim);
+        
+        return view('mahasiswa.irs', compact('jumlah_semester', 'irs_data'));
+    })->name('irs_mhs');
+
     //Registrasi mahasiswa
     Route::get('/registrasi_mhs', function () {
         return view('mahasiswa.registrasi');
     })->name('registrasi_mhs');
+
+    Route::get('/khs_mhs', function () {
+        return view('mahasiswa.khs');
+    })->name('khs_mhs');
 
     Route::post('/mahasiswa/aktif', [App\Http\Controllers\MahasiswaController::class, 'setStatusAktif'])
         ->name('mahasiswa.aktif');
