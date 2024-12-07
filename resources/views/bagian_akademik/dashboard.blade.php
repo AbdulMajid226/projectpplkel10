@@ -16,12 +16,12 @@
         </div>
 
         <!-- Informasi Pengajuan Ruang -->
-        <div class="p-6 mb-8 shadow-lg bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">
+        <div class="p-6 mb-8 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl shadow-lg">
             <h2 class="mb-6 text-xl font-semibold text-white">Informasi Pengajuan Ruang</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <!-- Card Sudah Disetujui -->
-                <div onclick="filterRooms('disetujui')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
-                    <div class="flex items-center justify-between">
+                <div onclick="filterRooms('disetujui')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
+                    <div class="flex justify-between items-center">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Sudah Disetujui</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $approvedCount }}</p>
@@ -35,8 +35,8 @@
                 </div>
 
                 <!-- Card Menunggu Persetujuan -->
-                <div onclick="filterRooms('BelumDisetujui')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
-                    <div class="flex items-center justify-between">
+                <div onclick="filterRooms('BelumDisetujui')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
+                    <div class="flex justify-between items-center">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Menunggu Persetujuan</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $pendingCount }}</p>
@@ -50,8 +50,8 @@
                 </div>
 
                 <!-- Card Ditolak -->
-                <div onclick="filterRooms('ditolak')" class="p-6 transition duration-200 transform bg-white shadow-md cursor-pointer rounded-xl hover:scale-105">
-                    <div class="flex items-center justify-between">
+                <div onclick="filterRooms('ditolak')" class="p-6 bg-white rounded-xl shadow-md transition duration-200 transform cursor-pointer hover:scale-105">
+                    <div class="flex justify-between items-center">
                         <div>
                             <p class="mb-1 text-sm text-gray-600">Ditolak</p>
                             <p class="text-3xl font-bold text-gray-800">{{ $rejectedCount }}</p>
@@ -67,13 +67,24 @@
         </div>
 
         <!-- Daftar Pengajuan Ruangan -->
-        <div class="p-6 bg-white shadow-md rounded-xl">
-            <div class="flex items-center justify-between mb-6">
+        <div class="p-6 bg-white rounded-xl shadow-md">
+            <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-semibold text-gray-800">Daftar Pengajuan Ruangan</h2>
-                <div id="statusFilter" class="flex gap-2">
-                    <button onclick="filterRooms('all')" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 active-filter">
-                        Semua
-                    </button>
+                <div class="flex gap-4">
+                    <!-- Filter Program Studi -->
+                    <select id="prodiFilter" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        <option value="all">Semua Program Studi</option>
+                        @foreach($getProgramStudis as $prodi)
+                            <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                        @endforeach
+                    </select>
+
+                    <!-- Filter Status -->
+                    <div id="statusFilter" class="flex gap-2">
+                        <button onclick="filterRooms('all')" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 active-filter">
+                            Semua
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -90,7 +101,7 @@
                     </thead>
                     <tbody id="roomsList" class="bg-white divide-y divide-gray-200">
                         @foreach($ruangs as $ruang)
-                        <tr class="room-item" data-status="{{ $ruang->status }}">
+                        <tr class="room-item" data-status="{{ $ruang->status }}" data-prodi="{{ $ruang->programStudi->kode_prodi }}">
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->kode_ruang }}</td>
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->programStudi->nama_prodi }}</td>
                             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ $ruang->kuota }}</td>
@@ -133,16 +144,28 @@
     <script>
         function filterRooms(status) {
             const rooms = document.querySelectorAll('.room-item');
+            const selectedProdi = document.getElementById('prodiFilter').value;
 
             rooms.forEach(room => {
-                if (status === 'all' || room.dataset.status === status) {
+                const roomStatus = room.dataset.status;
+                const roomProdi = room.dataset.prodi;
+
+                const matchStatus = status === 'all' || roomStatus === status;
+                const matchProdi = selectedProdi === 'all' || roomProdi === selectedProdi;
+
+                if (matchStatus && matchProdi) {
                     room.style.display = '';
                 } else {
                     room.style.display = 'none';
                 }
             });
-
         }
+
+        // Event listener untuk filter program studi
+        document.getElementById('prodiFilter').addEventListener('change', function() {
+            const status = document.querySelector('.active-filter').getAttribute('onclick').match(/'(.*?)'/)[1];
+            filterRooms(status);
+        });
     </script>
 
     <style>
@@ -153,12 +176,12 @@
     </style>
 
     <!-- Modal Edit -->
-    <div id="editModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+    <div id="editModal" class="hidden overflow-y-auto fixed inset-0 z-50">
+        <div class="flex justify-center items-center px-4 min-h-screen">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-            <div class="relative w-full max-w-md p-6 bg-white rounded-lg">
-                <div class="flex items-center justify-between mb-4">
+            <div class="relative p-6 w-full max-w-md bg-white rounded-lg">
+                <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Edit Ruang Kuliah</h3>
                     <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -172,21 +195,21 @@
                     @method('PUT')
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Kode Ruang</label>
-                        <input type="text" name="kode_ruang" id="editKodeRuang" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <input type="text" name="kode_ruang" id="editKodeRuang" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program Studi</label>
-                        <select name="program_studi" id="editProgramStudi" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <select name="program_studi" id="editProgramStudi" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Kuota</label>
-                        <input type="number" name="kuota" id="editKuota" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                        <input type="number" name="kuota" id="editKuota" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                     </div>
 
-                    <div class="flex justify-end gap-3">
+                    <div class="flex gap-3 justify-end">
                         <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
                             Batal
                         </button>

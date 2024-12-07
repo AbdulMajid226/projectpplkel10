@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('kuota');
             $table->string('thn_ajaran');
             $table->string('hari');
+            $table->enum('status', ['Menunggu Persetujuan', 'Sudah Disetujui', 'Ditolak'])->default('Menunggu Persetujuan');
             $table->timestamps();
 
             $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');

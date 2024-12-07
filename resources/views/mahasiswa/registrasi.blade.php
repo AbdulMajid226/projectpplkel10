@@ -79,4 +79,80 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="confirmationModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <!-- Modal backdrop -->
+            <div class="fixed inset-0 bg-black opacity-50" id="modalBackdrop"></div>
+
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg w-full max-w-md p-6">
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Konfirmasi</h3>
+                </div>
+                <div class="mb-6">
+                    <p id="confirmationText" class="text-gray-600"></p>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancelButton"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        Batal
+                    </button>
+                    <button type="button" id="confirmButton"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                        Ya, Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('confirmationModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const cancelButton = document.getElementById('cancelButton');
+            const confirmButton = document.getElementById('confirmButton');
+            let formToSubmit;
+
+            // Fungsi untuk menampilkan modal
+            function showModal() {
+                modal.classList.remove('hidden');
+            }
+
+            // Fungsi untuk menyembunyikan modal
+            function hideModal() {
+                modal.classList.add('hidden');
+            }
+
+            // Event listener untuk tombol submit
+            document.querySelectorAll('button[type="submit"]').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    if (!button.disabled) {
+                        event.preventDefault();
+                        formToSubmit = this.closest('form');
+
+                        // Tentukan teks konfirmasi berdasarkan tombol yang ditekan
+                        const confirmationText = this.textContent.trim() === 'Pilih Aktif' ?
+                            'Apakah Anda yakin ingin memilih status Aktif untuk semester ini?' :
+                            'Apakah Anda yakin ingin memilih status Cuti untuk semester ini?';
+
+                        document.getElementById('confirmationText').textContent = confirmationText;
+                        showModal();
+                    }
+                });
+            });
+
+            // Event listener untuk tombol batal
+            cancelButton.addEventListener('click', hideModal);
+            modalBackdrop.addEventListener('click', hideModal);
+
+            // Event listener untuk tombol konfirmasi
+            confirmButton.addEventListener('click', function () {
+                formToSubmit.submit();
+                hideModal();
+            });
+        });
+    </script>
 @endsection

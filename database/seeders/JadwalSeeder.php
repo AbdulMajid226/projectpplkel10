@@ -19,6 +19,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -28,6 +29,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -37,6 +39,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Rabu',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6101',
@@ -46,6 +49,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Kamis',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
 
         Jadwal::create([
@@ -56,6 +60,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -65,6 +70,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Selasa',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -74,6 +80,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Rabu',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6102',
@@ -387,6 +394,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
-    }
+}
 }
