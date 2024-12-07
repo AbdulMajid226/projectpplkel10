@@ -76,7 +76,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
 
-    Route::get('/irs/detail/{id}', [IRSController::class, 'getDetail'])->name('irs.detail');
+    Route::get('/irs/detail/{nim}', function ($nim) {
+        $irsDetail = IRS::getIRSByNIM($nim);
+        return response()->json(['success' => true, 'data' => $irsDetail]);
+    })->name('irs.detail');
 
 });
 
@@ -95,6 +98,8 @@ Route::get('/dashboardpa', function () {
         'menungguPersetujuan' => $irsController->getIRSByStatus('Menunggu Persetujuan'),
         'disetujui' => $irsController->getIRSByStatus('Sudah Disetujui')
     ];
+
+
 
     return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData'));
 })->middleware(['auth', 'verified'])->name('dashboardpa');

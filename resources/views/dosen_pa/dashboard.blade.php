@@ -371,47 +371,45 @@
             );
         }
 
-        function showDetail(irsId) {
-            fetch(`/irs/detail/${irsId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const irs = data.data;
+        function showDetail(nim) {
+    fetch(`/irs/detail/${nim}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const irsData = data.data;
 
-                        // Isi informasi mahasiswa
-                        document.getElementById('detail-nama').textContent = irs.mahasiswa.nama;
-                        document.getElementById('detail-nim').textContent = irs.mahasiswa.nim;
+                // Isi detail informasi mahasiswa
+                const tbody = document.getElementById('detail-matkul');
+                tbody.innerHTML = ''; // Kosongkan isi tabel sebelumnya
 
-                        // Isi tabel mata kuliah
-                        const tbody = document.getElementById('detail-matkul');
-                        tbody.innerHTML = '';
-
-                        irs.pengambilan_irs.forEach((pengambilan, index) => {
-                            const jadwal = pengambilan.jadwal;
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${index + 1}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.kode || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900">${jadwal.mata_kuliah?.nama || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.sks || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu?.hari || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu ? `${jadwal.waktu.jam_mulai} - ${jadwal.waktu.jam_selesai}` : '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.ruang?.nama || '-'}</td>
-                            `;
-                            tbody.appendChild(row);
-                        });
-
-                        // Tampilkan modal
-                        document.getElementById('detailModal').classList.remove('hidden');
-                    } else {
-                        alert('Gagal mengambil detail IRS');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengambil detail IRS');
+                irsData.forEach((semesterData, index) => {
+                    semesterData.matakuliah.forEach((matkul, matkulIndex) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${semesterData.semester}</td>
+                            <td>${matkul.kode_mk}</td>
+                            <td>${matkul.nama_mk}</td>
+                            <td>${matkul.kelas}</td>
+                            <td>${matkul.sks}</td>
+                            <td>${matkul.status_pengambilan || '-'}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
                 });
-        }
+
+                // Tampilkan modal detail
+                document.getElementById('detailModal').classList.remove('hidden');
+            } else {
+                alert('Detail IRS tidak ditemukan.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat mengambil data.');
+        });
+}
+
 
         function closeDetailModal() {
             document.getElementById('detailModal').classList.add('hidden');
