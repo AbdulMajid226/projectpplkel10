@@ -127,4 +127,26 @@ class IRSController extends Controller
             ], 500);
         }
     }
+
+    public function getDetail($id)
+    {
+        try {
+            $irs = IRS::with([
+                'mahasiswa',
+                'pengambilanIrs.jadwal.mataKuliah',
+                'pengambilanIrs.jadwal.waktu',
+                'pengambilanIrs.jadwal.ruang'
+            ])->findOrFail($id);
+
+            return response()->json([
+                'success' => true,
+                'data' => $irs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil detail IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

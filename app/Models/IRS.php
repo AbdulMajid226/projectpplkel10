@@ -26,4 +26,9 @@ class IRS extends Model
     {
         return $this->belongsToMany(Jadwal::class, 'pengambilan_irs', 'id_irs', 'id_jadwal');
     }
+
+    public function pengambilanIrs()
+    {
+        return $this->hasMany(PengambilanIRS::class, 'id_irs');
+    }
 }

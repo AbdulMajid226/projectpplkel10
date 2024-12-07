@@ -218,6 +218,66 @@
         </div>
     </div>
 
+    <!-- Modal Detail IRS -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+
+            <!-- Modal Content -->
+            <div class="relative z-50 w-full max-w-4xl p-6 mx-auto bg-white rounded-lg shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Detail IRS Mahasiswa</h3>
+                    <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-500">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Informasi Mahasiswa -->
+                <div class="p-4 mb-4 rounded-lg bg-gray-50">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Nama Mahasiswa</p>
+                            <p class="font-medium" id="detail-nama"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">NIM</p>
+                            <p class="font-medium" id="detail-nim"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabel Mata Kuliah -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">No</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Kode MK</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Mata Kuliah</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">SKS</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Hari</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Jam</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Ruangan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="detail-matkul">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 text-right">
+                    <button onclick="closeDetailModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script untuk toggle tabel -->
     <script>
         function showModal(title, message, confirmCallback) {
@@ -312,8 +372,49 @@
         }
 
         function showDetail(irsId) {
-            // Implementasi untuk menampilkan detail IRS
-            alert('Fitur detail akan segera tersedia');
+            fetch(`/irs/detail/${irsId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const irs = data.data;
+
+                        // Isi informasi mahasiswa
+                        document.getElementById('detail-nama').textContent = irs.mahasiswa.nama;
+                        document.getElementById('detail-nim').textContent = irs.mahasiswa.nim;
+
+                        // Isi tabel mata kuliah
+                        const tbody = document.getElementById('detail-matkul');
+                        tbody.innerHTML = '';
+
+                        irs.pengambilan_irs.forEach((pengambilan, index) => {
+                            const jadwal = pengambilan.jadwal;
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${index + 1}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.kode || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">${jadwal.mata_kuliah?.nama || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.sks || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu?.hari || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu ? `${jadwal.waktu.jam_mulai} - ${jadwal.waktu.jam_selesai}` : '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.ruang?.nama || '-'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+
+                        // Tampilkan modal
+                        document.getElementById('detailModal').classList.remove('hidden');
+                    } else {
+                        alert('Gagal mengambil detail IRS');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengambil detail IRS');
+                });
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
         }
 
         function toggleTable(status) {

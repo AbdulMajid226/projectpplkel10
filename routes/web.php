@@ -69,6 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
 
+    Route::get('/irs/detail/{id}', [IRSController::class, 'getDetail'])->name('irs.detail');
+
 });
 
 //Pembimbing Akademik
