@@ -44,6 +44,7 @@ class IRS extends Model
             ->get();
         }
         return self::where('status_persetujuan', $status)->get();
+
     }
 
     public static function countIRSByNIM($nim)
@@ -81,3 +82,4 @@ class IRS extends Model
         });
     }
 }
+
