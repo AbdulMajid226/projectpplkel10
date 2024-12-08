@@ -31,7 +31,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Ditolak</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="belumMengisi">{{ $counts['ditolak'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="belumMengisi">{{ $countRuangs['ditolak'] }}</p>
                     </div>
                     <div class="p-3 bg-red-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,7 +46,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Menunggu Persetujuan</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="menungguPersetujuan">{{ $counts['menunggu'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="menungguPersetujuan">{{ $countRuangs['menunggu'] }}</p>
                     </div>
                     <div class="p-3 bg-yellow-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,7 +61,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Sudah Disetujui</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="disetujui">{{ $counts['disetujui'] }}</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="disetujui">{{ $countRuangs['disetujui'] }}</p>
                     </div>
                     <div class="p-3 bg-green-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -82,7 +82,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Ditolak</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="belumMengisi">10</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="belumMengisi">{{ $countJadwals['ditolak'] }}</p>
                     </div>
                     <div class="p-3 bg-red-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,7 +97,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Menunggu Persetujuan</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="menungguPersetujuan">10</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="menungguPersetujuan">{{ $countJadwals['menunggu'] }}</p>
                     </div>
                     <div class="p-3 bg-yellow-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,7 +112,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="mb-1 text-sm text-gray-600">Sudah Disetujui</p>
-                        <p class="text-3xl font-bold text-gray-800" data-status="disetujui">10</p>
+                        <p class="text-3xl font-bold text-gray-800" data-status="disetujui">{{ $countJadwals['disetujui'] }}</p>
                     </div>
                     <div class="p-3 bg-green-100 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

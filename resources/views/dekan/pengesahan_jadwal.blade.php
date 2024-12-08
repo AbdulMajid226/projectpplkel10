@@ -41,24 +41,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($jadwals as $jadwal)
                     <tr class="bg-white border-b hover:bg-gray-50">
-                        <td class="px-6 py-4">IF001</td>
-                        <td class="px-6 py-4">Pemrograman Web</td>
-                        <td class="px-6 py-4">Dr. John Doe</td>
-                        <td class="px-6 py-4">A</td>
-                        <td class="px-6 py-4">Senin, 08:00-10:30</td>
-                        <td class="px-6 py-4">E101</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
-                                Menunggu Persetujuan
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4">{{ $jadwal->kode_mk }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->mataKuliah->nama_mk }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->dosen->nama_dosen }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->kelas->nama_kelas }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->ruang->kode_ruang }}</td>
+                        <td class="px-6 py-4 border border-gray-300">{{ $jadwal->status }}</td>
+                        <td class="px-6 py-4 border-gray-300">
                             <button class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
                             <button class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
                             <button class="px-3 py-1 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
