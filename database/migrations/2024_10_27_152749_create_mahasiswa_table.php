@@ -17,7 +17,7 @@ return new class extends Migration
             $table->year('angkatan');
             $table->string('kode_prodi');
             $table->string('nidn')->nullable();
-            $table->enum('status', ['Aktif', 'Cuti', 'BelumRegistrasi'])->default('BelumRegistrasi');
+            $table->enum('status', ['Aktif', 'Cuti', 'Belum Registrasi'])->default('Belum Registrasi');
             $table->integer('semester_aktif');
             $table->timestamps();
 
