@@ -10,6 +10,7 @@ class PengambilanIRS extends Model
     use HasFactory;
 
     protected $table = 'pengambilan_irs';
+    protected $primaryKey = 'id';
 
     public $timestamps = true;
 

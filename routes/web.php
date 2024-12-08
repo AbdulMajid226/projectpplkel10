@@ -83,6 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/list-mk-mhs/delete/{kode_mk}', [IRSController::class, 'deleteListMK'])->name('list-mk-mhs.delete');
     Route::get('/list-mk-mhs', [IRSController::class, 'getListMK'])->name('list-mk-mhs.get');
 
+    Route::delete('/pengambilan-irs/{id}', [IRSController::class, 'deletePengambilanIRS'])
+        ->name('mahasiswa.delete_pengambilan_irs');
+
 });
 
 //Pembimbing Akademik

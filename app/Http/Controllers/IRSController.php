@@ -96,6 +96,8 @@ class IRSController extends Controller
                     'id' => (int)$j->id,
                     'kode_mk' => $j->kode_mk,
                     'nama_mk' => $j->mataKuliah->nama,
+                    'semester' => $j->mataKuliah->semester,
+                    'sks' => $j->mataKuliah->sks,
                     'hari' => $j->hari,
                     'waktu_mulai' => $j->waktu->waktu_mulai,
                     'waktu_selesai' => $j->waktu->waktu_selesai,
@@ -439,4 +441,27 @@ class IRSController extends Controller
         }
     }
     
+    public function deletePengambilanIRS($id)
+    {
+        try {
+            // Cari pengambilan IRS berdasarkan id_jadwal
+            $pengambilan = PengambilanIRS::where('id_jadwal', $id)
+                ->whereHas('irs', function($query) {
+                    $query->where('nim', Auth::user()->mahasiswa->nim);
+                })
+                ->firstOrFail();
+
+            $pengambilan->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Jadwal berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus jadwal: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -26,6 +26,34 @@
                 <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
             </div>
 
+            <!-- Tabel IRS yang sudah dipilih -->
+            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode Mata Kuliah</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Mata Kuliah</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKS</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="selectedIRSTable">
+                            <!-- Data akan diisi melalui JavaScript -->
+                        </tbody>
+                        <tfoot class="bg-gray-50">
+                            <tr>
+                                <td colspan="6" class="px-6 py-3 text-right text-sm font-medium text-gray-500">Total SKS:</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium text-gray-900" id="totalSKS">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
             <!-- Notifikasi -->
             <div id="notification" class="fixed top-4 right-4 z-50 transform transition-transform duration-300 translate-x-full">
                 <div class="bg-white rounded-lg shadow-lg border-l-4 p-4 max-w-sm">
@@ -207,6 +235,45 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="konfirmasiHapusModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 bg-black opacity-50"></div>
+            
+            <!-- Modal Content -->
+            <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Hapus Jadwal</h3>
+                </div>
+                
+                <div class="space-y-3 mb-4">
+                    <p class="text-gray-600">Apakah Anda yakin ingin menghapus jadwal berikut:</p>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <p class="font-medium text-gray-900" id="hapusModalMataKuliah"></p>
+                        <div class="mt-2 space-y-1 text-sm text-gray-600">
+                            <p id="hapusModalKode"></p>
+                            <p id="hapusModalKelas"></p>
+                            <p id="hapusModalWaktu"></p>
+                            <p id="hapusModalRuang"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancelHapus"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Batal
+                    </button>
+                    <button type="button" id="confirmHapus"
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Hapus Jadwal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -224,6 +291,9 @@ $(document).ready(function() {
     const jadwalData = window.jadwalData; // Referensi lokal
 
     console.log('Jadwal Data:', jadwalData);
+
+    // Tambahkan variabel untuk menyimpan data jadwal yang akan dihapus
+    let deleteJadwalInfo = null;
 
     // Tambahkan fungsi untuk generate warna di bagian awal script
     function generateColorFromString(str) {
@@ -298,6 +368,9 @@ $(document).ready(function() {
 
     // Load list mata kuliah saat halaman dimuat
     loadSavedMataKuliah();
+    
+    // Update tabel IRS setelah data dimuat
+    updateIRSTable();
 
     function loadSavedMataKuliah() {
         $.get('{{ route("list-mk-mhs.get") }}', function(response) {
@@ -494,6 +567,16 @@ $(document).ready(function() {
             return;
         }
 
+        // Hitung total SKS saat ini
+        const currentSKS = calculateTotalSKS();
+        const newSKS = currentSKS + (jadwalInfo.sks || 3);
+
+        // Cek apakah melebihi batas maksimum SKS (24)
+        if (newSKS > 24) {
+            showNotification('Total SKS tidak boleh melebihi 24 SKS', 'error');
+            return;
+        }
+
         // Tampilkan modal konfirmasi
         selectedJadwalInfo = jadwalInfo;
         $('#modalMataKuliah').text(jadwalInfo.nama_mk);
@@ -504,6 +587,18 @@ $(document).ready(function() {
         $('#modalKuota').text(`Kuota: ${jadwalInfo.kuota_terisi}/${jadwalInfo.kuota}`);
         $('#konfirmasiModal').removeClass('hidden');
     });
+
+    // Tambahkan fungsi untuk menghitung total SKS
+    function calculateTotalSKS() {
+        let totalSKS = 0;
+        const selectedJadwals = jadwalData.filter(j => j.is_selected);
+        
+        selectedJadwals.forEach(jadwal => {
+            totalSKS += jadwal.sks || 3;
+        });
+        
+        return totalSKS;
+    }
 
     // Event handler untuk tombol batal
     $('#cancelJadwal').on('click', function() {
@@ -582,6 +677,9 @@ $(document).ready(function() {
                     
                     // Update tampilan list mata kuliah
                     updateListMataKuliah();
+
+                    // Update tabel IRS
+                    updateIRSTable();
                     
                     // Update kuota terisi
                     selectedJadwalInfo.kuota_terisi++;
@@ -700,7 +798,7 @@ $(document).ready(function() {
                          data-jadwal-id="${jadwal.id}">
                         <div class="h-full flex flex-col justify-between">
                             <div>
-                                <p class="text-sm font-medium text-gray-900 truncate">${jadwal.nama_mk}</p>
+                                <p class="text-sm font-medium text-gray-900 leading-tight break-words" style="word-wrap: break-word; min-height: 2.5rem;">${jadwal.nama_mk}</p>
                                 <p class="text-xs text-gray-700">${jadwal.waktu_mulai} - ${jadwal.waktu_selesai}</p>
                                 <p class="text-xs text-gray-700">Kelas ${jadwal.kelas} (${jadwal.ruang})</p>
                             </div>
@@ -770,6 +868,132 @@ $(document).ready(function() {
     function hideNotification() {
         $('#notification').removeClass('translate-x-0').addClass('translate-x-full');
     }
+
+    // Tambahkan fungsi untuk memperbarui tabel IRS
+    function updateIRSTable() {
+        const tbody = $('#selectedIRSTable');
+        tbody.empty();
+        
+        let totalSKS = 0;
+        let no = 1;
+
+        // Filter jadwal yang sudah dipilih
+        const selectedJadwals = jadwalData.filter(j => j.is_selected);
+        
+        selectedJadwals.forEach(jadwal => {
+            const sks = jadwal.sks || 3; // Gunakan SKS dari data atau default ke 3
+            totalSKS += sks;
+            
+            tbody.append(`
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${no++}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.kode_mk}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.nama_mk}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.kelas}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Baru</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${sks}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <button class="delete-jadwal text-red-600 hover:text-red-900" 
+                                data-jadwal-id="${jadwal.id}"
+                                title="Hapus Jadwal">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            `);
+        });
+
+        // Update total SKS
+        $('#totalSKS').text(totalSKS);
+        
+        // Update jumlah SKS di header
+        $('.text-2xl.font-bold:contains("IRS")').text(`IRS (${totalSKS} SKS)`);
+    }
+
+    // Tambahkan event handler untuk tombol hapus jadwal
+    $(document).on('click', '.delete-jadwal', function() {
+        const jadwalId = $(this).data('jadwal-id');
+        const jadwal = jadwalData.find(j => j.id === jadwalId);
+        
+        if (!jadwal) return;
+
+        // Tampilkan modal konfirmasi
+        deleteJadwalInfo = jadwal;
+        $('#hapusModalMataKuliah').text(jadwal.nama_mk);
+        $('#hapusModalKode').text(`Kode MK: ${jadwal.kode_mk}`);
+        $('#hapusModalKelas').text(`Kelas: ${jadwal.kelas}`);
+        $('#hapusModalWaktu').text(`Waktu: ${jadwal.hari}, ${jadwal.waktu_mulai} - ${jadwal.waktu_selesai}`);
+        $('#hapusModalRuang').text(`Ruang: ${jadwal.ruang}`);
+        $('#konfirmasiHapusModal').removeClass('hidden');
+    });
+
+    // Event handler untuk tombol batal hapus
+    $('#cancelHapus').on('click', function() {
+        $('#konfirmasiHapusModal').addClass('hidden');
+        deleteJadwalInfo = null;
+    });
+
+    // Event handler untuk tombol konfirmasi hapus
+    $('#confirmHapus').on('click', function() {
+        if (!deleteJadwalInfo) return;
+
+        $.ajax({
+            url: `/pengambilan-irs/${deleteJadwalInfo.id}`,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Reset status jadwal
+                    deleteJadwalInfo.is_selected = false;
+                    deleteJadwalInfo.mk_selected = false;
+                    selectedJadwal.delete(deleteJadwalInfo.kode_mk);
+
+                    // Reset status bertabrakan untuk jadwal lain
+                    jadwalData.forEach(j => {
+                        if (j.hari === deleteJadwalInfo.hari) {
+                            j.is_bertabrakan = false;
+                        }
+                        if (j.kode_mk === deleteJadwalInfo.kode_mk) {
+                            j.mk_selected = false;
+                        }
+                    });
+
+                    // Update tampilan
+                    updateJadwalDisplay();
+                    updateListMataKuliah();
+                    updateIRSTable();
+                    
+                    // Kurangi kuota terisi
+                    deleteJadwalInfo.kuota_terisi--;
+                    
+                    // Sembunyikan modal
+                    $('#konfirmasiHapusModal').addClass('hidden');
+                    deleteJadwalInfo = null;
+                    
+                    showNotification('Jadwal berhasil dihapus');
+                }
+            },
+            error: function(xhr) {
+                const message = xhr.responseJSON ? xhr.responseJSON.message : 'Terjadi kesalahan';
+                showNotification('Gagal menghapus jadwal: ' + message, 'error');
+                $('#konfirmasiHapusModal').addClass('hidden');
+                deleteJadwalInfo = null;
+            }
+        });
+    });
+
+    // Tutup modal saat klik backdrop
+    $('#konfirmasiHapusModal').on('click', function(e) {
+        if (e.target === this) {
+            $(this).addClass('hidden');
+            deleteJadwalInfo = null;
+        }
+    });
 });
 </script>
 @endpush
