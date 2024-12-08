@@ -59,7 +59,7 @@ class IRSController extends Controller
                 'mahasiswa' => function($query) {
                     $query->select('nim', 'nama', 'angkatan', 'status');
                 },
-                'pengambilanIrs.jadwal.mata_kuliah' // Tambahkan relasi untuk menghitung SKS
+                'pengambilanIrs.jadwal.mataKuliah' // Tambahkan relasi untuk menghitung SKS
             ])
             ->where('status_persetujuan', $status)
             ->where('thn_ajaran', $tahunAjaranAktif)
