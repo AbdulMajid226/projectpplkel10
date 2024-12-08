@@ -47,16 +47,51 @@ class IRSController extends Controller
                             ->pluck('total', 'id_jadwal')
                             ->toArray();
 
-            // Ambil jadwal yang sudah dipilih oleh mahasiswa
+            // Ambil jadwal yang sudah dipilih oleh mahasiswa di semester ini
             $jadwalDipilih = PengambilanIRS::whereHas('irs', function($query) use ($mahasiswa) {
                 $query->where('nim', $mahasiswa->nim)
                       ->where('semester', $mahasiswa->semester_aktif);
-            })->pluck('id_jadwal')->toArray();
+            })->with('jadwal.waktu')->get();
+
+            // Buat array untuk menyimpan kode_mk dan waktu jadwal yang sudah dipilih
+            $mkDipilih = [];
+            $jadwalWaktu = [];
+            foreach ($jadwalDipilih as $jp) {
+                $mkDipilih[$jp->jadwal->kode_mk] = $jp->id_jadwal;
+                $jadwalWaktu[] = [
+                    'hari' => $jp->jadwal->hari,
+                    'mulai' => $jp->jadwal->waktu->waktu_mulai,
+                    'selesai' => $jp->jadwal->waktu->waktu_selesai
+                ];
+            }
 
             // Kirim data jadwal dengan format yang benar dan informasi kuota
-            $jadwalData = $jadwal->map(function($j) use ($kuotaTerisi, $jadwalDipilih) {
+            $jadwalData = $jadwal->map(function($j) use ($kuotaTerisi, $jadwalDipilih, $mkDipilih, $jadwalWaktu) {
+                $isSelected = in_array($j->id, $jadwalDipilih->pluck('id_jadwal')->toArray());
+                $mkSudahDipilih = isset($mkDipilih[$j->kode_mk]);
+                
+                // Cek apakah jadwal ini bertabrakan dengan jadwal yang sudah dipilih
+                $isBertabrakan = false;
+                foreach ($jadwalWaktu as $jw) {
+                    if ($j->hari === $jw['hari']) {
+                        $jadwalMulai = strtotime($j->waktu->waktu_mulai);
+                        $jadwalSelesai = strtotime($j->waktu->waktu_selesai);
+                        $terpilihMulai = strtotime($jw['mulai']);
+                        $terpilihSelesai = strtotime($jw['selesai']);
+
+                        if (
+                            ($jadwalMulai >= $terpilihMulai && $jadwalMulai < $terpilihSelesai) ||
+                            ($jadwalSelesai > $terpilihMulai && $jadwalSelesai <= $terpilihSelesai) ||
+                            ($jadwalMulai <= $terpilihMulai && $jadwalSelesai >= $terpilihSelesai)
+                        ) {
+                            $isBertabrakan = true;
+                            break;
+                        }
+                    }
+                }
+                
                 return [
-                    'id' => $j->id,
+                    'id' => (int)$j->id,
                     'kode_mk' => $j->kode_mk,
                     'nama_mk' => $j->mataKuliah->nama,
                     'hari' => $j->hari,
@@ -66,7 +101,10 @@ class IRSController extends Controller
                     'ruang' => $j->ruang->kode_ruang,
                     'kuota' => $j->kuota,
                     'kuota_terisi' => $kuotaTerisi[$j->id] ?? 0,
-                    'is_selected' => in_array($j->id, $jadwalDipilih)
+                    'is_selected' => $isSelected,
+                    'mk_selected' => $mkSudahDipilih,
+                    'is_bertabrakan' => !$isSelected && $isBertabrakan,
+                    'selected_jadwal_id' => $mkSudahDipilih ? $mkDipilih[$j->kode_mk] : null
                 ];
             });
 
@@ -190,6 +228,9 @@ class IRSController extends Controller
         try {
             $mahasiswa = Auth::user()->mahasiswa;
 
+            // Validasi jadwal
+            $jadwal = Jadwal::with(['waktu', 'mataKuliah'])->findOrFail($request->jadwal_id);
+
             // Cek apakah sudah ada IRS untuk semester ini
             $irs = IRS::where('nim', $mahasiswa->nim)
                       ->where('semester', $mahasiswa->semester_aktif)
@@ -205,6 +246,44 @@ class IRSController extends Controller
                 ]);
             }
 
+            // Cek apakah sudah ada pengambilan untuk mata kuliah ini
+            $existingPengambilan = PengambilanIRS::whereHas('jadwal', function($query) use ($jadwal) {
+                $query->where('kode_mk', $jadwal->kode_mk);
+            })->whereHas('irs', function($query) use ($mahasiswa) {
+                $query->where('nim', $mahasiswa->nim)
+                      ->where('semester', $mahasiswa->semester_aktif);
+            })->first();
+
+            if ($existingPengambilan) {
+                throw new \Exception('Anda sudah mengambil mata kuliah ini');
+            }
+
+            // Cek kuota
+            $kuotaTerisi = PengambilanIRS::where('id_jadwal', $jadwal->id)->count();
+            if ($kuotaTerisi >= $jadwal->kuota) {
+                throw new \Exception('Kuota kelas sudah penuh');
+            }
+
+            // Cek jadwal bentrok
+            $jadwalBentrok = PengambilanIRS::whereHas('irs', function($query) use ($mahasiswa) {
+                $query->where('nim', $mahasiswa->nim)
+                      ->where('semester', $mahasiswa->semester_aktif);
+            })->whereHas('jadwal.waktu', function($query) use ($jadwal) {
+                $query->where('jadwal.hari', $jadwal->hari)
+                      ->where(function($q) use ($jadwal) {
+                          $q->whereBetween('waktu.waktu_mulai', [$jadwal->waktu->waktu_mulai, $jadwal->waktu->waktu_selesai])
+                            ->orWhereBetween('waktu.waktu_selesai', [$jadwal->waktu->waktu_mulai, $jadwal->waktu->waktu_selesai])
+                            ->orWhere(function($q) use ($jadwal) {
+                                $q->where('waktu.waktu_mulai', '<=', $jadwal->waktu->waktu_mulai)
+                                  ->where('waktu.waktu_selesai', '>=', $jadwal->waktu->waktu_selesai);
+                            });
+                      });
+            })->exists();
+
+            if ($jadwalBentrok) {
+                throw new \Exception('Jadwal bentrok dengan mata kuliah lain');
+            }
+
             // Simpan pengambilan jadwal
             $pengambilanIRS = PengambilanIRS::create([
                 'id_irs' => $irs->id,
@@ -214,12 +293,14 @@ class IRSController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Jadwal berhasil dipilih'
+                'message' => 'Jadwal berhasil dipilih',
+                'data' => $pengambilanIRS
             ]);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal memilih jadwal: ' . $e->getMessage()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
