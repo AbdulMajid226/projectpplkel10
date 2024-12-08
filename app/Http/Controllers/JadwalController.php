@@ -146,4 +146,14 @@ class JadwalController extends Controller
 
         return redirect()->back()->with('success', 'Status jadwal berhasil diperbarui!');
     }
+
+    public function getMataKuliah($kodeMK)
+    {
+        $mataKuliah = MataKuliah::findOrFail($kodeMK);
+        return response()->json([
+            'kode_mk' => $mataKuliah->kode_mk,
+            'nama' => $mataKuliah->nama,
+            'sks' => $mataKuliah->sks
+        ]);
+    }
 }

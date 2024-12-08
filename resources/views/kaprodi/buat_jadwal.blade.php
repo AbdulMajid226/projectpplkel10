@@ -116,11 +116,14 @@
                         <label class="block text-sm font-medium text-gray-700">
                             Waktu <span class="text-red-500">*</span>
                         </label>
-                        <select name="waktu_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('waktu_id') border-red-500 @enderror">
-                            <option value="">Pilih Waktu</option>
+                        <select name="waktu_id" id="waktu_select" required 
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('waktu_id') border-red-500 @enderror"
+                                disabled>
+                            <option value="">Pilih mata kuliah terlebih dahulu</option>
                             @foreach($waktus as $waktu)
-                                <option value="{{ $waktu->id }}" {{ old('waktu_id') == $waktu->id ? 'selected' : '' }}>
-                                    {{ $waktu->jam_mulai }} - {{ $waktu->jam_selesai }}
+                                <option value="{{ $waktu->id }}" class="waktu-option" style="display: none;" 
+                                        data-waktu-mulai="{{ $waktu->waktu_mulai }}">
+                                    {{ $waktu->waktu_mulai }}
                                 </option>
                             @endforeach
                         </select>
@@ -178,26 +181,24 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($jadwals as $jadwal)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->mataKuliah->nama ?? 'N/A' }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->mataKuliah->nama }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($jadwal->mataKuliah)
-                                        @foreach($jadwal->mataKuliah->pengampuanDosen ?? [] as $dosen)
-                                            {{ $dosen->nama ?? '' }}<br>
-                                        @endforeach
-                                    @else
-                                        N/A
-                                    @endif
+                                    @foreach($jadwal->mataKuliah->pengampuanDosen as $dosen)
+                                        {{ $dosen->nama }}<br>
+                                    @endforeach
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kelas }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->hari }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($jadwal->waktu)
-                                        {{ $jadwal->waktu->jam_mulai }} - {{ $jadwal->waktu->jam_selesai }}
-                                    @else
-                                        N/A
-                                    @endif
+                                    @php
+                                        $jamMulai = Carbon\Carbon::parse($jadwal->waktu->waktu_mulai)->format('H:i');
+                                        $sks = $jadwal->mataKuliah->sks;
+                                        $durasiMenit = $sks * 50;
+                                        $jamSelesai = Carbon\Carbon::parse($jadwal->waktu->waktu_mulai)->addMinutes($durasiMenit)->format('H:i');
+                                    @endphp
+                                    {{ $jamMulai }} - {{ $jamSelesai }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang ?? 'N/A' }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $jadwal->getStatusColorClass() }}">
                                         {{ $jadwal->status_label }}
@@ -298,6 +299,63 @@
         function confirmDelete() {
             return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mataKuliahSelect = document.querySelector('select[name="mata_kuliah"]');
+            const waktuSelect = document.querySelector('#waktu_select');
+            const waktuOptions = document.querySelectorAll('.waktu-option');
+            
+            function calculateEndTime(startTime, sks) {
+                const [hours, minutes] = startTime.split(':').map(Number);
+                const durationMinutes = sks * 50;
+                
+                let totalMinutes = hours * 60 + minutes + durationMinutes;
+                const endHours = Math.floor(totalMinutes / 60);
+                const endMinutes = totalMinutes % 60;
+                
+                return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+            }
+            
+            // Reset dan disable waktu select saat halaman dimuat
+            waktuSelect.disabled = true;
+            waktuOptions.forEach(option => option.style.display = 'none');
+            
+            mataKuliahSelect.addEventListener('change', async function() {
+                const kodeMK = this.value;
+                
+                if (!kodeMK) {
+                    // Reset ke kondisi awal
+                    waktuSelect.disabled = true;
+                    waktuSelect.firstElementChild.textContent = 'Pilih mata kuliah terlebih dahulu';
+                    waktuSelect.value = '';
+                    waktuOptions.forEach(option => option.style.display = 'none');
+                    return;
+                }
+                
+                try {
+                    // Ambil data mata kuliah untuk mendapatkan SKS
+                    const response = await fetch(`/mata-kuliah/${kodeMK}`);
+                    const mataKuliah = await response.json();
+                    const sks = mataKuliah.sks;
+                    
+                    // Enable waktu select dan update options
+                    waktuSelect.disabled = false;
+                    waktuSelect.firstElementChild.textContent = 'Pilih Waktu';
+                    
+                    // Update setiap option dengan waktu selesai yang dihitung
+                    waktuOptions.forEach(option => {
+                        const waktuMulai = option.dataset.waktuMulai;
+                        const waktuSelesai = calculateEndTime(waktuMulai, sks);
+                        option.textContent = `${waktuMulai} - ${waktuSelesai}`;
+                        option.style.display = '';
+                    });
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    waktuSelect.firstElementChild.textContent = 'Error loading waktu';
+                }
+            });
+        });
     </script>
     @endpush
 @endsection
