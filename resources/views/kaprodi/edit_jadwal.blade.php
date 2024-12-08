@@ -1,8 +1,6 @@
 @extends('layouts.kaprodi')
-@use(App\Models\Jadwal)
 
 @section('content')
-    <!-- Add TomSelect CSS and JS in the head section -->
     @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     @endpush
@@ -12,12 +10,12 @@
     @endpush
 
     <div class="container mx-auto px-4">
-        <h1 class="text-2xl font-bold mb-4">Buat Jadwal Kuliah</h1>
+        <h1 class="text-2xl font-bold mb-4">Edit Jadwal Kuliah</h1>
 
-        <!-- Form Buat Jadwal -->
         <div class="bg-white rounded-lg shadow p-6">
-            <form action="{{ route('jadwal.store') }}" method="POST">
+            <form action="{{ route('jadwal.update', $jadwal->id) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Mata Kuliah -->
                     <div>
@@ -27,7 +25,7 @@
                         <select name="mata_kuliah" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('mata_kuliah') border-red-500 @enderror">
                             <option value="">Pilih Mata Kuliah</option>
                             @foreach($mataKuliahs as $mk)
-                                <option value="{{ $mk->kode_mk }}" {{ old('mata_kuliah') == $mk->kode_mk ? 'selected' : '' }}>
+                                <option value="{{ $mk->kode_mk }}" {{ $jadwal->kode_mk == $mk->kode_mk ? 'selected' : '' }}>
                                     {{ $mk->nama }} ({{ $mk->kode_mk }})
                                 </option>
                             @endforeach
@@ -52,8 +50,21 @@
                             @error('dosen')
                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                             @enderror
-                            <div id="selected-dosen-container" class="space-y-2"></div>
-                            <div id="dosen-hidden-inputs"></div>
+                            <div id="selected-dosen-container" class="space-y-2">
+                                @foreach($jadwal->mataKuliah->pengampuanDosen as $selectedDosen)
+                                    <div class="flex items-center justify-between bg-gray-100 p-2 rounded">
+                                        <span>{{ $selectedDosen->nama }}</span>
+                                        <button type="button" class="text-red-600 hover:text-red-800" data-dosen-id="{{ $selectedDosen->nidn }}">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div id="dosen-hidden-inputs">
+                                @foreach($jadwal->mataKuliah->pengampuanDosen as $selectedDosen)
+                                    <input type="hidden" name="dosen[]" value="{{ $selectedDosen->nidn }}" id="dosen-input-{{ $selectedDosen->nidn }}">
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 
@@ -65,7 +76,7 @@
                         <select name="kelas" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('kelas') border-red-500 @enderror">
                             <option value="">Pilih Kelas</option>
                             @foreach($kelas as $k)
-                                <option value="{{ $k->kelas }}" {{ old('kelas') == $k->kelas ? 'selected' : '' }}>
+                                <option value="{{ $k->kelas }}" {{ $jadwal->kelas == $k->kelas ? 'selected' : '' }}>
                                     {{ $k->kelas }}
                                 </option>
                             @endforeach
@@ -83,7 +94,7 @@
                         <select name="thn_ajaran" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('thn_ajaran') border-red-500 @enderror">
                             <option value="">Pilih Tahun Ajaran</option>
                             @foreach($tahunAjaran as $ta)
-                                <option value="{{ $ta->thn_ajaran }}" {{ old('thn_ajaran') == $ta->thn_ajaran ? 'selected' : '' }}>
+                                <option value="{{ $ta->thn_ajaran }}" {{ $jadwal->thn_ajaran == $ta->thn_ajaran ? 'selected' : '' }}>
                                     {{ $ta->thn_ajaran }}
                                 </option>
                             @endforeach
@@ -100,11 +111,11 @@
                         </label>
                         <select name="hari" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('hari') border-red-500 @enderror">
                             <option value="">Pilih Hari</option>
-                            <option value="Senin" {{ old('hari') == 'Senin' ? 'selected' : '' }}>Senin</option>
-                            <option value="Selasa" {{ old('hari') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
-                            <option value="Rabu" {{ old('hari') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
-                            <option value="Kamis" {{ old('hari') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
-                            <option value="Jumat" {{ old('hari') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
+                            @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
+                                <option value="{{ $hari }}" {{ $jadwal->hari == $hari ? 'selected' : '' }}>
+                                    {{ $hari }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('hari')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -119,7 +130,7 @@
                         <select name="waktu_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('waktu_id') border-red-500 @enderror">
                             <option value="">Pilih Waktu</option>
                             @foreach($waktus as $waktu)
-                                <option value="{{ $waktu->id }}" {{ old('waktu_id') == $waktu->id ? 'selected' : '' }}>
+                                <option value="{{ $waktu->id }}" {{ $jadwal->waktu_id == $waktu->id ? 'selected' : '' }}>
                                     {{ $waktu->jam_mulai }} - {{ $waktu->jam_selesai }}
                                 </option>
                             @endforeach
@@ -137,11 +148,9 @@
                         <select name="ruang" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('ruang') border-red-500 @enderror">
                             <option value="">Pilih Ruang</option>
                             @foreach($ruangs as $ruang)
-                                @if($ruang->status === 'disetujui')
-                                    <option value="{{ $ruang->kode_ruang }}" {{ old('ruang') == $ruang->kode_ruang ? 'selected' : '' }}>
-                                        {{ $ruang->kode_ruang }}
-                                    </option>
-                                @endif
+                                <option value="{{ $ruang->kode_ruang }}" {{ $jadwal->kode_ruang == $ruang->kode_ruang ? 'selected' : '' }}>
+                                    {{ $ruang->kode_ruang }}
+                                </option>
                             @endforeach
                         </select>
                         @error('ruang')
@@ -150,63 +159,15 @@
                     </div>
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-6 flex space-x-3">
                     <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700">
-                        Buat Jadwal
+                        Simpan Perubahan
                     </button>
+                    <a href="{{ route('buatjadwalkuliah') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        Batal
+                    </a>
                 </div>
             </form>
-        </div>
-
-        <!-- Tabel Jadwal -->
-        <div class="mt-8">
-            <h2 class="text-xl font-bold mb-4">Daftar Jadwal</h2>
-            <div class="bg-white rounded-lg shadow overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mata Kuliah</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dosen</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hari</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ruang</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($jadwals as $jadwal)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->mataKuliah->nama }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @foreach($jadwal->mataKuliah->pengampuanDosen as $dosen)
-                                        {{ $dosen->nama }}<br>
-                                    @endforeach
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kelas }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->hari }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->waktu->jam_mulai }} - {{ $jadwal->waktu->jam_selesai }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $jadwal->getStatusColorClass() }}">
-                                        {{ $jadwal->status_label }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('jadwal.edit', $jadwal->id) }}" 
-                                       class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
-                                    <form action="{{ route('jadwal.destroy', $jadwal->id) }}" method="POST" class="inline" onsubmit="return confirmDelete()">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -216,7 +177,14 @@
             const dosenSelect = document.getElementById('dosen-select');
             const selectedDosenContainer = document.getElementById('selected-dosen-container');
             const hiddenInputsContainer = document.getElementById('dosen-hidden-inputs');
-            const selectedDosens = new Set();
+            const selectedDosens = new Set(Array.from(document.querySelectorAll('input[name="dosen[]"]')).map(input => input.value));
+
+            // Remove selected dosens from dropdown
+            Array.from(dosenSelect.options).forEach(option => {
+                if (selectedDosens.has(option.value)) {
+                    option.remove();
+                }
+            });
 
             dosenSelect.addEventListener('change', function() {
                 const selectedOption = dosenSelect.options[dosenSelect.selectedIndex];
@@ -269,6 +237,24 @@
                 dosenSelect.value = '';
             });
 
+            // Add delete functionality to existing dosen tags
+            document.querySelectorAll('#selected-dosen-container button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dosenId = this.dataset.dosenId;
+                    const dosenName = this.parentElement.querySelector('span').textContent;
+                    selectedDosens.delete(dosenId);
+                    this.parentElement.remove();
+                    document.getElementById(`dosen-input-${dosenId}`).remove();
+                    
+                    // Add option back to dropdown
+                    const option = document.createElement('option');
+                    option.value = dosenId;
+                    option.text = dosenName;
+                    dosenSelect.appendChild(option);
+                    sortDropdownOptions();
+                });
+            });
+
             // Function to sort dropdown options alphabetically
             function sortDropdownOptions() {
                 const options = [...dosenSelect.options];
@@ -284,10 +270,6 @@
                 options.forEach(option => dosenSelect.add(option));
             }
         });
-
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');
-        }
     </script>
     @endpush
 @endsection
