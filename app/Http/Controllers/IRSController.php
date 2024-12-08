@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\IRS;
 use App\Models\MataKuliah;
 use App\Models\Mahasiswa;
-use Illuminate\Support\Facades\Auth;
+use App\Models\PengambilanIRS;
 use App\Models\Jadwal;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class IRSController extends Controller
 {
@@ -51,14 +53,32 @@ class IRSController extends Controller
     public function getIRSByStatus($status)
     {
         try {
-            if ($status == 'Belum Mengisi') {
-                return IRS::with(['mahasiswa' => function($query) {
+            $tahunAjaranAktif = 'Ganjil 2024/2025';
+
+            $irsData = IRS::with([
+                'mahasiswa' => function($query) {
                     $query->select('nim', 'nama', 'angkatan', 'status');
-                }])
-                ->where('status_persetujuan', $status)
-                ->get();
+                },
+                'pengambilanIrs.jadwal.mataKuliah' // Tambahkan relasi untuk menghitung SKS
+            ])
+            ->where('status_persetujuan', $status)
+            ->where('thn_ajaran', $tahunAjaranAktif)
+            ->get();
+
+            // Hitung total SKS untuk setiap IRS
+            foreach($irsData as $irs) {
+                $totalSKS = 0;
+                foreach($irs->pengambilanIrs as $pengambilan) {
+                    if ($pengambilan->jadwal && $pengambilan->jadwal->mata_kuliah) {
+                        $totalSKS += $pengambilan->jadwal->mata_kuliah->sks ?? 0;
+                    }
+                }
+                // Update total SKS di database
+                $irs->update(['total_sks' => $totalSKS]);
             }
-            return IRS::where('status_persetujuan', $status)->get();
+
+            return $irsData;
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -70,7 +90,10 @@ class IRSController extends Controller
     public function countByStatus($status)
     {
         try {
-            return IRS::where('status_persetujuan', $status)->count();
+            $tahunAjaranAktif = 'Ganjil 2024/2025';
+            return IRS::where('status_persetujuan', $status)
+                      ->where('thn_ajaran', $tahunAjaranAktif)
+                      ->count();
         } catch (\Exception $e) {
             return 0;
         }
@@ -127,7 +150,6 @@ class IRSController extends Controller
             ], 500);
         }
     }
-
     public function getDetail($id)
     {
         try {
@@ -135,12 +157,42 @@ class IRSController extends Controller
                 'mahasiswa',
                 'pengambilanIrs.jadwal.mataKuliah',
                 'pengambilanIrs.jadwal.waktu',
-                'pengambilanIrs.jadwal.ruang'
             ])->findOrFail($id);
+
+            $totalSKS = 0; // Inisialisasi total SKS
+
+            $jadwalData = $irs->pengambilanIrs->map(function ($pengambilan) use (&$totalSKS) {
+                $jadwal = $pengambilan->jadwal;
+                $mataKuliah = $jadwal->mataKuliah;
+                $waktu = $jadwal->waktu;
+
+                // Tambahkan SKS ke total
+                if ($mataKuliah && $mataKuliah->sks) {
+                    $totalSKS += $mataKuliah->sks;
+                }
+
+                return [
+                    'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : '-',
+                    'nama_mk' => $mataKuliah ? $mataKuliah->nama : '-',
+                    'sks' => $mataKuliah ? $mataKuliah->sks : '-',
+                    'hari' => $jadwal ? $jadwal->hari : '-',
+                    'kelas' => $jadwal ? $jadwal->kelas : '-',
+                    'jam' => $waktu ? $waktu->waktu_mulai . ' - ' . $waktu->waktu_selesai : '-',
+                    'ruangan' => $jadwal ? $jadwal->kode_ruang : '-'
+                ];
+            });
+
+            // Update total SKS di database
+            $irs->update(['total_sks' => $totalSKS]);
 
             return response()->json([
                 'success' => true,
-                'data' => $irs
+                'data' => [
+                    'nama' => $irs->mahasiswa->nama,
+                    'nim' => $irs->mahasiswa->nim,
+                    'total_sks' => $totalSKS,
+                    'jadwal' => $jadwalData
+                ]
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -149,4 +201,17 @@ class IRSController extends Controller
             ], 500);
         }
     }
+
+    public function getTahunAjaranAktif()
+    {
+        try {
+            // Logika untuk mendapatkan tahun ajaran aktif
+            // Bisa dari setting sistem atau perhitungan otomatis
+            $tahunAjaranAktif = '2024/2025 Ganjil';
+            return $tahunAjaranAktif;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 }

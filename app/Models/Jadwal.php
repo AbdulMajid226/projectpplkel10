@@ -46,12 +46,12 @@ class Jadwal extends Model
 
     public function mataKuliah()
     {
-        return $this->belongsTo(MataKuliah::class, 'id_mata_kuliah');
+        return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
     }
 
     public function ruang()
     {
-        return $this->belongsTo(Ruang::class, 'id_ruang');
+        return $this->belongsTo(Ruang::class, 'kode_ruang', 'kode_ruang');
     }
     public function irs()
     {
@@ -74,6 +74,6 @@ class Jadwal extends Model
 
     public function waktu()
     {
-        return $this->belongsTo(Waktu::class, 'id_waktu');
+        return $this->belongsTo(Waktu::class, 'waktu_id', 'id');
     }
 }
