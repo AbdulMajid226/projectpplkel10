@@ -64,10 +64,6 @@ class PengambilanIRSSeeder extends Seeder
             'id_jadwal' => 33,
             'status_pengambilan' => 'Baru',
         ]);
-        PengambilanIRS::create([
-            'id_irs' => 5,
-            'id_jadwal' => 37,
-            'status_pengambilan' => 'Baru',
-        ]);
+        ;
     }
 }

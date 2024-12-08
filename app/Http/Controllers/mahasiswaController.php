@@ -11,7 +11,7 @@ class mahasiswaController extends Controller
     {
         $mahasiswa = auth('web')->user()->mahasiswa;
 
-        if ($mahasiswa->status === 'BelumRegistrasi') {
+        if ($mahasiswa->status === 'Belum Registrasi') {
             $mahasiswa->status = 'Aktif';
             $mahasiswa->save();
 
@@ -27,7 +27,7 @@ class mahasiswaController extends Controller
     {
         $mahasiswa = auth('web')->user()->mahasiswa;
 
-        if ($mahasiswa->status === 'BelumRegistrasi') {
+        if ($mahasiswa->status === 'Belum Registrasi') {
             $mahasiswa->status = 'Cuti';
             $mahasiswa->save();
 

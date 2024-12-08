@@ -10,7 +10,7 @@
         <?php
         $bgColor = 'bg-emerald-500'; // Default color
 
-        if ($mahasiswa->status == 'BelumRegistrasi') {
+        if ($mahasiswa->status == 'Belum Registrasi') {
             $bgColor = 'bg-red-500';
         } elseif ($mahasiswa->status == 'Cuti') {
             $bgColor = 'bg-teal-900';
