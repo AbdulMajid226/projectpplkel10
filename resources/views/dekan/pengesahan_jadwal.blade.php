@@ -30,11 +30,11 @@
             <table class="min-w-full text-sm text-left text-gray-700">
                 <thead class="text-xs text-white uppercase bg-teal-600">
                     <tr>
-                        <th class="px-4 py-3 border border-gray-300">Kode MK</th>
                         <th class="px-4 py-3 border border-gray-300">Mata Kuliah</th>
                         <th class="px-4 py-3 border border-gray-300">Dosen</th>
                         <th class="px-4 py-3 border border-gray-300">Kelas</th>
-                        <th class="px-4 py-3 border border-gray-300">Jadwal</th>
+                        <th class="px-4 py-3 border border-gray-300">Hari</th>
+                        <th class="px-4 py-3 border border-gray-300">Waktu</th>
                         <th class="px-4 py-3 border border-gray-300">Ruang</th>
                         <th class="px-4 py-3 border border-gray-300">Status</th>
                         <th class="px-4 py-3 border border-gray-300">Aksi</th>
@@ -43,16 +43,34 @@
                 <tbody>
                     @foreach($jadwals as $jadwal)
                     <tr class="bg-white border-b hover:bg-gray-50">
-                        <td class="px-6 py-4">{{ $jadwal->kode_mk }}</td>
-                        <td class="px-6 py-4">{{ $jadwal->mataKuliah->nama_mk }}</td>
-                        <td class="px-6 py-4">{{ $jadwal->dosen->nama_dosen }}</td>
-                        <td class="px-6 py-4">{{ $jadwal->kelas->nama_kelas }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->mataKuliah->nama }}</td>
+                        <td class="px-6 py-4">
+                            @foreach($jadwal->mataKuliah->pengampuanDosen as $dosen)
+                                {{ $dosen->nama }}<br>
+                            @endforeach
+                        </td>
+                        <td class="px-6 py-4">{{ $jadwal->kelas }}</td>
+                        <td class="px-6 py-4">{{ $jadwal->hari }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @php
+                                $jamMulai = Carbon\Carbon::parse($jadwal->waktu->waktu_mulai)->format('H:i');
+                                $sks = $jadwal->mataKuliah->sks;
+                                $durasiMenit = $sks * 50;
+                                $jamSelesai = Carbon\Carbon::parse($jadwal->waktu->waktu_mulai)->addMinutes($durasiMenit)->format('H:i');
+                            @endphp
+                            {{ $jamMulai }} - {{ $jamSelesai }}
+                        </td>
                         <td class="px-6 py-4">{{ $jadwal->ruang->kode_ruang }}</td>
-                        <td class="px-6 py-4 border border-gray-300">{{ $jadwal->status }}</td>
-                        <td class="px-6 py-4 border-gray-300">
+                        {{-- <td class="px-6 py-4 border border-gray-300">{{ $jadwal->status }}</td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $jadwal->getStatusColorClass() }}">
+                                {{ $jadwal->status_label }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 border-gray-300 w-[200px]">
                             <button class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
                             <button class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
-                            <button class="px-3 py-1 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button>
+                            {{-- <button class="px-3 py-1 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button> --}}
                         </td>
                     </tr>
                     @endforeach
