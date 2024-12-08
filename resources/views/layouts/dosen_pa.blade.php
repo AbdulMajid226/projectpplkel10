@@ -15,8 +15,8 @@
         <span class="ms-3">Dashboard</span>
     </x-nav-link>
 
-    <x-nav-link href="/irspa" :active="request()->is('irspa')">
-        <!-- Icon Pengesahan IRS -->
+    <!--x-nav-link-- href="/irspa" :active="request()->is('irspa')">
+        < Icon Pengesahan IRS >
         <svg class="w-6 h-6 text-gray-300 transition duration-75 group-hover:text-white" aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
         <path d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Z" />
@@ -25,7 +25,7 @@
             clip-rule="evenodd" />
     </svg>
         <span class="ms-3">Pengesahan IRS</span>
-    </x-nav-link>
+    </!--x-nav-link-->
 @endsection
 
 @section('role')
