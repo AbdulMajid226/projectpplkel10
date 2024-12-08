@@ -141,6 +141,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/buatjadwalkuliah', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
     Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
+    Route::get('/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
 });
 
 Route::middleware('auth')->group(function () {
