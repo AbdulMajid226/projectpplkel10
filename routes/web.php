@@ -158,4 +158,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/mata-kuliah/{kode_mk}', [JadwalController::class, 'getMataKuliah'])
+    ->name('mata-kuliah.get');
+
 require __DIR__.'/auth.php';
