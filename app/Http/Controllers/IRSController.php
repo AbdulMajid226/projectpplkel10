@@ -9,6 +9,7 @@ use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Jadwal;
 use App\Models\PengambilanIRS;
+use App\Models\ListMkMhs;
 
 class IRSController extends Controller
 {
@@ -39,24 +40,40 @@ class IRSController extends Controller
                             ->where('status', 'Sudah Disetujui')
                             ->get();
 
-            // Kirim data jadwal dengan format yang benar
-            $jadwalData = $jadwal->map(function($j) {
+            // Hitung kuota terisi untuk setiap jadwal
+            $kuotaTerisi = PengambilanIRS::select('id_jadwal')
+                            ->selectRaw('count(*) as total')
+                            ->groupBy('id_jadwal')
+                            ->pluck('total', 'id_jadwal')
+                            ->toArray();
+
+            // Ambil jadwal yang sudah dipilih oleh mahasiswa
+            $jadwalDipilih = PengambilanIRS::whereHas('irs', function($query) use ($mahasiswa) {
+                $query->where('nim', $mahasiswa->nim)
+                      ->where('semester', $mahasiswa->semester_aktif);
+            })->pluck('id_jadwal')->toArray();
+
+            // Kirim data jadwal dengan format yang benar dan informasi kuota
+            $jadwalData = $jadwal->map(function($j) use ($kuotaTerisi, $jadwalDipilih) {
                 return [
-                    'id' => $j->id, // Tambahkan id jadwal
+                    'id' => $j->id,
                     'kode_mk' => $j->kode_mk,
                     'nama_mk' => $j->mataKuliah->nama,
                     'hari' => $j->hari,
                     'waktu_mulai' => $j->waktu->waktu_mulai,
                     'waktu_selesai' => $j->waktu->waktu_selesai,
                     'kelas' => $j->kelas,
-                    'ruang' => $j->ruang->kode_ruang
+                    'ruang' => $j->ruang->kode_ruang,
+                    'kuota' => $j->kuota,
+                    'kuota_terisi' => $kuotaTerisi[$j->id] ?? 0,
+                    'is_selected' => in_array($j->id, $jadwalDipilih)
                 ];
             });
 
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => $mahasiswa,
                 'mataKuliah' => $mataKuliah,
-                'jadwal' => $jadwalData // Kirim jadwalData yang sudah diformat
+                'jadwal' => $jadwalData
             ]);
 
         } catch (\Exception $e) {
@@ -203,6 +220,78 @@ class IRSController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal memilih jadwal: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeListMK(Request $request)
+    {
+        try {
+            $mahasiswa = Auth::user()->mahasiswa;
+            $mataKuliah = MataKuliah::findOrFail($request->kode_mk);
+            
+            ListMkMhs::updateOrCreate(
+                [
+                    'nim' => $mahasiswa->nim, 
+                    'kode_mk' => $request->kode_mk
+                ],
+                [
+                    'semester' => $mahasiswa->semester_aktif,
+                    'status' => 'draft'
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mata kuliah berhasil ditambahkan ke list'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan mata kuliah: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteListMK($kode_mk)
+    {
+        try {
+            $nim = Auth::user()->mahasiswa->nim;
+            
+            ListMkMhs::where('nim', $nim)
+                     ->where('kode_mk', $kode_mk)
+                     ->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mata kuliah berhasil dihapus dari list'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus mata kuliah: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getListMK()
+    {
+        try {
+            $mahasiswa = Auth::user()->mahasiswa;
+            
+            $listMK = ListMkMhs::where('nim', $mahasiswa->nim)
+                              ->where('semester', $mahasiswa->semester_aktif)
+                              ->with('mataKuliah')
+                              ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $listMK
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil list mata kuliah: ' . $e->getMessage()
             ], 500);
         }
     }

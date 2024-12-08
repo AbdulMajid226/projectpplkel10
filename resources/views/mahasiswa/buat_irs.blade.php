@@ -20,7 +20,7 @@
             </div>
         </div>
     @else
-        <div class="container px-4 py-6 mx-auto">
+        <div class="container px-4 py-6 mx-auto overflow-auto" style="height: 100vh;width: 200vw;">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Buat IRS</h1>
                 <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
@@ -28,7 +28,7 @@
 
             <div class="flex gap-6">
                 <!-- Kolom Kiri -->
-                <div class="space-y-6 w-1/3">
+                <div class="space-y-6 w-1/4"> <!-- Mengurangi lebar kolom informasi akademik -->
                     <!-- Informasi Akademik -->
                     <div class="p-4 bg-white rounded-lg shadow">
                         <h2 class="mb-4 text-lg font-semibold">Informasi Akademik</h2>
@@ -95,17 +95,19 @@
                 </div>
 
                 <!-- Kolom Kanan - Jadwal -->
-                <div class="w-2/3 bg-white rounded-lg shadow">
+                <div class="w-3/4 bg-white rounded-lg shadow"> <!-- Mengubah lebar kolom kanan -->
                     <div class="grid grid-cols-6 border-b">
                         <div class="p-4 font-semibold">Jam</div>
-                        <div class="p-4 font-semibold">Senin</div>
-                        <div class="p-4 font-semibold">Selasa</div>
-                        <div class="p-4 font-semibold">Rabu</div>
-                        <div class="p-4 font-semibold">Kamis</div>
-                        <div class="p-4 font-semibold">Jumat</div>
+                        <div class="p-4 font-semibold col-span-5 grid grid-cols-5 gap-12"> <!-- Menambahkan gap untuk jarak yang lebih lebar -->
+                            <div class="w-1/5">Senin</div>
+                            <div class="w-1/5">Selasa</div>
+                            <div class="w-1/5">Rabu</div>
+                            <div class="w-1/5">Kamis</div>
+                            <div class="w-1/5">Jumat</div>
+                        </div>
                     </div>
 
-                    <div class="grid relative grid-cols-6">
+                    <div class="grid grid-cols-6">
                         <!-- Kolom waktu -->
                         <div class="border-r">
                             <div class="border-b h-[50px] px-4 py-2 text-sm">07:00</div>
@@ -123,12 +125,14 @@
                             <div class="border-b h-[50px] px-4 py-2 text-sm">19:00</div>
                         </div>
 
-                        <!-- Kolom hari -->
-                        @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
-                            <div class="relative min-h-full border-r" id="jadwal-{{ strtolower($hari) }}">
-                                <!-- Grid jadwal akan diisi melalui JavaScript -->
-                            </div>
-                        @endforeach
+                        <!-- Kolom hari dengan grid col-span-5 -->
+                        <div class="col-span-5 grid grid-cols-5">
+                            @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
+                                <div class="relative min-h-full border-r" id="jadwal-{{ strtolower($hari) }}">
+                                    <!-- Grid jadwal akan diisi melalui JavaScript -->
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,24 +202,106 @@ $(document).ready(function() {
         }
     });
 
-    // Event handler untuk memilih mata kuliah
+    // Load list mata kuliah saat halaman dimuat
+    loadSavedMataKuliah();
+
+    function loadSavedMataKuliah() {
+        $.get('{{ route("list-mk-mhs.get") }}', function(response) {
+            if (response.success) {
+                response.data.forEach(item => {
+                    const mk = item.mata_kuliah;
+                    selectedItems.add(mk.kode_mk);
+                    
+                    // Cek jadwal yang sudah dipilih
+                    const selectedJadwalForMK = jadwalData.find(j => 
+                        j.kode_mk === mk.kode_mk && j.is_selected
+                    );
+                    if (selectedJadwalForMK) {
+                        selectedJadwal.add(mk.kode_mk);
+                    }
+                    
+                    const newItem = createMataKuliahItem(
+                        mk.kode_mk,
+                        mk.nama,
+                        mk.sks,
+                        mk.semester,
+                        mk.sifat
+                    );
+                    selectedMataKuliah.append(newItem);
+                });
+                updateMataKuliahItemsAppearance();
+                updateJadwalDisplay();
+            }
+        });
+    }
+
+    // Update event handler untuk memilih mata kuliah
     $('.mata-kuliah-item').on('click', function() {
         const kode = $(this).data('kode');
-        const nama = $(this).data('nama');
-        const sks = $(this).data('sks');
-        const semester = $(this).data('semester');
-        const sifat = $(this).data('sifat');
+        if (selectedItems.has(kode)) return;
 
-        if (selectedItems.has(kode)) {
-            return;
-        }
+        // Simpan ke database
+        $.ajax({
+            url: '{{ route("list-mk-mhs.store") }}',
+            type: 'POST',
+            data: {
+                kode_mk: kode,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    selectedItems.add(kode);
+                    const newItem = createMataKuliahItem(
+                        kode,
+                        $(this).data('nama'),
+                        $(this).data('sks'),
+                        $(this).data('semester'),
+                        $(this).data('sifat')
+                    );
+                    selectedMataKuliah.append(newItem);
+                    updateMataKuliahItemsAppearance();
+                    updateJadwalDisplay();
+                }
+            }.bind(this),
+            error: function(xhr) {
+                alert('Gagal menambahkan mata kuliah: ' + xhr.responseJSON.message);
+            }
+        });
 
-        // Tambahkan ke Set
-        selectedItems.add(kode);
-        updateMataKuliahItemsAppearance();
+        searchInput.val('');
+        searchResults.addClass('hidden');
+    });
 
-        // Tambahkan ke list mata kuliah yang dipilih
-        const newItem = $(`
+    // Update event handler untuk menghapus mata kuliah
+    $(document).on('click', '.delete-mk', function() {
+        const item = $(this).closest('[data-kode]');
+        const kode = item.data('kode');
+
+        // Hapus dari database
+        $.ajax({
+            url: `{{ url('list-mk-mhs/delete') }}/${kode}`,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    selectedJadwal.delete(kode);
+                    selectedItems.delete(kode);
+                    item.remove();
+                    updateMataKuliahItemsAppearance();
+                    updateJadwalDisplay();
+                }
+            },
+            error: function(xhr) {
+                alert('Gagal menghapus mata kuliah: ' + xhr.responseJSON.message);
+            }
+        });
+    });
+
+    // Fungsi helper untuk membuat item mata kuliah
+    function createMataKuliahItem(kode, nama, sks, semester, sifat) {
+        return $(`
             <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-50" data-kode="${kode}">
                 <div>
                     <h3 class="font-medium">${nama}</h3>
@@ -236,30 +322,7 @@ $(document).ready(function() {
                 </div>
             </div>
         `);
-
-        selectedMataKuliah.append(newItem);
-
-        // Update tampilan jadwal
-        updateJadwalDisplay();
-
-        // Bersihkan input dan sembunyikan dropdown
-        searchInput.val('');
-        searchResults.addClass('hidden');
-    });
-
-    // Event handler untuk menghapus mata kuliah
-    $(document).on('click', '.delete-mk', function() {
-        const item = $(this).closest('[data-kode]');
-        const kode = item.data('kode');
-
-        // Hapus dari Set jadwal yang dipilih
-        selectedJadwal.delete(kode);
-        selectedItems.delete(kode);
-
-        item.remove();
-        updateMataKuliahItemsAppearance();
-        updateJadwalDisplay();
-    });
+    }
 
     // Event handler untuk toggle jadwal
     $(document).on('click', '.toggle-jadwal', function() {
@@ -288,10 +351,10 @@ $(document).ready(function() {
         const jadwalItem = $(this);
         const kode = jadwalItem.data('kode');
         const jadwalId = jadwalItem.data('jadwal-id');
-
+        
         // Cek apakah jadwal ini sudah dipilih
         if (jadwalItem.hasClass('selected')) {
-            return; // Jika sudah dipilih, abaikan klik
+            return;
         }
 
         // Cek apakah sudah ada jadwal yang dipilih untuk mata kuliah ini
@@ -300,13 +363,14 @@ $(document).ready(function() {
             return;
         }
 
-        // Hapus seleksi dari jadwal lain untuk mata kuliah yang sama
-        $(`.jadwal-item[data-kode="${kode}"]`).removeClass('selected bg-green-100').addClass('bg-blue-100');
+        // Cari data jadwal yang sesuai
+        const jadwalData = window.jadwalData.find(j => j.id === jadwalId);
+        if (jadwalData && jadwalData.kuota_terisi >= jadwalData.kuota) {
+            alert('Maaf, kuota kelas ini sudah penuh');
+            return;
+        }
 
-        // Pilih jadwal ini
-        jadwalItem.removeClass('bg-blue-100').addClass('selected bg-green-100');
-
-        // Kirim data ke server
+        // Lanjutkan dengan proses pemilihan jadwal seperti sebelumnya
         $.ajax({
             url: '{{ route("mahasiswa.store_pengambilan_irs") }}',
             type: 'POST',
@@ -316,32 +380,41 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    // Tambahkan kode_mk ke Set jadwal yang sudah dipilih
                     selectedJadwal.add(kode);
+                    jadwalItem.removeClass('bg-blue-100').addClass('selected bg-green-100');
+                    
+                    // Update kuota terisi
+                    const kuotaElement = jadwalItem.find('p:last-child');
+                    const [current] = kuotaElement.text().match(/\d+/);
+                    const newKuota = parseInt(current) + 1;
+                    kuotaElement.text(`Kuota: ${newKuota}/${jadwalData.kuota}`);
+                    
+                    if (newKuota >= jadwalData.kuota) {
+                        kuotaElement.removeClass('text-blue-600').addClass('text-red-600 font-semibold');
+                    }
 
                     // Nonaktifkan jadwal lain untuk mata kuliah yang sama
                     $(`.jadwal-item[data-kode="${kode}"]`).not(jadwalItem)
                         .addClass('opacity-50 cursor-not-allowed')
                         .css('pointer-events', 'none');
 
-                    // Tampilkan notifikasi sukses
                     alert('Jadwal berhasil dipilih');
                 } else {
-                    // Jika gagal, kembalikan tampilan seperti semula
                     jadwalItem.removeClass('selected bg-green-100').addClass('bg-blue-100');
                 }
             },
             error: function(xhr) {
-                // Jika terjadi error, kembalikan tampilan seperti semula
                 jadwalItem.removeClass('selected bg-green-100').addClass('bg-blue-100');
                 alert('Gagal memilih jadwal: ' + xhr.responseJSON.message);
             }
         });
     });
 
-    // Update fungsi updateJadwalDisplay untuk menangani jadwal yang sudah dipilih
+    // Update fungsi updateJadwalDisplay untuk menangani jadwal yang bersamaan
     function updateJadwalDisplay() {
         $('.jadwal-item').remove();
+
+        const overlappingSlots = {};
 
         selectedItems.forEach(kode => {
             const listItem = $(`[data-kode="${kode}"]`);
@@ -351,29 +424,54 @@ $(document).ready(function() {
             jadwalMK.forEach(jadwal => {
                 const container = $(`#jadwal-${jadwal.hari.toLowerCase()}`);
                 if (container.length) {
-                    const top = getVerticalPosition(jadwal.waktu_mulai);
-                    const height = getDuration(jadwal.waktu_mulai, jadwal.waktu_selesai);
-                    const isSelected = selectedJadwal.has(kode);
-
-                    const jadwalElement = $(`
-                        <div class="overflow-hidden absolute p-2 w-full bg-blue-100 rounded-md border border-blue-200 jadwal-item cursor-pointer hover:bg-blue-200
-                            ${isSelected ? 'selected bg-green-100' : ''}
-                            ${selectedJadwal.has(kode) && !isSelected ? 'opacity-50 cursor-not-allowed' : ''}"
-                             style="top: ${top}px; height: ${height}px; ${isHidden ? 'display: none;' : ''}"
-                             data-kode="${kode}"
-                             data-jadwal-id="${jadwal.id}">
-                            <p class="text-sm font-medium text-blue-800">${jadwal.nama_mk}</p>
-                            <p class="text-xs text-blue-600">${jadwal.waktu_mulai} - ${jadwal.waktu_selesai}</p>
-                            <p class="text-xs text-blue-600">Kelas ${jadwal.kelas} (${jadwal.ruang})</p>
-                        </div>
-                    `);
-
-                    if (selectedJadwal.has(kode) && !isSelected) {
-                        jadwalElement.css('pointer-events', 'none');
+                    const timeSlotKey = `${jadwal.hari}-${jadwal.waktu_mulai}`;
+                    
+                    if (!overlappingSlots[timeSlotKey]) {
+                        overlappingSlots[timeSlotKey] = [];
                     }
-
-                    container.append(jadwalElement);
+                    
+                    overlappingSlots[timeSlotKey].push({
+                        jadwal,
+                        kode,
+                        isHidden,
+                        isSelected: jadwal.is_selected || selectedJadwal.has(kode)
+                    });
                 }
+            });
+        });
+
+        Object.entries(overlappingSlots).forEach(([timeSlotKey, jadwalItems]) => {
+            const [hari, waktuMulai] = timeSlotKey.split('-');
+            const container = $(`#jadwal-${hari.toLowerCase()}`);
+            const width = 100 / jadwalItems.length;
+
+            jadwalItems.forEach((item, index) => {
+                const { jadwal, kode, isHidden, isSelected } = item;
+                const top = getVerticalPosition(jadwal.waktu_mulai);
+                const height = getDuration(jadwal.waktu_mulai, jadwal.waktu_selesai);
+                const left = width * index;
+
+                const jadwalElement = $(`
+                    <div class="overflow-hidden absolute p-2 bg-blue-100 rounded-md border border-blue-200 jadwal-item cursor-pointer hover:bg-blue-200
+                        ${isSelected ? 'selected bg-green-100' : ''}
+                        ${(selectedJadwal.has(kode) || jadwal.is_selected) && !isSelected ? 'opacity-50 cursor-not-allowed' : ''}"
+                         style="top: ${top}px; height: ${height}px; left: ${left}%; width: ${width}%; ${isHidden ? 'display: none;' : ''}"
+                         data-kode="${kode}"
+                         data-jadwal-id="${jadwal.id}">
+                        <p class="text-sm font-medium text-blue-800 truncate">${jadwal.nama_mk}</p>
+                        <p class="text-xs text-blue-600">${jadwal.waktu_mulai} - ${jadwal.waktu_selesai}</p>
+                        <p class="text-xs text-blue-600">Kelas ${jadwal.kelas} (${jadwal.ruang})</p>
+                        <p class="text-xs ${jadwal.kuota_terisi >= jadwal.kuota ? 'text-red-600 font-semibold' : 'text-blue-600'}">
+                            Kuota: ${jadwal.kuota_terisi}/${jadwal.kuota}
+                        </p>
+                    </div>
+                `);
+
+                if ((selectedJadwal.has(kode) || jadwal.is_selected) && !isSelected) {
+                    jadwalElement.css('pointer-events', 'none');
+                }
+
+                container.append(jadwalElement);
             });
         });
     }
