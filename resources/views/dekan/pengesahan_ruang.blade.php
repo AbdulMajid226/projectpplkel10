@@ -7,16 +7,6 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Pengesahan Ruang Kuliah</h1>
         <h1 class="mb-6 text-lg font-semibold">Ajuan Ruang Kuliah <br> Semester Gasal Tahun Ajaran 2024/2025</h1>
 
-        {{-- <!-- Tampilkan Total Pengajuan Ruang Berdasarkan Status -->
-        <div class="mb-6">
-            <p class="text-lg">Total Pengajuan:</p>
-            <ul class="list-disc list-inside">
-                <li>Sudah Disetujui: {{ $counts['approved'] }}</li>
-                <li>Menunggu Persetujuan: {{ $counts['pending'] }}</li>
-                <li>Ditolak: {{ $counts['rejected'] }}</li>
-            </ul>
-        </div> --}}
-
         <!-- Filter dan Pencarian -->
         <div class="flex flex-wrap gap-4 mb-6">
             <select class="p-2 border rounded focus:outline-none focus:border-teal-500">
@@ -54,12 +44,27 @@
                         <td class="px-6 py-4">{{ $ruang->programStudi->nama_prodi }}</td>
                         <td class="px-6 py-4">{{ $ruang->kuota }}</td>
                         <td class="px-6 py-4">{{ $ruang->fasilitas }}</td>
-                        <td class="px-6 py-4 border border-gray-300">{{ $ruang->status }}</td>
+                        <td class="px-6 py-4 border border-gray-300">
+                            <span class="{{ app('App\Http\Controllers\RuangController')->getStatusColorClass($ruang->status) }} px-2 py-1 rounded">
+                                {{ $ruang->status }}
+                            </span>
+                        </td>
                         <td class="px-6 py-4 border border-gray-300">
                             <button class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600">Lihat Detail</button>
                             @if($ruang->status == 'BelumDisetujui')
-                                <button class="px-3 py-1 ml-2 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
-                                <button class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
+                                <form action="{{ route('ruang.approve', $ruang->kode_ruang) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
+                                </form>
+                                <form action="{{ route('ruang.reject', $ruang->kode_ruang) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
+                                </form>
+                            @elseif($ruang->status == 'disetujui')
+                                <form action="{{ route('ruang.cancel', $ruang->kode_ruang) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-yellow-600">Batalkan Persetujuan</button>
+                                </form>
                             @endif
                         </td>
                     </tr>
