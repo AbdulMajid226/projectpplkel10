@@ -46,6 +46,7 @@ class JadwalController extends Controller
             'thn_ajaran' => $request->thn_ajaran,
             'hari' => $request->hari,
             'waktu_id' => $request->waktu_id,
+            'status' => Jadwal::STATUS_PENDING,
         ]);
 
         // Simpan relasi dosen-jadwal di tabel pengampuan_dosen
@@ -118,5 +119,19 @@ class JadwalController extends Controller
             'kelas', 
             'tahunAjaran'
         ));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,disetujui,ditolak',
+        ]);
+
+        $jadwal = Jadwal::findOrFail($id);
+        $jadwal->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Status jadwal berhasil diperbarui!');
     }
 }

@@ -1,4 +1,5 @@
 @extends('layouts.kaprodi')
+@use(App\Models\Jadwal)
 
 @section('content')
     <!-- Add TomSelect CSS and JS in the head section -->
@@ -170,6 +171,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hari</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ruang</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
@@ -186,6 +188,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->hari }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->waktu->jam_mulai }} - {{ $jadwal->waktu->jam_selesai }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $jadwal->getStatusColorClass() }}">
+                                        {{ $jadwal->status_label }}
+                                    </span>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('jadwal.edit', $jadwal->id) }}" 
                                        class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
