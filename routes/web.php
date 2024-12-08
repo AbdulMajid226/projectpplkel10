@@ -143,6 +143,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
     Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     Route::get('/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
+    Route::post('/jadwal/{id}/approve', [JadwalController::class, 'approveJadwal'])->name('jadwal.approve');
+    Route::post('/jadwal/{id}/reject', [JadwalController::class, 'rejectJadwal'])->name('jadwal.reject');
+    Route::post('/jadwal/{id}/cancel', [JadwalController::class, 'cancelApprovalJadwal'])->name('jadwal.cancel');
 });
 
 Route::middleware('auth')->group(function () {
@@ -153,5 +156,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/mata-kuliah/{kode_mk}', [JadwalController::class, 'getMataKuliah'])
     ->name('mata-kuliah.get');
+
+Route::post('/ruang/{kodeRuang}/approve', [RuangController::class, 'approveRoom'])->name('ruang.approve');
+Route::post('/ruang/{kodeRuang}/reject', [RuangController::class, 'rejectRoom'])->name('ruang.reject');
+Route::post('/ruang/{kodeRuang}/cancel', [RuangController::class, 'cancelApproval'])->name('ruang.cancel');
 
 require __DIR__.'/auth.php';

@@ -204,4 +204,40 @@ class RuangController extends Controller
             'ditolak' => 'bg-red-500 text-white',
         ][$status] ?? 'bg-gray-100 text-gray-800';
     }
+
+    public function approveRoom($kodeRuang)
+    {
+        try {
+            $ruang = Ruang::findOrFail($kodeRuang);
+            $ruang->update(['status' => 'disetujui']);
+
+            return redirect()->back()->with('success', 'Ruang berhasil disetujui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menyetujui ruang: ' . $e->getMessage());
+        }
+    }
+
+    public function rejectRoom($kodeRuang)
+    {
+        try {
+            $ruang = Ruang::findOrFail($kodeRuang);
+            $ruang->update(['status' => 'Ditolak']);
+
+            return redirect()->back()->with('success', 'Ruang berhasil ditolak.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menolak ruang: ' . $e->getMessage());
+        }
+    }
+
+    public function cancelApproval($kodeRuang)
+    {
+        try {
+            $ruang = Ruang::findOrFail($kodeRuang);
+            $ruang->update(['status' => 'BelumDisetujui']);
+
+            return redirect()->back()->with('success', 'Persetujuan ruang berhasil dibatalkan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal membatalkan persetujuan ruang: ' . $e->getMessage());
+        }
+    }
 }

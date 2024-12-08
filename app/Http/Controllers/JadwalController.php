@@ -156,4 +156,40 @@ class JadwalController extends Controller
             'sks' => $mataKuliah->sks
         ]);
     }
+
+    public function approveJadwal($id)
+    {
+        try {
+            $jadwal = Jadwal::findOrFail($id);
+            $jadwal->update(['status' => 'disetujui']);
+
+            return redirect()->back()->with('success', 'Jadwal berhasil disetujui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menyetujui jadwal: ' . $e->getMessage());
+        }
+    }
+
+    public function rejectJadwal($id)
+    {
+        try {
+            $jadwal = Jadwal::findOrFail($id);
+            $jadwal->update(['status' => 'ditolak']);
+
+            return redirect()->back()->with('success', 'Jadwal berhasil ditolak.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menolak jadwal: ' . $e->getMessage());
+        }
+    }
+
+    public function cancelApprovalJadwal($id)
+    {
+        try {
+            $jadwal = Jadwal::findOrFail($id);
+            $jadwal->update(['status' => 'BelumDisetujui']);
+
+            return redirect()->back()->with('success', 'Persetujuan jadwal berhasil dibatalkan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal membatalkan persetujuan jadwal: ' . $e->getMessage());
+        }
+    }
 }
