@@ -17,17 +17,31 @@ class Jadwal extends Model
 
     protected $with = ['waktu'];
 
-    const STATUS_MENUNGGU = 'Menunggu Persetujuan';
+    const STATUS_PENDING = 'Menunggu Persetujuan';
     const STATUS_DISETUJUI = 'Sudah Disetujui';
     const STATUS_DITOLAK = 'Ditolak';
 
     public static function getStatusOptions()
     {
         return [
-            self::STATUS_MENUNGGU,
-            self::STATUS_DISETUJUI,
-            self::STATUS_DITOLAK,
+            self::STATUS_PENDING => 'Menunggu Persetujuan',
+            self::STATUS_DISETUJUI => 'Sudah Disetujui',
+            self::STATUS_DITOLAK => 'Ditolak',
         ];
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        return self::getStatusOptions()[$this->status] ?? $this->status;
+    }
+
+    public function getStatusColorClass()
+    {
+        return [
+            self::STATUS_PENDING => 'bg-yellow-400 text-white',
+            self::STATUS_DISETUJUI => 'bg-green-500 text-white',
+            self::STATUS_DITOLAK => 'bg-red-500 text-white',
+        ][$this->status] ?? 'bg-gray-100 text-gray-800';
     }
 
     public function mataKuliah()
@@ -60,6 +74,6 @@ class Jadwal extends Model
 
     public function waktu()
     {
-        return $this->belongsTo(Waktu::class, 'waktu_id');
+        return $this->belongsTo(Waktu::class, 'waktu_id', 'id');
     }
 }

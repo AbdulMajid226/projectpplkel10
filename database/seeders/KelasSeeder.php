@@ -15,6 +15,8 @@ class KelasSeeder extends Seeder
             ['kelas' => 'B'],
             ['kelas' => 'C'],
             ['kelas' => 'D'],
+            ['kelas' => 'E'],
+            ['kelas' => 'F'],
         ]);
     }
 }

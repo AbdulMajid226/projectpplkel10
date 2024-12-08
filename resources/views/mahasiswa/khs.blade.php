@@ -11,7 +11,7 @@
             <div>
                 <div class="mb-4">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">Nama</label>
-                    <p class="text-base font-medium text-gray-900">Alice Bob</p>
+                    <p class="text-base font-medium text-gray-900">{{ $name }}</p>
                 </div>
                 <div class="mb-1">
                     <label class="block text-xl font-semibold text-gray-700 mb-1">NIM</label>

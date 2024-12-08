@@ -77,7 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
 
-    Route::get('/irs/detail/{id}', [IRSController::class, 'getDetail'])->name('irs.detail');
+    Route::get('/irs/{id}/detail', [IRSController::class, 'getDetail'])->name('irs.detail');
 
     Route::post('/list-mk-mhs/store', [IRSController::class, 'storeListMK'])->name('list-mk-mhs.store');
     Route::delete('/list-mk-mhs/delete/{kode_mk}', [IRSController::class, 'deleteListMK'])->name('list-mk-mhs.delete');
@@ -88,6 +88,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //Pembimbing Akademik
 Route::get('/dashboardpa', function () {
     $irsController = new IRSController();
+
+    $tahunAjaranAktif = 'Ganjil 2024/2025';
 
     $jumlahstatus = [
         'belumMengisi' => $irsController->countByStatus('Belum Mengisi'),
@@ -101,7 +103,7 @@ Route::get('/dashboardpa', function () {
         'disetujui' => $irsController->getIRSByStatus('Sudah Disetujui')
     ];
 
-    return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData'));
+    return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData', 'tahunAjaranAktif'));
 })->middleware(['auth', 'verified'])->name('dashboardpa');
 
 Route::get('/irspa', function () {
@@ -145,6 +147,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/buatjadwalkuliah', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');
     Route::delete('/jadwal/{id}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
+    Route::get('/jadwal/{id}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
 });
 
 Route::middleware('auth')->group(function () {
