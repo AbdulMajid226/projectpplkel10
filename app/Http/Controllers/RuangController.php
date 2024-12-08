@@ -72,6 +72,30 @@ class RuangController extends Controller
         return view('bagian_akademik.ajukan_ruang', compact('ruangs', 'getProgramStudis'));
     }
 
+    public function pengesahanRuang()
+    {
+        $ruangs = Ruang::with('programStudi')->get();
+        $counts = [
+            'ditolak' => $this->countRuangByStatus('ditolak'),
+            'menunggu' => $this->countRuangByStatus('BelumDisetujui'),
+            'disetujui' => $this->countRuangByStatus('disetujui'),
+        ];
+
+        return view('dekan.pengesahan_ruang', compact('ruangs', 'counts'));
+    }
+
+    public function dashboardDekan()
+    {
+        $ruangs = Ruang::with('programStudi')->get();
+        $counts = [
+            'ditolak' => $this->countRuangByStatus('ditolak'),
+            'menunggu' => $this->countRuangByStatus('BelumDisetujui'),
+            'disetujui' => $this->countRuangByStatus('disetujui'),
+        ];
+
+        return view('dekan.dashboard', compact('ruangs', 'counts'));
+    }
+
     public function dashboard()
     {
 
@@ -145,5 +169,10 @@ class RuangController extends Controller
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function countRuangByStatus($status)
+    {
+        return Ruang::where('status', $status)->count();
     }
 }

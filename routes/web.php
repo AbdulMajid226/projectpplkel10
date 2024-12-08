@@ -122,24 +122,22 @@ Route::get('/ajukanruangkuliah', [RuangController::class, 'index'])->middleware(
 
 Route::post('/ajukanruang', [RuangController::class, 'store'])->name('ajukanruang.store');
 Route::get('/ajukanruang', [RuangController::class, 'index'])->name('ajukanruang.index');
-
 Route::delete('/ruang/{ruang}', [RuangController::class, 'destroy'])->name('ruang.destroy');
 
 Route::get('/ruang/{ruang}/edit', [RuangController::class, 'edit'])->name('ruang.edit');
 Route::put('/ruang/{ruang}', [RuangController::class, 'update'])->name('ruang.update');
 
 //Dekan
-Route::get('/dashboard_dekan', function () {
-    return view('dekan.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard_dekan');
-
-Route::get('/pengesahanruangkuliah', function () {
-    return view('dekan.pengesahan_ruang');
-})->middleware(['auth', 'verified'])->name('pengesahanruangkuliah');
+// Route::get('/dashboard_dekan', function () {
+//     return view('dekan.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard_dekan');
+Route::get('/dashboard_dekan', [RuangController::class, 'dashboardDekan'])->middleware(['auth', 'verified'])->name('dashboard_dekan');
+Route::get('/pengesahanruangkuliah', [RuangController::class, 'pengesahanRuang'])->middleware(['auth', 'verified'])->name('pengesahan_ruang');
 
 Route::get('/pengesahanjadwalkuliah', function () {
     return view('dekan.pengesahan_jadwal');
 })->middleware(['auth', 'verified'])->name('pengesahanjadwalkuliah');
+
 
 //Kaprodi
 Route::middleware(['auth', 'verified'])->group(function () {
