@@ -34,17 +34,7 @@ class IRS extends Model
         return $this->hasMany(PengambilanIRS::class, 'id_irs');
     }
 
-    public static function getIRSByStatus($status)
-    {
-        if ($status == 'Belum Mengisi') {
-            return self::with(['mahasiswa' => function($query) {
-            $query->select('nim', 'nama', 'angkatan', 'status');
-            }])
-            ->where('status_persetujuan', $status)
-            ->get();
-        }
-        return self::where('status_persetujuan', $status)->get();
-    }
+
 
     public static function countIRSByNIM($nim)
     {

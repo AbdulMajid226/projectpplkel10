@@ -371,45 +371,51 @@
             );
         }
 
-        function showDetail(nim) {
-    fetch(`/irs/detail/${nim}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const irsData = data.data;
+        function showDetail(irsId) {
+            fetch(`/irs/${irsId}/detail`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(response => {
+                    if (response.success) {
+                        const data = response.data;
 
-                // Isi detail informasi mahasiswa
-                const tbody = document.getElementById('detail-matkul');
-                tbody.innerHTML = ''; // Kosongkan isi tabel sebelumnya
+                        // Isi informasi mahasiswa
+                        document.getElementById('detail-nama').textContent = data.nama;
+                        document.getElementById('detail-nim').textContent = data.nim;
 
-                irsData.forEach((semesterData, index) => {
-                    semesterData.matakuliah.forEach((matkul, matkulIndex) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${semesterData.semester}</td>
-                            <td>${matkul.kode_mk}</td>
-                            <td>${matkul.nama_mk}</td>
-                            <td>${matkul.kelas}</td>
-                            <td>${matkul.sks}</td>
-                            <td>${matkul.status_pengambilan || '-'}</td>
-                        `;
-                        tbody.appendChild(row);
-                    });
+                        // Isi tabel mata kuliah
+                        const tbody = document.getElementById('detail-matkul');
+                        tbody.innerHTML = '';
+
+                        data.jadwal.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${index + 1}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.kode_mk}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">${item.nama_mk}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.sks}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.hari}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.jam}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.ruangan}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+
+                        // Tampilkan modal
+                        document.getElementById('detailModal').classList.remove('hidden');
+                    } else {
+                        throw new Error(response.message || 'Terjadi kesalahan');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal memuat detail IRS: ' + error.message);
                 });
-
-                // Tampilkan modal detail
-                document.getElementById('detailModal').classList.remove('hidden');
-            } else {
-                alert('Detail IRS tidak ditemukan.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengambil data.');
-        });
-}
-
+        }
 
         function closeDetailModal() {
             document.getElementById('detailModal').classList.add('hidden');

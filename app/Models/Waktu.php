@@ -9,7 +9,11 @@ class Waktu extends Model
 {
     use HasFactory;
     protected $table = 'waktu';
-    protected $fillable = ['waktu_mulai', 'waktu_selesai'];
+    protected $fillable = [
+        'jam_mulai',
+        'jam_selesai',
+        // kolom lainnya...
+    ];
 
     public function jadwal()
     {

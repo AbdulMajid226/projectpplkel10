@@ -53,14 +53,23 @@ class IRSController extends Controller
     public function getIRSByStatus($status)
     {
         try {
+            $tahunAjaranAktif = 'Ganjil 2024/2025'; // Untuk sementara hardcode, nanti bisa diambil dari sistem
+
             if ($status == 'Belum Mengisi') {
                 return IRS::with(['mahasiswa' => function($query) {
                     $query->select('nim', 'nama', 'angkatan', 'status');
                 }])
                 ->where('status_persetujuan', $status)
+                ->where('thn_ajaran', $tahunAjaranAktif)
                 ->get();
             }
-            return IRS::where('status_persetujuan', $status)->get();
+
+            return IRS::with(['mahasiswa' => function($query) {
+                $query->select('nim', 'nama', 'angkatan', 'status');
+            }])
+            ->where('status_persetujuan', $status)
+            ->where('thn_ajaran', $tahunAjaranAktif)
+            ->get();
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -72,7 +81,10 @@ class IRSController extends Controller
     public function countByStatus($status)
     {
         try {
-            return IRS::where('status_persetujuan', $status)->count();
+            $tahunAjaranAktif = 'Ganjil 2024/2025';
+            return IRS::where('status_persetujuan', $status)
+                      ->where('thn_ajaran', $tahunAjaranAktif)
+                      ->count();
         } catch (\Exception $e) {
             return 0;
         }
@@ -129,6 +141,57 @@ class IRSController extends Controller
             ], 500);
         }
     }
+    public function getDetail($id)
+    {
+        try {
+            $irs = IRS::with([
+                'mahasiswa',
+                'pengambilanIrs.jadwal.mataKuliah',
+                'pengambilanIrs.jadwal.waktu',
+            ])->findOrFail($id);
 
+            $jadwalData = $irs->pengambilanIrs->map(function ($pengambilan) {
+                $jadwal = $pengambilan->jadwal;
+                $mataKuliah = $jadwal->mataKuliah;
+                $waktu = $jadwal->waktu;
+
+                return [
+                    'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : '-',
+                    'nama_mk' => $mataKuliah ? $mataKuliah->nama : '-',
+                    'sks' => $mataKuliah ? $mataKuliah->sks : '-',
+                    'hari' => $jadwal ? $jadwal->hari : '-',
+                    'kelas' => $jadwal ? $jadwal->kelas : '-',
+                    'jam' => $waktu ? $waktu->waktu_mulai . ' - ' . $waktu->waktu_selesai : '-',
+                    'ruangan' => $jadwal ? $jadwal->kode_ruang : '-'
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'nama' => $irs->mahasiswa->nama,
+                    'nim' => $irs->mahasiswa->nim,
+                    'jadwal' => $jadwalData
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil detail IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getTahunAjaranAktif()
+    {
+        try {
+            // Logika untuk mendapatkan tahun ajaran aktif
+            // Bisa dari setting sistem atau perhitungan otomatis
+            $tahunAjaranAktif = '2024/2025 Ganjil';
+            return $tahunAjaranAktif;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
 }
