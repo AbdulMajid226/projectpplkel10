@@ -76,6 +76,6 @@ class Jadwal extends Model
 
     public function waktu()
     {
-        return $this->belongsTo(Waktu::class);
+        return $this->belongsTo(Waktu::class, 'waktu_id');
     }
 }

@@ -90,6 +90,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2022/2023',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
 
 
@@ -102,6 +103,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6201',
@@ -111,6 +113,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6201',
@@ -120,6 +123,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Rabu',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6201',
@@ -129,6 +133,8 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Kamis',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+
         ]);
 
         Jadwal::create([
@@ -139,6 +145,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6202',
@@ -148,6 +155,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Selasa',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6202',
@@ -157,6 +165,8 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Rabu',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6202',
@@ -166,6 +176,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2022/2023',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
 
 
@@ -178,6 +189,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6301',
@@ -187,6 +199,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6301',
@@ -196,6 +209,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Rabu',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6301',
@@ -205,8 +219,9 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Kamis',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
-        
+
         Jadwal::create([
             'kode_mk' => 'PAIK6302',
             'kode_ruang' => 'E102',
@@ -215,6 +230,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6302',
@@ -224,6 +240,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Selasa',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6302',
@@ -233,6 +250,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Rabu',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6302',
@@ -242,6 +260,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2023/2024',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
 
 
@@ -254,6 +273,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6401',
@@ -263,6 +283,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6401',
@@ -272,6 +293,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Rabu',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6401',
@@ -281,6 +303,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Kamis',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
 
         Jadwal::create([
@@ -291,6 +314,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6402',
@@ -300,6 +324,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Selasa',
             'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6402',
@@ -309,6 +334,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Rabu',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6402',
@@ -318,6 +344,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Genap 2023/2024',
             'hari' => 'Kamis',
             'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
         ]);
 
 
@@ -330,6 +357,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Senin',
             'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6501',
@@ -339,6 +367,7 @@ class JadwalSeeder extends Seeder
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Selasa',
             'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6501',
@@ -347,48 +376,12 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
-            'waktu_id' => 1,
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
             'kode_mk' => 'PAIK6501',
             'kode_ruang' => 'E101',
-            'kelas' => 'D',
-            'kuota' => 50,
-            'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Kamis',
-            'waktu_id' => 3,
-        ]);
-        
-        Jadwal::create([
-            'kode_mk' => 'PAIK6502',
-            'kode_ruang' => 'E102',
-            'kelas' => 'A',
-            'kuota' => 50,
-            'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Senin',
-            'waktu_id' => 1,
-        ]);
-        Jadwal::create([
-            'kode_mk' => 'PAIK6502',
-            'kode_ruang' => 'E102',
-            'kelas' => 'B',
-            'kuota' => 50,
-            'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Selasa',
-            'waktu_id' => 3,
-        ]);
-        Jadwal::create([
-            'kode_mk' => 'PAIK6502',
-            'kode_ruang' => 'E102',
-            'kelas' => 'C',
-            'kuota' => 50,
-            'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Rabu',
-            'waktu_id' => 2,
-        ]);
-        Jadwal::create([
-            'kode_mk' => 'PAIK6502',
-            'kode_ruang' => 'E102',
             'kelas' => 'D',
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
@@ -396,5 +389,346 @@ class JadwalSeeder extends Seeder
             'waktu_id' => 4,
             'status' => 'Sudah Disetujui'
         ]);
-}
+
+        Jadwal::create([
+            'kode_mk' => 'PAIK6502',
+            'kode_ruang' => 'E102',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6502',
+            'kode_ruang' => 'E102',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6502',
+            'kode_ruang' => 'E102',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6502',
+            'kode_ruang' => 'E102',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+        // Jadwal untuk semua mata kuliah di semester 5
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Jumat',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'E',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Jumat',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+        Jadwal::create([
+            'kode_mk' => 'PAIK6504',
+            'kode_ruang' => 'E104',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6504',
+            'kode_ruang' => 'E104',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6504',
+            'kode_ruang' => 'E104',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6504',
+            'kode_ruang' => 'E104',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6505',
+            'kode_ruang' => 'E105',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6505',
+            'kode_ruang' => 'E105',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6505',
+            'kode_ruang' => 'E105',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6505',
+            'kode_ruang' => 'E105',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6506',
+            'kode_ruang' => 'E106',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6506',
+            'kode_ruang' => 'E106',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu', 
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6506',
+            'kode_ruang' => 'E106',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6506',
+            'kode_ruang' => 'E106',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Jumat',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+        // Tambahan jadwal untuk mata kuliah PAIK6507 (Analisis Data)
+        Jadwal::create([
+            'kode_mk' => 'PAIK6507',
+            'kode_ruang' => 'E107',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6507',
+            'kode_ruang' => 'E107',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa', 
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6507',
+            'kode_ruang' => 'E107',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6507',
+            'kode_ruang' => 'E107',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+        // Jadwal untuk PAIK6508 (Pengembangan Aplikasi Mobile)
+        Jadwal::create([
+            'kode_mk' => 'PAIK6508',
+            'kode_ruang' => 'E108',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6508',
+            'kode_ruang' => 'E108',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6508',
+            'kode_ruang' => 'E108',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6508',
+            'kode_ruang' => 'E108',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+        // Jadwal untuk PAIK6509 (Cloud Computing)
+        Jadwal::create([
+            'kode_mk' => 'PAIK6509',
+            'kode_ruang' => 'E109',
+            'kelas' => 'A',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Senin',
+            'waktu_id' => 4,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6509',
+            'kode_ruang' => 'E109',
+            'kelas' => 'B',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Selasa',
+            'waktu_id' => 1,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6509',
+            'kode_ruang' => 'E109',
+            'kelas' => 'C',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Rabu',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6509',
+            'kode_ruang' => 'E109',
+            'kelas' => 'D',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Kamis',
+            'waktu_id' => 3,
+            'status' => 'Sudah Disetujui'
+        ]);
+
+    }
 }
