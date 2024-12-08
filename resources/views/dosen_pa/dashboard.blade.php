@@ -121,11 +121,11 @@
                 <tbody>
                     @foreach($irsData['menungguPersetujuan'] as $index => $irs)
                     <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
-                        <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}<!/td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '0' }}</td>
                         <td class="px-4 py-2 border border-gray-300">
                             <button
                                 onclick="approveIRS({{ $irs->id }})"
@@ -162,11 +162,11 @@
                 <tbody>
                     @foreach($irsData['disetujui'] as $index => $irs)
                     <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
-                        <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
+                        <!--td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</!--td-->
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '0' }}</td>
                         <td class="px-4 py-2 border border-gray-300">
                             <button
                                 class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"

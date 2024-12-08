@@ -53,23 +53,32 @@ class IRSController extends Controller
     public function getIRSByStatus($status)
     {
         try {
-            $tahunAjaranAktif = 'Ganjil 2024/2025'; // Untuk sementara hardcode, nanti bisa diambil dari sistem
+            $tahunAjaranAktif = 'Ganjil 2024/2025';
 
-            if ($status == 'Belum Mengisi') {
-                return IRS::with(['mahasiswa' => function($query) {
+            $irsData = IRS::with([
+                'mahasiswa' => function($query) {
                     $query->select('nim', 'nama', 'angkatan', 'status');
-                }])
-                ->where('status_persetujuan', $status)
-                ->where('thn_ajaran', $tahunAjaranAktif)
-                ->get();
-            }
-
-            return IRS::with(['mahasiswa' => function($query) {
-                $query->select('nim', 'nama', 'angkatan', 'status');
-            }])
+                },
+                'pengambilanIrs.jadwal.mata_kuliah' // Tambahkan relasi untuk menghitung SKS
+            ])
             ->where('status_persetujuan', $status)
             ->where('thn_ajaran', $tahunAjaranAktif)
             ->get();
+
+            // Hitung total SKS untuk setiap IRS
+            foreach($irsData as $irs) {
+                $totalSKS = 0;
+                foreach($irs->pengambilanIrs as $pengambilan) {
+                    if ($pengambilan->jadwal && $pengambilan->jadwal->mata_kuliah) {
+                        $totalSKS += $pengambilan->jadwal->mata_kuliah->sks ?? 0;
+                    }
+                }
+                // Update total SKS di database
+                $irs->update(['total_sks' => $totalSKS]);
+            }
+
+            return $irsData;
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -150,10 +159,17 @@ class IRSController extends Controller
                 'pengambilanIrs.jadwal.waktu',
             ])->findOrFail($id);
 
-            $jadwalData = $irs->pengambilanIrs->map(function ($pengambilan) {
+            $totalSKS = 0; // Inisialisasi total SKS
+
+            $jadwalData = $irs->pengambilanIrs->map(function ($pengambilan) use (&$totalSKS) {
                 $jadwal = $pengambilan->jadwal;
                 $mataKuliah = $jadwal->mataKuliah;
                 $waktu = $jadwal->waktu;
+
+                // Tambahkan SKS ke total
+                if ($mataKuliah && $mataKuliah->sks) {
+                    $totalSKS += $mataKuliah->sks;
+                }
 
                 return [
                     'kode_mk' => $mataKuliah ? $mataKuliah->kode_mk : '-',
@@ -166,11 +182,15 @@ class IRSController extends Controller
                 ];
             });
 
+            // Update total SKS di database
+            $irs->update(['total_sks' => $totalSKS]);
+
             return response()->json([
                 'success' => true,
                 'data' => [
                     'nama' => $irs->mahasiswa->nama,
                     'nim' => $irs->mahasiswa->nim,
+                    'total_sks' => $totalSKS,
                     'jadwal' => $jadwalData
                 ]
             ]);
