@@ -376,7 +376,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
-            'waktu_id' => 1,
+            'waktu_id' => 3,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -386,7 +386,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
-            'waktu_id' => 3,
+            'waktu_id' => 4,
             'status' => 'Sudah Disetujui'
         ]);
 
@@ -397,7 +397,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Senin',
-            'waktu_id' => 1,
+            'waktu_id' => 2,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -417,7 +417,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
-            'waktu_id' => 2,
+            'waktu_id' => 1,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -427,7 +427,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
-            'waktu_id' => 4,
+            'waktu_id' => 3,
             'status' => 'Sudah Disetujui'
         ]);
 
@@ -439,7 +439,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Senin',
-            'waktu_id' => 1,
+            'waktu_id' => 3,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -449,7 +449,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Selasa',
-            'waktu_id' => 2,
+            'waktu_id' => 4,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -458,7 +458,7 @@ class JadwalSeeder extends Seeder
             'kelas' => 'C',
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Rabu',
+            'hari' => 'Jumat',
             'waktu_id' => 1,
             'status' => 'Sudah Disetujui'
         ]);
@@ -469,6 +469,16 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
+            'waktu_id' => 2,
+            'status' => 'Sudah Disetujui'
+        ]);
+        Jadwal::create([
+            'kode_mk' => 'PAIK6503',
+            'kode_ruang' => 'E103',
+            'kelas' => 'E',
+            'kuota' => 50,
+            'thn_ajaran' => 'Ganjil 2024/2025',
+            'hari' => 'Jumat',
             'waktu_id' => 3,
             'status' => 'Sudah Disetujui'
         ]);
@@ -500,7 +510,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Rabu',
-            'waktu_id' => 2,
+            'waktu_id' => 4,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -510,7 +520,7 @@ class JadwalSeeder extends Seeder
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
             'hari' => 'Kamis',
-            'waktu_id' => 4,
+            'waktu_id' => 1,
             'status' => 'Sudah Disetujui'
         ]);
         Jadwal::create([
@@ -569,7 +579,7 @@ class JadwalSeeder extends Seeder
             'kelas' => 'B',
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Selasa',
+            'hari' => 'Rabu', 
             'waktu_id' => 2,
             'status' => 'Sudah Disetujui'
         ]);
@@ -579,7 +589,7 @@ class JadwalSeeder extends Seeder
             'kelas' => 'C',
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Rabu',
+            'hari' => 'Kamis',
             'waktu_id' => 3,
             'status' => 'Sudah Disetujui'
         ]);
@@ -589,7 +599,7 @@ class JadwalSeeder extends Seeder
             'kelas' => 'D',
             'kuota' => 50,
             'thn_ajaran' => 'Ganjil 2024/2025',
-            'hari' => 'Kamis',
+            'hari' => 'Jumat',
             'waktu_id' => 4,
             'status' => 'Sudah Disetujui'
         ]);
