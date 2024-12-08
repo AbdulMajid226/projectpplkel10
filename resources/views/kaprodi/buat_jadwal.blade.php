@@ -178,16 +178,26 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($jadwals as $jadwal)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->mataKuliah->nama }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->mataKuliah->nama ?? 'N/A' }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @foreach($jadwal->mataKuliah->pengampuanDosen as $dosen)
-                                        {{ $dosen->nama }}<br>
-                                    @endforeach
+                                    @if($jadwal->mataKuliah)
+                                        @foreach($jadwal->mataKuliah->pengampuanDosen ?? [] as $dosen)
+                                            {{ $dosen->nama ?? '' }}<br>
+                                        @endforeach
+                                    @else
+                                        N/A
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->kelas }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->hari }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->waktu->jam_mulai }} - {{ $jadwal->waktu->jam_selesai }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if($jadwal->waktu)
+                                        {{ $jadwal->waktu->jam_mulai }} - {{ $jadwal->waktu->jam_selesai }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $jadwal->ruang->kode_ruang ?? 'N/A' }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $jadwal->getStatusColorClass() }}">
                                         {{ $jadwal->status_label }}

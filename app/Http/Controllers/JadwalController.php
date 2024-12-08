@@ -15,15 +15,27 @@ class JadwalController extends Controller
 {
     public function index()
     {
-        $mataKuliahs = MataKuliah::all();
+        $mataKuliahs = MataKuliah::with('pengampuanDosen')->get();
         $dosens = Dosen::all();
         $ruangs = Ruang::all();
         $waktus = Waktu::all();
-        $jadwals = Jadwal::with(['mataKuliah', 'ruang', 'waktu'])->get();
+        $jadwals = Jadwal::with([
+            'mataKuliah.pengampuanDosen',
+            'ruang',
+            'waktu'
+        ])->get();
         $kelas = Kelas::all();
         $tahunAjaran = TahunAjaran::all();
 
-        return view('kaprodi.buat_jadwal', compact('mataKuliahs', 'dosens', 'ruangs', 'waktus', 'jadwals', 'kelas', 'tahunAjaran'));
+        return view('kaprodi.buat_jadwal', compact(
+            'mataKuliahs',
+            'dosens',
+            'ruangs',
+            'waktus',
+            'jadwals',
+            'kelas',
+            'tahunAjaran'
+        ));
     }
 
     public function store(Request $request)
