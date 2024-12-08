@@ -28,9 +28,9 @@
                     <form action="{{ route('mahasiswa.aktif') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
-                                @if(auth()->user()->mahasiswa->status !== 'BelumRegistrasi') disabled @endif
+                                @if(auth()->user()->mahasiswa->status !== 'Belum Registrasi') disabled @endif
                                 class="bg-green-600 text-white px-6 py-2.5 rounded-lg transition-colors duration-300 font-medium
-                                {{ auth()->user()->mahasiswa->status !== 'BelumRegistrasi'
+                                {{ auth()->user()->mahasiswa->status !== 'Belum Registrasi'
                                     ? 'opacity-50 cursor-not-allowed'
                                     : 'hover:bg-green-700' }}">
                             @if(auth()->user()->mahasiswa->status === 'Aktif')
@@ -61,9 +61,9 @@
                     <form action="{{ route('mahasiswa.ajukan-cuti') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
-                                @if(auth()->user()->mahasiswa->status !== 'BelumRegistrasi') disabled @endif
+                                @if(auth()->user()->mahasiswa->status !== 'Belum Registrasi') disabled @endif
                                 class="bg-red-600 text-white px-6 py-2.5 rounded-lg transition-colors duration-300 font-medium
-                                {{ auth()->user()->mahasiswa->status !== 'BelumRegistrasi'
+                                {{ auth()->user()->mahasiswa->status !== 'Belum Registrasi'
                                     ? 'opacity-50 cursor-not-allowed'
                                     : 'hover:bg-red-700' }}">
                             @if(auth()->user()->mahasiswa->status === 'Aktif')
