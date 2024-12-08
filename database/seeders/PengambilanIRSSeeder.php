@@ -45,6 +45,11 @@ class PengambilanIRSSeeder extends Seeder
             'id_jadwal' => 21,
             'status_pengambilan' => 'Baru',
         ]);
+        PengambilanIRS::create([
+            'id_irs' => 3,
+            'id_jadwal' => 1,
+            'status_pengambilan' => 'Perbaikan',
+        ]);
 
         // Alice Semester 4
         PengambilanIRS::create([

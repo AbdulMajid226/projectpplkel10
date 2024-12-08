@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
             
             // Mencegah duplikasi data
-            $table->unique(['nim', 'kode_mk']);
+            // $table->unique(['nim', 'kode_mk']);
         });
     }
 

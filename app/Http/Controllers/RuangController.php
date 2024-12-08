@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ruang;
 use App\Models\ProgramStudi;
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\Auth;
 
 class RuangController extends Controller
@@ -145,5 +146,62 @@ class RuangController extends Controller
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function countRuangByStatus($status)
+    {
+        return Ruang::where('status', $status)->count();
+    }
+
+    public function pengesahanRuang()
+    {
+        $ruangs = Ruang::with('programStudi')->get();
+        $counts = [
+            'ditolak' => $this->countRuangByStatus('ditolak'),
+            'menunggu' => $this->countRuangByStatus('BelumDisetujui'),
+            'disetujui' => $this->countRuangByStatus('disetujui'),
+        ];
+
+        return view('dekan.pengesahan_ruang', compact('ruangs', 'counts'));
+    }
+
+    public function pengesahanJadwal()
+    {
+        $jadwals = Jadwal::with('mataKuliah')->get();
+        $counts = [
+            'ditolak' => Jadwal::where('status', Jadwal::STATUS_DITOLAK)->count(),
+            'menunggu' => Jadwal::where('status', Jadwal::STATUS_PENDING)->count(),
+            'disetujui' => Jadwal::where('status', Jadwal::STATUS_DISETUJUI)->count(),
+        ];
+
+        return view('dekan.pengesahan_jadwal', compact('jadwals', 'counts'));
+    }
+
+    public function dashboardDekan()
+    {
+        $ruangs = Ruang::with('programStudi')->get();
+        $countRuangs = [
+            'ditolak' => $this->countRuangByStatus('ditolak'),
+            'menunggu' => $this->countRuangByStatus('BelumDisetujui'), 
+            'disetujui' => $this->countRuangByStatus('disetujui'),
+        ];
+        
+        $jadwals = Jadwal::with('mataKuliah')->get();
+        $countJadwals = [
+            'ditolak' => Jadwal::where('status', Jadwal::STATUS_DITOLAK)->count(),
+            'menunggu' => Jadwal::where('status', Jadwal::STATUS_PENDING)->count(),
+            'disetujui' => Jadwal::where('status', Jadwal::STATUS_DISETUJUI)->count(),
+        ];
+
+        return view('dekan.dashboard', compact('ruangs', 'countRuangs', 'jadwals', 'countJadwals'));
+    }
+
+    public function getStatusColorClass($status)
+    {
+        return [
+            'BelumDisetujui' => 'bg-yellow-400 text-white',
+            'disetujui' => 'bg-green-500 text-white', 
+            'ditolak' => 'bg-red-500 text-white',
+        ][$status] ?? 'bg-gray-100 text-gray-800';
     }
 }
