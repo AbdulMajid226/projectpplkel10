@@ -10,12 +10,14 @@ class PengambilanIRS extends Model
     use HasFactory;
 
     protected $table = 'pengambilan_irs';
+    protected $primaryKey = 'id';
 
     public $timestamps = true;
 
     protected $fillable = [
         'id_irs',
         'id_jadwal',
+        'status_pengambilan'
     ];
 
     // Tambahkan relasi ke model Jadwal

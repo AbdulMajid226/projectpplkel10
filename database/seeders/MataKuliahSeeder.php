@@ -42,6 +42,9 @@ class MataKuliahSeeder extends Seeder
             ['kode_mk' => 'PAIK6504', 'nama' => 'Proyek Perangkat Lunak', 'sks' => 3, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6505', 'nama' => 'Pembelajaran Mesin', 'sks' => 3, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6506', 'nama' => 'Keamanan dan Jaminan Informasi', 'sks' => 3, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
+            ['kode_mk' => 'PAIK6507', 'nama' => 'Analisis Data', 'sks' => 3, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
+            ['kode_mk' => 'PAIK6508', 'nama' => 'Pengembangan Aplikasi Mobile', 'sks' => 4, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
+            ['kode_mk' => 'PAIK6509', 'nama' => 'Cloud Computing', 'sks' => 3, 'semester' => 5, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
 
             ['kode_mk' => 'PAIK6601', 'nama' => 'Analisis dan Strategi Algoritma', 'sks' => 3, 'semester' => 6, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],
             ['kode_mk' => 'PAIK6602', 'nama' => 'Uji Perangkat Lunak', 'sks' => 3, 'semester' => 6, 'sifat' => 'wajib', 'kode_prodi' => 'IF'],

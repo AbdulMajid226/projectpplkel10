@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             BagianAkademikSeeder::class,
             DekanSeeder::class,
             KaprodiSeeder::class,
+            ListMkMhsSeeder::class,
         ]);
     }
 }

@@ -18,7 +18,7 @@ class MahasiswaSeeder extends Seeder
                 'kode_prodi' => 'IF',
                 'nidn' => '123456',
                 'user_id' => 2,
-                'status' => 'BelumRegistrasi',
+                'status' => 'Belum Registrasi',
                 'semester_aktif' => 5
             ],
             [
@@ -28,7 +28,7 @@ class MahasiswaSeeder extends Seeder
                 'kode_prodi' => 'SI',
                 'nidn' => '123456',
                 'user_id' => 3,
-                'status' => 'BelumRegistrasi',
+                'status' => 'Belum Registrasi',
                 'semester_aktif' => 5
             ],
         ]);

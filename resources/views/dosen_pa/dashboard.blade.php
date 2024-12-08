@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <!-- Informasi Tahun  >
+    <!-- Informasi Tahun >
     <div-- class="flex flex-wrap gap-4 mb-6">
         <select class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500">
             <option>Pilih Tahun Ajaran</option>
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-
+    <h2 class="text-xl font-semibold text-gray-800">Pengesahan IRS</h2>
     <!-- Tabel Belum Mengisi -->
     <div id="table-belum" class="hidden mt-4">
         <div class="overflow-x-auto">
@@ -120,12 +120,12 @@
                 </thead>
                 <tbody>
                     @foreach($irsData['menungguPersetujuan'] as $index => $irs)
-                    <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
+                    <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50" data-irs-id="{{ $irs->id }}">
                         <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                        <td class="px-4 py-2 border border-gray-300">0</td>
                         <td class="px-4 py-2 border border-gray-300">
                             <button
                                 onclick="approveIRS({{ $irs->id }})"
@@ -161,12 +161,12 @@
                 </thead>
                 <tbody>
                     @foreach($irsData['disetujui'] as $index => $irs)
-                    <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50">
+                    <tr class="min-w-full text-sm text-left text-gray-700 hover:bg-gray-50" data-irs-id="{{ $irs->id }}">
                         <td class="px-4 py-2 border border-gray-300">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nama }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->nim }}</td>
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ $irs->total_sks ?? '-' }}</td>
+                        <td class="px-4 py-2 border border-gray-300">0</td>
                         <td class="px-4 py-2 border border-gray-300">
                             <button
                                 class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
@@ -372,31 +372,35 @@
         }
 
         function showDetail(irsId) {
-            fetch(`/irs/detail/${irsId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const irs = data.data;
+            fetch(`/irs/${irsId}/detail`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(response => {
+                    if (response.success) {
+                        const data = response.data;
 
                         // Isi informasi mahasiswa
-                        document.getElementById('detail-nama').textContent = irs.mahasiswa.nama;
-                        document.getElementById('detail-nim').textContent = irs.mahasiswa.nim;
+                        document.getElementById('detail-nama').textContent = data.nama;
+                        document.getElementById('detail-nim').textContent = data.nim;
 
                         // Isi tabel mata kuliah
                         const tbody = document.getElementById('detail-matkul');
                         tbody.innerHTML = '';
 
-                        irs.pengambilan_irs.forEach((pengambilan, index) => {
-                            const jadwal = pengambilan.jadwal;
+                        data.jadwal.forEach((item, index) => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${index + 1}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.kode || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900">${jadwal.mata_kuliah?.nama || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.mata_kuliah?.sks || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu?.hari || '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.waktu ? `${jadwal.waktu.jam_mulai} - ${jadwal.waktu.jam_selesai}` : '-'}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${jadwal.ruang?.nama || '-'}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.kode_mk}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">${item.nama_mk}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.sks}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.hari}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.jam}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">${item.ruangan}</td>
                             `;
                             tbody.appendChild(row);
                         });
@@ -404,12 +408,12 @@
                         // Tampilkan modal
                         document.getElementById('detailModal').classList.remove('hidden');
                     } else {
-                        alert('Gagal mengambil detail IRS');
+                        throw new Error(response.message || 'Terjadi kesalahan');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengambil detail IRS');
+                    alert('Gagal memuat detail IRS: ' + error.message);
                 });
         }
 
@@ -424,7 +428,30 @@
             document.getElementById('table-disetujui').classList.add('hidden');
 
             // Tampilkan tabel yang dipilih
-            document.getElementById('table-' + status).classList.remove('hidden');
+            const selectedTable = document.getElementById('table-' + status);
+            selectedTable.classList.remove('hidden');
+
+            // Jika status bukan 'belum', ambil detail IRS untuk setiap baris
+            if (status !== 'belum') {
+                const rows = selectedTable.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const irsId = row.getAttribute('data-irs-id');
+                    if (irsId) {
+                        fetch(`/irs/${irsId}/detail`)
+                            .then(response => response.json())
+                            .then(response => {
+                                if (response.success) {
+                                    // Update total SKS di baris tabel
+                                    const sksCell = row.querySelector('td:nth-child(5)'); // Kolom SKS
+                                    if (sksCell) {
+                                        sksCell.textContent = response.data.total_sks;
+                                    }
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+                });
+            }
         }
     </script>
 @endsection
