@@ -4,14 +4,15 @@
 
 @section('content')
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-gray-800 mb-10">Pengesahan Ruang Kuliah</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-10">Pengesahan Ruang Kuliah</h1>
+        <h1 class="p-2 border rounded focus:outline-none focus:border-teal-500">Ajuan Ruang Kuliah <br> Semester Gasal Tahun Ajaran 2024/2025</h1>
 
         <!-- Filter dan Pencarian -->
         <div class="flex flex-wrap gap-4 mb-6">
             <select class="p-2 border rounded">
                 <option>Semua Status</option>
                 <option>Menunggu Persetujuan</option>
-                <option>Disetujui</option>
+                <option>Sudah Disetujui</option>
                 <option>Ditolak</option>
             </select>
             <select class="p-2 border rounded">
