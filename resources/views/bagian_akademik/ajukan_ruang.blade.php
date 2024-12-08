@@ -95,16 +95,12 @@
                                             </svg>
                                         </button>
                                         @if($ruang->status != 'disetujui')
-                                        <form action="{{ route('ruang.destroy', $ruang->kode_ruang) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 transition duration-200 hover:text-red-900"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus pengajuan ruang ini?')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </form>
+                                        <button type="button" onclick="deleteRoom('{{ $ruang->kode_ruang }}')"
+                                            class="text-red-600 transition duration-200 hover:text-red-900">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -120,6 +116,34 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
+    </div>
+
+    <!-- Tambahkan modal konfirmasi hapus sebelum tag penutup -->
+    <div id="deleteModal" class="hidden overflow-y-auto fixed inset-0 z-50">
+        <div class="flex justify-center items-center px-4 min-h-screen">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <div class="relative p-6 w-full max-w-md bg-white rounded-lg">
+                <div class="mb-6 text-center">
+                    <svg class="mx-auto mb-4 w-14 h-14 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="mb-2 text-lg font-semibold text-gray-900">Konfirmasi Penghapusan</h3>
+                    <p class="text-gray-600">Apakah Anda yakin ingin menghapus pengajuan ruang ini?</p>
+                </div>
+
+                <form id="deleteForm" method="POST" class="flex gap-3 justify-center">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">
+                        Ya, Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -225,4 +249,14 @@
             alert('Terjadi kesalahan saat menyimpan data');
         });
     });
+
+    function deleteRoom(kodeRuang) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = `/ruang/${kodeRuang}`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
 </script>
