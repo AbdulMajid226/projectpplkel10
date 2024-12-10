@@ -203,6 +203,13 @@ class RuangController extends Controller
             'disetujui' => 'bg-green-500 text-white', 
             'ditolak' => 'bg-red-500 text-white',
         ][$status] ?? 'bg-gray-100 text-gray-800';
+        if ($status == 'disetujui') {
+            return 'Sudah Disetujui';
+        } elseif ($status == 'BelumDisetujui') {
+            return 'Belum Disetujui';
+        } else {
+            return 'Ditolak';
+        }
     }
 
     public function approveRoom($kodeRuang)

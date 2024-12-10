@@ -161,7 +161,7 @@ class JadwalController extends Controller
     {
         try {
             $jadwal = Jadwal::findOrFail($id);
-            $jadwal->update(['status' => 'disetujui']);
+            $jadwal->update(['status' => 'Sudah Disetujui']);
 
             return redirect()->back()->with('success', 'Jadwal berhasil disetujui.');
         } catch (\Exception $e) {
@@ -173,7 +173,7 @@ class JadwalController extends Controller
     {
         try {
             $jadwal = Jadwal::findOrFail($id);
-            $jadwal->update(['status' => 'ditolak']);
+            $jadwal->update(['status' => 'Ditolak']);
 
             return redirect()->back()->with('success', 'Jadwal berhasil ditolak.');
         } catch (\Exception $e) {
@@ -185,7 +185,7 @@ class JadwalController extends Controller
     {
         try {
             $jadwal = Jadwal::findOrFail($id);
-            $jadwal->update(['status' => 'BelumDisetujui']);
+            $jadwal->update(['status' => 'Menunggu Persetujuan']);
 
             return redirect()->back()->with('success', 'Persetujuan jadwal berhasil dibatalkan.');
         } catch (\Exception $e) {
