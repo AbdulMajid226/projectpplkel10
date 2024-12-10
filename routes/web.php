@@ -135,17 +135,18 @@ Route::post('/ruang/{kodeRuang}/approve', [RuangController::class, 'approveRoom'
 Route::post('/ruang/{kodeRuang}/reject', [RuangController::class, 'rejectRoom'])->name('ruang.reject');
 Route::post('/ruang/{kodeRuang}/cancel', [RuangController::class, 'cancelApproval'])->name('ruang.cancel');
 
-Route::get('/pengesahanjadwalkuliah', [RuangController::class, 'pengesahanJadwal'])->middleware(['auth', 'verified'])->name('pengesahan_jadwal');
+Route::get('/pengesahanjadwalkuliah', [JadwalController::class, 'pengesahanJadwal'])->middleware(['auth', 'verified'])->name('pengesahan_jadwal');
 Route::post('/jadwal/{id}/approve', [JadwalController::class, 'approveJadwal'])->name('jadwal.approve');
 Route::post('/jadwal/{id}/reject', [JadwalController::class, 'rejectJadwal'])->name('jadwal.reject');
 Route::post('/jadwal/{id}/cancel', [JadwalController::class, 'cancelApprovalJadwal'])->name('jadwal.cancel');
 
 //Kaprodi
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard_kaprodi', function () {
-        return view('kaprodi.dashboard');
-    })->name('dashboard_kaprodi');
+    // Route::get('/dashboard_kaprodi', function () {
+    //     return view('kaprodi.dashboard');
+    // })->name('dashboard_kaprodi');
 
+    Route::get('/dashboard_kaprodi', [JadwalController::class, 'dashboardKaprodi'])->middleware(['auth', 'verified'])->name('dashboard_kaprodi');
     Route::get('/buatjadwalkuliah', [JadwalController::class, 'index'])->name('buatjadwalkuliah');
     Route::post('/buatjadwalkuliah', [JadwalController::class, 'store'])->name('jadwal.store');
     Route::put('/jadwal/{id}', [JadwalController::class, 'update'])->name('jadwal.update');

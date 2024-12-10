@@ -165,18 +165,6 @@ class RuangController extends Controller
         return view('dekan.pengesahan_ruang', compact('ruangs', 'counts'));
     }
 
-    public function pengesahanJadwal()
-    {
-        $jadwals = Jadwal::with('mataKuliah')->get();
-        $counts = [
-            'ditolak' => Jadwal::where('status', Jadwal::STATUS_DITOLAK)->count(),
-            'menunggu' => Jadwal::where('status', Jadwal::STATUS_PENDING)->count(),
-            'disetujui' => Jadwal::where('status', Jadwal::STATUS_DISETUJUI)->count(),
-        ];
-
-        return view('dekan.pengesahan_jadwal', compact('jadwals', 'counts'));
-    }
-
     public function dashboardDekan()
     {
         $ruangs = Ruang::with('programStudi')->get();
