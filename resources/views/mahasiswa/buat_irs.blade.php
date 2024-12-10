@@ -178,11 +178,11 @@
                         <!-- Kolom hari dengan grid col-span-5 -->
                         <div class="col-span-5 grid grid-cols-5">
                             @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
-                                <div class="relative min-h-full border-r border-gray-300 {{ $loop->last ? '' : 'border-r-2' }}" 
+                                <div class="relative min-h-full border-r border-gray-300 {{ $loop->last ? '' : 'border-r-2' }}"
                                      id="jadwal-{{ strtolower($hari) }}">
                                     <!-- Garis horizontal per jam -->
                                     @for ($i = 0; $i < 13; $i++)
-                                        <div class="absolute w-full border-b border-gray-200" 
+                                        <div class="absolute w-full border-b border-gray-200"
                                              style="top: {{ $i * 100 }}px; height: 1px;">
                                         </div>
                                     @endfor
@@ -201,13 +201,13 @@
         <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
-            
+
             <!-- Modal Content -->
             <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Pemilihan Jadwal</h3>
                 </div>
-                
+
                 <div class="space-y-3 mb-4">
                     <p class="text-gray-600">Apakah Anda yakin ingin memilih jadwal berikut:</p>
                     <div class="bg-gray-50 p-3 rounded-lg">
@@ -241,13 +241,13 @@
         <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
-            
+
             <!-- Modal Content -->
             <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Hapus Jadwal</h3>
                 </div>
-                
+
                 <div class="space-y-3 mb-4">
                     <p class="text-gray-600">Apakah Anda yakin ingin menghapus jadwal berikut:</p>
                     <div class="bg-gray-50 p-3 rounded-lg">
@@ -312,7 +312,7 @@ $(document).ready(function() {
         for (let i = 0; i < str.length; i++) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
-        
+
         return colors[Math.abs(hash) % colors.length];
     }
 
@@ -368,7 +368,7 @@ $(document).ready(function() {
 
     // Load list mata kuliah saat halaman dimuat
     loadSavedMataKuliah();
-    
+
     // Update tabel IRS setelah data dimuat
     updateIRSTable();
 
@@ -378,15 +378,15 @@ $(document).ready(function() {
                 response.data.forEach(item => {
                     const mk = item.mata_kuliah;
                     selectedItems.add(mk.kode_mk);
-                    
+
                     // Cek jadwal yang sudah dipilih
-                    const selectedJadwalForMK = jadwalData.find(j => 
+                    const selectedJadwalForMK = jadwalData.find(j =>
                         j.kode_mk === mk.kode_mk && j.is_selected
                     );
                     if (selectedJadwalForMK) {
                         selectedJadwal.add(mk.kode_mk);
                     }
-                    
+
                     const newItem = createMataKuliahItem(
                         mk.kode_mk,
                         mk.nama,
@@ -478,17 +478,17 @@ $(document).ready(function() {
     // Fungsi helper untuk membuat item mata kuliah
     function createMataKuliahItem(kode, nama, sks, semester, sifat) {
         const hasSelectedJadwal = selectedJadwal.has(kode);
-        
+
         if (!mkColors.has(kode)) {
             mkColors.set(kode, generateColorFromString(kode));
         }
         const color = mkColors.get(kode);
-        
+
         // Tentukan kelas CSS berdasarkan status
-        const itemClass = hasSelectedJadwal ? 
-            'bg-green-200 border-green-300' : 
+        const itemClass = hasSelectedJadwal ?
+            'bg-green-200 border-green-300' :
             `${color.bg} ${color.border}`;
-        
+
         const deleteButtonClass = hasSelectedJadwal ?
             'text-gray-400 cursor-not-allowed' :
             'text-red-400 hover:text-red-600 cursor-pointer';
@@ -547,7 +547,7 @@ $(document).ready(function() {
         const jadwalItem = $(this);
         const kode = jadwalItem.data('kode');
         const jadwalId = parseInt(jadwalItem.data('jadwal-id'));
-        
+
         // Cek apakah jadwal ini sudah dipilih
         if (jadwalItem.hasClass('selected')) {
             return;
@@ -592,11 +592,11 @@ $(document).ready(function() {
     function calculateTotalSKS() {
         let totalSKS = 0;
         const selectedJadwals = jadwalData.filter(j => j.is_selected);
-        
+
         selectedJadwals.forEach(jadwal => {
             totalSKS += jadwal.sks || 3;
         });
-        
+
         return totalSKS;
     }
 
@@ -649,7 +649,7 @@ $(document).ready(function() {
                             j.mk_selected = true;
                         }
                     });
-                    
+
                     // Update tampilan untuk semua mata kuliah yang sudah dipilih
                     selectedItems.forEach(selectedKode => {
                         const jadwalMK = jadwalData.filter(j => j.kode_mk === selectedKode);
@@ -671,23 +671,23 @@ $(document).ready(function() {
                             }
                         });
                     });
-                    
+
                     // Update tampilan jadwal
                     updateJadwalDisplay();
-                    
+
                     // Update tampilan list mata kuliah
                     updateListMataKuliah();
 
                     // Update tabel IRS
                     updateIRSTable();
-                    
+
                     // Update kuota terisi
                     selectedJadwalInfo.kuota_terisi++;
-                    
+
                     // Sembunyikan modal
                     $('#konfirmasiModal').addClass('hidden');
                     selectedJadwalInfo = null;
-                    
+
                     showNotification('Jadwal berhasil dipilih');
                 }
             },
@@ -746,11 +746,11 @@ $(document).ready(function() {
                 const container = $(`#jadwal-${jadwal.hari.toLowerCase()}`);
                 if (container.length) {
                     const timeSlotKey = `${jadwal.hari}-${jadwal.waktu_mulai}`;
-                    
+
                     if (!overlappingSlots[timeSlotKey]) {
                         overlappingSlots[timeSlotKey] = [];
                     }
-                    
+
                     overlappingSlots[timeSlotKey].push({
                         jadwal,
                         kode,
@@ -787,8 +787,8 @@ $(document).ready(function() {
                 }
 
                 const jadwalElement = $(`
-                    <div class="overflow-hidden absolute p-2 rounded-md border-2 jadwal-item 
-                         ${statusClass} 
+                    <div class="overflow-hidden absolute p-2 rounded-md border-2 jadwal-item
+                         ${statusClass}
                          ${isSelected ? 'bg-green-300 border-green-500 border-2 ring-2 ring-green-500 ring-opacity-20' : ''}
                          ${jadwal.mk_selected ? 'opacity-50 bg-gray-200 border-gray-400 cursor-not-allowed' : ''}
                          ${jadwal.is_bertabrakan ? 'bg-red-300 border-red-500 border-2 ring-2 ring-red-500 ring-opacity-20 cursor-not-allowed' : ''}
@@ -807,7 +807,7 @@ $(document).ready(function() {
                                     Kuota: ${jadwal.kuota_terisi}/${jadwal.kuota}
                                 </p>
                                 ${jadwal.is_bertabrakan ? '<p class="text-xs text-red-600 font-medium">Bentrok dengan jadwal lain</p>' : ''}
-                                ${jadwal.mk_selected ? '<p class="text-xs text-gray-500">Jadwal lain sudah dipilih</p>' : ''}
+                                ${jadwal.is_selected ? '<p class="text-xs text-gray-500">Jadwal sudah dipilih</p>' : ''}
                             </div>
                         </div>
                     </div>
@@ -837,10 +837,10 @@ $(document).ready(function() {
         const notification = $('#notification');
         const notificationMessage = $('#notificationMessage');
         const notificationIcon = $('#notificationIcon');
-        
+
         // Set pesan
         notificationMessage.text(message);
-        
+
         // Set icon dan warna berdasarkan tipe
         if (type === 'success') {
             notification.find('.border-l-4').removeClass('border-red-500').addClass('border-green-500');
@@ -857,10 +857,10 @@ $(document).ready(function() {
                 </svg>
             `);
         }
-        
+
         // Tampilkan notifikasi
         notification.removeClass('translate-x-full').addClass('translate-x-0');
-        
+
         // Sembunyikan setelah 3 detik
         setTimeout(hideNotification, 3000);
     }
@@ -873,17 +873,17 @@ $(document).ready(function() {
     function updateIRSTable() {
         const tbody = $('#selectedIRSTable');
         tbody.empty();
-        
+
         let totalSKS = 0;
         let no = 1;
 
         // Filter jadwal yang sudah dipilih
         const selectedJadwals = jadwalData.filter(j => j.is_selected);
-        
+
         selectedJadwals.forEach(jadwal => {
             const sks = jadwal.sks || 3; // Gunakan SKS dari data atau default ke 3
             totalSKS += sks;
-            
+
             tbody.append(`
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${no++}</td>
@@ -893,11 +893,11 @@ $(document).ready(function() {
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Baru</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${sks}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <button class="delete-jadwal text-red-600 hover:text-red-900" 
+                        <button class="delete-jadwal text-red-600 hover:text-red-900"
                                 data-jadwal-id="${jadwal.id}"
                                 title="Hapus Jadwal">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </button>
@@ -908,7 +908,7 @@ $(document).ready(function() {
 
         // Update total SKS
         $('#totalSKS').text(totalSKS);
-        
+
         // Update jumlah SKS di header
         $('.text-2xl.font-bold:contains("IRS")').text(`IRS (${totalSKS} SKS)`);
     }
@@ -917,7 +917,7 @@ $(document).ready(function() {
     $(document).on('click', '.delete-jadwal', function() {
         const jadwalId = $(this).data('jadwal-id');
         const jadwal = jadwalData.find(j => j.id === jadwalId);
-        
+
         if (!jadwal) return;
 
         // Tampilkan modal konfirmasi
@@ -967,14 +967,14 @@ $(document).ready(function() {
                     updateJadwalDisplay();
                     updateListMataKuliah();
                     updateIRSTable();
-                    
+
                     // Kurangi kuota terisi
                     deleteJadwalInfo.kuota_terisi--;
-                    
+
                     // Sembunyikan modal
                     $('#konfirmasiHapusModal').addClass('hidden');
                     deleteJadwalInfo = null;
-                    
+
                     showNotification('Jadwal berhasil dihapus');
                 }
             },
