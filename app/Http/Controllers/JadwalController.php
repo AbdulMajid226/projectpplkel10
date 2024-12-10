@@ -157,6 +157,18 @@ class JadwalController extends Controller
         ]);
     }
 
+    public function pengesahanJadwal()
+    {
+        $jadwals = Jadwal::with('mataKuliah')->get();
+        $counts = [
+            'ditolak' => Jadwal::where('status', Jadwal::STATUS_DITOLAK)->count(),
+            'menunggu' => Jadwal::where('status', Jadwal::STATUS_PENDING)->count(),
+            'disetujui' => Jadwal::where('status', Jadwal::STATUS_DISETUJUI)->count(),
+        ];
+
+        return view('dekan.pengesahan_jadwal', compact('jadwals', 'counts'));
+    }
+
     public function approveJadwal($id)
     {
         try {
@@ -191,5 +203,17 @@ class JadwalController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal membatalkan persetujuan jadwal: ' . $e->getMessage());
         }
+    }
+
+    public function dashboardKaprodi()
+    {        
+        $jadwals = Jadwal::with('mataKuliah')->get();
+        $countJadwals = [
+            'ditolak' => Jadwal::where('status', Jadwal::STATUS_DITOLAK)->count(),
+            'menunggu' => Jadwal::where('status', Jadwal::STATUS_PENDING)->count(),
+            'disetujui' => Jadwal::where('status', Jadwal::STATUS_DISETUJUI)->count(),
+        ];
+
+        return view('kaprodi.dashboard', compact('jadwals', 'countJadwals'));
     }
 }
