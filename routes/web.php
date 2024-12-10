@@ -129,8 +129,16 @@ Route::put('/ruang/{ruang}', [RuangController::class, 'update'])->name('ruang.up
 
 //Dekan
 Route::get('/dashboard_dekan', [RuangController::class, 'dashboardDekan'])->middleware(['auth', 'verified'])->name('dashboard_dekan');
+
 Route::get('/pengesahanruangkuliah', [RuangController::class, 'pengesahanRuang'])->middleware(['auth', 'verified'])->name('pengesahan_ruang');
+Route::post('/ruang/{kodeRuang}/approve', [RuangController::class, 'approveRoom'])->name('ruang.approve');
+Route::post('/ruang/{kodeRuang}/reject', [RuangController::class, 'rejectRoom'])->name('ruang.reject');
+Route::post('/ruang/{kodeRuang}/cancel', [RuangController::class, 'cancelApproval'])->name('ruang.cancel');
+
 Route::get('/pengesahanjadwalkuliah', [RuangController::class, 'pengesahanJadwal'])->middleware(['auth', 'verified'])->name('pengesahan_jadwal');
+Route::post('/jadwal/{id}/approve', [JadwalController::class, 'approveJadwal'])->name('jadwal.approve');
+Route::post('/jadwal/{id}/reject', [JadwalController::class, 'rejectJadwal'])->name('jadwal.reject');
+Route::post('/jadwal/{id}/cancel', [JadwalController::class, 'cancelApprovalJadwal'])->name('jadwal.cancel');
 
 //Kaprodi
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -156,9 +164,5 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/mata-kuliah/{kode_mk}', [JadwalController::class, 'getMataKuliah'])
     ->name('mata-kuliah.get');
-
-Route::post('/ruang/{kodeRuang}/approve', [RuangController::class, 'approveRoom'])->name('ruang.approve');
-Route::post('/ruang/{kodeRuang}/reject', [RuangController::class, 'rejectRoom'])->name('ruang.reject');
-Route::post('/ruang/{kodeRuang}/cancel', [RuangController::class, 'cancelApproval'])->name('ruang.cancel');
 
 require __DIR__.'/auth.php';

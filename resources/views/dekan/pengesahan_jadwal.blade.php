@@ -67,10 +67,22 @@
                                 {{ $jadwal->status_label }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 border-gray-300 w-[200px]">
-                            <button class="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
-                            <button class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
-                            {{-- <button class="px-3 py-1 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600">Detail</button> --}}
+                        <td class="px-6 py-4 border border-gray-300">
+                            @if($jadwal->status == 'Menunggu Persetujuan')
+                                <form action="{{ route('jadwal.approve', $jadwal->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-green-500 rounded hover:bg-green-600">Setujui</button>
+                                </form>
+                                <form action="{{ route('jadwal.reject', $jadwal->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600">Tolak</button>
+                                </form>
+                            @elseif($jadwal->status == 'Sudah Disetujui')
+                                <form action="{{ route('jadwal.cancel', $jadwal->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-yellow-600">Batalkan Persetujuan</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
