@@ -76,4 +76,45 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Waktu::class, 'waktu_id');
     }
+
+    public function hasConflict($hari, $waktuId, $ruang, $excludeId = null)
+    {
+        $query = self::where('hari', $hari)
+            ->where('ruang', $ruang)
+            ->where('waktu_id', $waktuId);
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
+    }
+
+    public function hasDosenConflict($hari, $waktuId, $dosenIds, $excludeId = null)
+    {
+        $query = self::where('hari', $hari)
+            ->where('waktu_id', $waktuId)
+            ->whereHas('mataKuliah.pengampuanDosen', function ($query) use ($dosenIds) {
+                $query->whereIn('dosen.nidn', $dosenIds);
+            });
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
+    }
+
+    public function hasKelasConflict($hari, $waktuId, $kelas, $excludeId = null)
+    {
+        $query = self::where('hari', $hari)
+            ->where('waktu_id', $waktuId)
+            ->where('kelas', $kelas);
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Jadwal;
 use App\Models\Waktu;
 use App\Models\Kelas;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
@@ -40,33 +41,65 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'mata_kuliah' => 'required',
-            'dosen' => 'required|array',
+        $validated = $request->validate([
+            'mata_kuliah' => 'required|exists:mata_kuliah,kode_mk',
+            'dosen' => 'required|array|min:1',
+            'dosen.*' => 'exists:dosen,nidn',
             'kelas' => 'required',
             'thn_ajaran' => 'required',
-            'hari' => 'required',
-            'waktu_id' => 'required',
-            'ruang' => 'required',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
+            'waktu_id' => 'required|exists:waktu,id',
+            'ruang' => 'required|exists:ruang,kode_ruang',
         ]);
 
-        $jadwal = Jadwal::create([
-            'kode_mk' => $request->mata_kuliah,
-            'kode_ruang' => $request->ruang,
-            'kelas' => $request->kelas,
-            'kuota' => 50,
-            'thn_ajaran' => $request->thn_ajaran,
-            'hari' => $request->hari,
-            'waktu_id' => $request->waktu_id,
-            'status' => Jadwal::STATUS_PENDING,
-        ]);
-
-        // Simpan relasi dosen-jadwal di tabel pengampuan_dosen
-        foreach ($request->dosen as $nidn) {
-            $jadwal->mataKuliah->pengampuanDosen()->attach($nidn);
+        // Check for conflicts
+        $jadwal = new Jadwal();
+        
+        // Check room conflict
+        if ($jadwal->hasConflict($request->hari, $request->waktu_id, $request->ruang)) {
+            return back()
+                ->withInput()
+                ->withErrors(['conflict' => 'Ruangan sudah digunakan pada waktu tersebut.']);
         }
 
-        return redirect()->back()->with('success', 'Jadwal berhasil dibuat!');
+        // Check dosen conflict
+        if ($jadwal->hasDosenConflict($request->hari, $request->waktu_id, $request->dosen)) {
+            return back()
+                ->withInput()
+                ->withErrors(['conflict' => 'Dosen sudah memiliki jadwal pada waktu tersebut.']);
+        }
+
+        // Check kelas conflict
+        if ($jadwal->hasKelasConflict($request->hari, $request->waktu_id, $request->kelas)) {
+            return back()
+                ->withInput()
+                ->withErrors(['conflict' => 'Kelas sudah memiliki jadwal pada waktu tersebut.']);
+        }
+
+        try {
+            DB::transaction(function () use ($request) {
+                $jadwal = Jadwal::create([
+                    'mata_kuliah_id' => $request->mata_kuliah,
+                    'kelas' => $request->kelas,
+                    'thn_ajaran' => $request->thn_ajaran,
+                    'hari' => $request->hari,
+                    'waktu_id' => $request->waktu_id,
+                    'ruang' => $request->ruang,
+                    'status' => 'pending'
+                ]);
+
+                // Attach dosen to mata kuliah if not already attached
+                $mataKuliah = MataKuliah::find($request->mata_kuliah);
+                $mataKuliah->pengampuanDosen()->syncWithoutDetaching($request->dosen);
+            });
+
+            return redirect()->route('jadwal.index')
+                ->with('success', 'Jadwal berhasil dibuat dan menunggu persetujuan.');
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan jadwal.']);
+        }
     }
 
     public function update(Request $request, $id)

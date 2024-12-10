@@ -18,6 +18,25 @@
         <div class="bg-white rounded-lg shadow p-6">
             <form action="{{ route('jadwal.store') }}" method="POST">
                 @csrf
+                @if ($errors->has('conflict'))
+                    <div class="mb-4 p-4 rounded-md bg-red-50 border border-red-200">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">
+                                    Konflik Jadwal
+                                </h3>
+                                <p class="text-sm text-red-700 mt-1">
+                                    {{ $errors->first('conflict') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Mata Kuliah -->
                     <div>
@@ -229,6 +248,19 @@
             const hiddenInputsContainer = document.getElementById('dosen-hidden-inputs');
             const selectedDosens = new Set();
 
+            // Restore previously selected dosen from old input
+            @if(old('dosen'))
+                @foreach(old('dosen') as $oldDosenId)
+                    @php
+                        $dosen = App\Models\Dosen::find($oldDosenId);
+                    @endphp
+                    @if($dosen)
+                        selectedDosens.add('{{ $oldDosenId }}');
+                        addDosenTag('{{ $oldDosenId }}', '{{ $dosen->nama }}');
+                    @endif
+                @endforeach
+            @endif
+
             dosenSelect.addEventListener('change', function() {
                 const selectedOption = dosenSelect.options[dosenSelect.selectedIndex];
                 const dosenId = selectedOption.value;
@@ -236,42 +268,8 @@
 
                 if (dosenId && !selectedDosens.has(dosenId)) {
                     selectedDosens.add(dosenId);
+                    addDosenTag(dosenId, dosenName);
                     
-                    // Create dosen tag
-                    const dosenTag = document.createElement('div');
-                    dosenTag.className = 'flex items-center justify-between bg-gray-100 p-2 rounded';
-                    dosenTag.innerHTML = `
-                        <span>${dosenName}</span>
-                        <button type="button" class="text-red-600 hover:text-red-800" data-dosen-id="${dosenId}">
-                            Hapus
-                        </button>
-                    `;
-
-                    // Create hidden input
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = 'dosen[]';
-                    hiddenInput.value = dosenId;
-                    hiddenInput.id = `dosen-input-${dosenId}`;
-                    
-                    // Add delete functionality
-                    dosenTag.querySelector('button').addEventListener('click', function() {
-                        const dosenId = this.dataset.dosenId;
-                        selectedDosens.delete(dosenId);
-                        dosenTag.remove();
-                        document.getElementById(`dosen-input-${dosenId}`).remove();
-                        
-                        // Add option back to dropdown
-                        const option = document.createElement('option');
-                        option.value = dosenId;
-                        option.text = dosenName;
-                        dosenSelect.appendChild(option);
-                        sortDropdownOptions();
-                    });
-
-                    selectedDosenContainer.appendChild(dosenTag);
-                    hiddenInputsContainer.appendChild(hiddenInput);
-
                     // Remove selected option from dropdown
                     selectedOption.remove();
                 }
@@ -279,6 +277,43 @@
                 // Reset select to placeholder
                 dosenSelect.value = '';
             });
+
+            function addDosenTag(dosenId, dosenName) {
+                // Create dosen tag
+                const dosenTag = document.createElement('div');
+                dosenTag.className = 'flex items-center justify-between bg-gray-100 p-2 rounded';
+                dosenTag.innerHTML = `
+                    <span>${dosenName}</span>
+                    <button type="button" class="text-red-600 hover:text-red-800" data-dosen-id="${dosenId}">
+                        Hapus
+                    </button>
+                `;
+
+                // Create hidden input
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'dosen[]';
+                hiddenInput.value = dosenId;
+                hiddenInput.id = `dosen-input-${dosenId}`;
+
+                // Add delete functionality
+                dosenTag.querySelector('button').addEventListener('click', function() {
+                    const dosenId = this.dataset.dosenId;
+                    selectedDosens.delete(dosenId);
+                    dosenTag.remove();
+                    document.getElementById(`dosen-input-${dosenId}`).remove();
+
+                    // Add option back to dropdown
+                    const option = document.createElement('option');
+                    option.value = dosenId;
+                    option.text = dosenName;
+                    dosenSelect.appendChild(option);
+                    sortDropdownOptions();
+                });
+
+                selectedDosenContainer.appendChild(dosenTag);
+                hiddenInputsContainer.appendChild(hiddenInput);
+            }
 
             // Function to sort dropdown options alphabetically
             function sortDropdownOptions() {
@@ -294,17 +329,38 @@
                 // Add sorted options back
                 options.forEach(option => dosenSelect.add(option));
             }
-        });
 
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
+            // Waktu handling
             const mataKuliahSelect = document.querySelector('select[name="mata_kuliah"]');
             const waktuSelect = document.querySelector('#waktu_select');
             const waktuOptions = document.querySelectorAll('.waktu-option');
             
+            // Restore previously selected mata kuliah and waktu
+            @if(old('mata_kuliah'))
+                const oldKodeMK = '{{ old('mata_kuliah') }}';
+                if (oldKodeMK) {
+                    fetch(`/mata-kuliah/${oldKodeMK}`)
+                        .then(response => response.json())
+                        .then(mataKuliah => {
+                            const sks = mataKuliah.sks;
+                            waktuSelect.disabled = false;
+                            waktuSelect.firstElementChild.textContent = 'Pilih Waktu';
+                            
+                            waktuOptions.forEach(option => {
+                                const waktuMulai = option.dataset.waktuMulai;
+                                const waktuSelesai = calculateEndTime(waktuMulai, sks);
+                                option.textContent = `${waktuMulai} - ${waktuSelesai}`;
+                                option.style.display = '';
+                            });
+                            
+                            // Set previously selected waktu if exists
+                            @if(old('waktu_id'))
+                                waktuSelect.value = '{{ old('waktu_id') }}';
+                            @endif
+                        });
+                }
+            @endif
+
             function calculateEndTime(startTime, sks) {
                 const [hours, minutes] = startTime.split(':').map(Number);
                 const durationMinutes = sks * 50;
@@ -317,14 +373,15 @@
             }
             
             // Reset dan disable waktu select saat halaman dimuat
-            waktuSelect.disabled = true;
-            waktuOptions.forEach(option => option.style.display = 'none');
+            if (!mataKuliahSelect.value) {
+                waktuSelect.disabled = true;
+                waktuOptions.forEach(option => option.style.display = 'none');
+            }
             
             mataKuliahSelect.addEventListener('change', async function() {
                 const kodeMK = this.value;
                 
                 if (!kodeMK) {
-                    // Reset ke kondisi awal
                     waktuSelect.disabled = true;
                     waktuSelect.firstElementChild.textContent = 'Pilih mata kuliah terlebih dahulu';
                     waktuSelect.value = '';
@@ -333,16 +390,13 @@
                 }
                 
                 try {
-                    // Ambil data mata kuliah untuk mendapatkan SKS
                     const response = await fetch(`/mata-kuliah/${kodeMK}`);
                     const mataKuliah = await response.json();
                     const sks = mataKuliah.sks;
                     
-                    // Enable waktu select dan update options
                     waktuSelect.disabled = false;
                     waktuSelect.firstElementChild.textContent = 'Pilih Waktu';
                     
-                    // Update setiap option dengan waktu selesai yang dihitung
                     waktuOptions.forEach(option => {
                         const waktuMulai = option.dataset.waktuMulai;
                         const waktuSelesai = calculateEndTime(waktuMulai, sks);
@@ -356,6 +410,10 @@
                 }
             });
         });
+
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');
+        }
     </script>
     @endpush
 @endsection
