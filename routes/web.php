@@ -87,6 +87,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/pengambilan-irs/{id}', [IRSController::class, 'deletePengambilanIRS'])
         ->name('mahasiswa.delete_pengambilan_irs');
 
+    // Rute print IRS
+    Route::get('/irs/print/{semester}/{tahun}', [IRSController::class, 'printIRS'])
+        ->name('mahasiswa.print_irs');
+
 });
 
 //Pembimbing Akademik

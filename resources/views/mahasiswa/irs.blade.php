@@ -96,14 +96,17 @@
 
                     <!-- Tombol Print PDF -->
                     <div class="bg-gray-50 px-6 py-3 border-t">
-                        <button type="button" 
-                                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
+                        <a href="{{ route('mahasiswa.print_irs', [
+                               'semester' => $irs_per_semester['semester'], 
+                               'tahun' => str_replace('/', '_', $irs_per_semester['thn_ajaran'])
+                           ]) }}" 
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                       d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                             </svg>
                             Print PDF
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

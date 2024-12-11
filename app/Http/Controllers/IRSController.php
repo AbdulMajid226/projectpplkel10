@@ -464,4 +464,25 @@ class IRSController extends Controller
             ], 500);
         }
     }
+
+    public function printIRS($semester, $tahun)
+    {
+        try {
+            $mahasiswa = Auth::user()->mahasiswa;
+            
+            // Get IRS data for the specific semester and tahun
+            $irs = IRS::where('nim', $mahasiswa->nim)
+                      ->where('semester', $semester)
+                      ->where('thn_ajaran', str_replace('_', '/', $tahun))
+                      ->with(['mahasiswa.pembimbingAkademik', 'pengambilanIrs.jadwal.mataKuliah'])
+                      ->with(['mahasiswa.programStudi.fakultas'])
+                      ->firstOrFail();
+
+            $today = now()->isoFormat('D MMMM Y');
+
+            return view('mahasiswa.irs-print', compact('irs', 'today'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mencetak IRS: ' . $e->getMessage());
+        }
+    }
 }
