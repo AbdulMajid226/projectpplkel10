@@ -114,9 +114,15 @@ Route::get('/dashboardpa', function () {
     return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData', 'tahunAjaranAktif'));
 })->middleware(['auth', 'verified'])->name('dashboardpa');
 
-Route::get('/irspa', function () {
-    return view('dosen_pa.irs');
-})->middleware(['auth', 'verified'])->name('irspa');
+
+Route::get('/perwalian', function () {
+    $nim = '24060122130001';
+    $jumlah_semester = IRS::countIRSByNIM($nim);
+
+    $irs_data = IRS::getIRSByNIM($nim);
+
+    return view('dosen_pa.perwalian', compact('jumlah_semester', 'irs_data'));
+})->middleware(['auth', 'verified'])->name('perwalian');
 
 //Bagian Akademik
 Route::get('/dashboard_bagianAkademik', [RuangController::class, 'dashboard'])->name('dashboard_bagianAkademik');

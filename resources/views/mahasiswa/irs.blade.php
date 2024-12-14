@@ -5,7 +5,7 @@
 @section('content')
     <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold text-gray-800 text-center mb-10">Isian Rencana Studi (IRS)</h1>
-        
+
         <!-- Informasi Mahasiswa -->
         <div class="grid grid-cols-2 gap-6 ml-10 mb-8">
             <div>
@@ -34,7 +34,7 @@
         <div class="space-y-2">
             @foreach($irs_data as $irs_per_semester)
             <div class="border rounded-lg overflow-hidden">
-                <button class="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none flex justify-between items-center" 
+                <button class="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none flex justify-between items-center"
                         onclick="toggleSemester({{ $irs_per_semester['semester'] }})">
                     <div class="flex items-center space-x-4">
                         <span class="text-lg font-semibold text-blue-600">Semester-{{ $irs_per_semester['semester'] }}</span>
@@ -82,7 +82,7 @@
                                     <td class="px-6 py-4">{{ $mk['sks'] }}</td>
                                 </tr>
                                 @endforeach
-                                
+
                                 <!-- Baris Total SKS -->
                                 <tr class="bg-gray-50 font-semibold">
                                     <td colspan="6" class="px-6 py-4 text-right">Total SKS:</td>
@@ -92,17 +92,17 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div> 
+                    </div>
 
                     <!-- Tombol Print PDF -->
                     <div class="bg-gray-50 px-6 py-3 border-t">
                         <a href="{{ route('mahasiswa.print_irs', [
-                               'semester' => $irs_per_semester['semester'], 
+                               'semester' => $irs_per_semester['semester'],
                                'tahun' => str_replace('/', '_', $irs_per_semester['thn_ajaran'])
-                           ]) }}" 
+                           ]) }}"
                            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                             </svg>
                             Print PDF
@@ -118,7 +118,7 @@
         function toggleSemester(semester) {
             const content = document.getElementById(`semester-${semester}-content`);
             const arrow = document.getElementById(`arrow-${semester}`);
-            
+
             content.classList.toggle('hidden');
             arrow.classList.toggle('rotate-180');
         }

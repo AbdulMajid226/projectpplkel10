@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <!-- Informasi Tahun >
-    <div-- class="flex flex-wrap gap-4 mb-6">
+    <!-- Informasi Tahun-->
+    <div class="flex flex-wrap gap-4 mb-6">
         <select class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500">
             <option>Pilih Tahun Ajaran</option>
             <option>2023/2024 Ganjil</option>
@@ -23,7 +23,7 @@
             <option>2024/2025 Ganjil</option>
             <option>2024/2025 Genap</option>
         </select>
-    </div-->
+    </div>
 
     <!-- Card Rekapan Status IRS -->
     <div class="p-6 mb-8 shadow-lg bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">

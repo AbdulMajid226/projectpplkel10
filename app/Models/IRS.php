@@ -34,8 +34,6 @@ class IRS extends Model
         return $this->hasMany(PengambilanIRS::class, 'id_irs');
     }
 
-
-
     public static function countIRSByNIM($nim)
     {
         return self::where('nim', $nim)->count();
