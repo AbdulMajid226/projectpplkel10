@@ -92,7 +92,7 @@
                     </tr>
                     <tr>
                         <td colspan="7">
-                            {{ $pengambilan->jadwal->hari ?? '' }} pukul 
+                            {{ $pengambilan->jadwal->hari ?? '' }} pukul
                             @php
                                 $jamMulai = Carbon\Carbon::parse($pengambilan->jadwal->waktu->waktu_mulai)->format('H:i');
                                 $sks = $pengambilan->jadwal->mataKuliah->sks;

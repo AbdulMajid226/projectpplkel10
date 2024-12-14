@@ -15,17 +15,14 @@
         <span class="ms-3">Dashboard</span>
     </x-nav-link>
 
-    <!--x-nav-link-- href="/irspa" :active="request()->is('irspa')">
-        < Icon Pengesahan IRS >
-        <svg class="w-6 h-6 text-gray-300 transition duration-75 group-hover:text-white" aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Z" />
-        <path fill-rule="evenodd"
-            d="M11 7V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm4.707 5.707a1 1 0 0 0-1.414-1.414L11 14.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4Z"
-            clip-rule="evenodd" />
-    </svg>
-        <span class="ms-3">Pengesahan IRS</span>
-    </!--x-nav-link-->
+    <x-nav-link href="/perwalian" :active="request()->is('perwalian')">
+        <!-- Icon Perwalian -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-300 transition duration-75 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <span class="ms-3">Perwalian</span>
+    </x-nav-link>
 @endsection
 
 @section('role')
