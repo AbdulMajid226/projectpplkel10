@@ -42,6 +42,21 @@
                         <span class="text-gray-800">Tahun Ajaran {{ $irs_per_semester['thn_ajaran'] }}</span>
                     </div>
                     <div class="flex items-center space-x-4">
+                        <span class="px-4 py-2 text-sm font-semibold rounded-full">
+                            @if($irs_per_semester['status_persetujuan'] == 'Sudah Disetujui')
+                                <span class="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">
+                                    {{ $irs_per_semester['status_persetujuan'] }}
+                                </span>
+                            @elseif($irs_per_semester['status_persetujuan'] == 'Belum Mengisi')
+                                <span class="px-3 py-1 text-sm font-medium text-red-700 bg-red-100 rounded-full">
+                                    {{ $irs_per_semester['status_persetujuan'] }}
+                                </span>
+                            @else
+                                <span class="px-3 py-1 text-sm font-medium text-yellow-700 bg-yellow-100 rounded-full">
+                                    {{ $irs_per_semester['status_persetujuan'] }}
+                                </span>
+                            @endif
+                        </span>
                         <span class="text-gray-600">
                             @php
                                 $totalSks = $irs_per_semester['matakuliah']->sum('sks');

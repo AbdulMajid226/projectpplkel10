@@ -45,7 +45,7 @@ class IRS extends Model
             $query->select('jadwal.id as id_jadwal', 'jadwal.kode_mk', 'nama_mk', 'kelas', 'sks', 'semester')
                 ->join('mata_kuliah', 'jadwal.kode_mk', '=', 'mata_kuliah.kode_mk');
         }])
-        ->select('irs.id', 'nim', 'semester', 'thn_ajaran')
+        ->select('irs.id', 'nim', 'semester', 'thn_ajaran', 'status_persetujuan')
         ->where('nim', $nim)
         ->orderBy('semester', 'asc')
         ->get()
@@ -53,6 +53,7 @@ class IRS extends Model
             return [
                 'semester' => $irs->semester,
                 'thn_ajaran' => $irs->thn_ajaran,
+                'status_persetujuan' => $irs->status_persetujuan,
                 'matakuliah' => $irs->jadwal->map(function($jadwal) use ($irs) {
                     return [
                         'kode_mk' => $jadwal->kode_mk,
@@ -69,4 +70,3 @@ class IRS extends Model
         });
     }
 }
-
