@@ -19,26 +19,50 @@
                 </a>
             </div>
         </div>
+    @elseif($irs && $irs->status_persetujuan === 'Sudah Disetujui')
+        <div class="flex flex-col justify-center items-center py-6 min-h-screen bg-gray-100">
+            <div class="p-8 max-w-lg text-center bg-white rounded-lg shadow-md">
+                <svg class="mx-auto w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h2 class="mt-4 text-xl font-semibold text-gray-800">IRS Sudah Disetujui</h2>
+                <p class="mt-4 text-gray-600">
+                    IRS Anda untuk semester ini telah disetujui oleh dosen wali.
+                    Jika Anda ingin melakukan perubahan atau pembatalan IRS,
+                    silakan hubungi dosen wali Anda.
+                </p>
+                <div class="mt-6 space-y-3">
+                    <a href="{{ route('irs_mhs') }}"
+                       class="inline-block px-4 py-2 w-full text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                        Lihat IRS Saya
+                    </a>
+                    <p class="text-sm text-gray-500">
+                        Dosen Wali: {{ Auth::user()->mahasiswa->pembimbingAkademik->nama }}
+                    </p>
+                </div>
+            </div>
+        </div>
     @else
-        <div class="container px-4 py-6 mx-auto overflow-auto" style="height: 100vh;width: 200vw;">
+        <div class="container overflow-auto px-4 py-6 mx-auto" style="height: 100vh;width: 200vw;">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Buat IRS</h1>
                 <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
             </div>
 
             <!-- Tabel IRS yang sudah dipilih -->
-            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+            <div class="overflow-hidden mb-6 bg-white rounded-lg shadow">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode Mata Kuliah</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Mata Kuliah</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKS</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">No</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Kode Mata Kuliah</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Nama Mata Kuliah</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Kelas</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">SKS</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="selectedIRSTable">
@@ -46,8 +70,8 @@
                         </tbody>
                         <tfoot class="bg-gray-50">
                             <tr>
-                                <td colspan="6" class="px-6 py-3 text-right text-sm font-medium text-gray-500">Total SKS:</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium text-gray-900" id="totalSKS">0</td>
+                                <td colspan="6" class="px-6 py-3 text-sm font-medium text-right text-gray-500">Total SKS:</td>
+                                <td class="px-6 py-3 text-sm font-medium text-left text-gray-900" id="totalSKS">0</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -55,8 +79,8 @@
             </div>
 
             <!-- Notifikasi -->
-            <div id="notification" class="fixed top-4 right-4 z-50 transform transition-transform duration-300 translate-x-full">
-                <div class="bg-white rounded-lg shadow-lg border-l-4 p-4 max-w-sm">
+            <div id="notification" class="fixed top-4 right-4 z-50 transition-transform duration-300 transform translate-x-full">
+                <div class="p-4 max-w-sm bg-white rounded-lg border-l-4 shadow-lg">
                     <div class="flex items-center">
                         <div id="notificationIcon" class="flex-shrink-0">
                             <!-- Icon akan diisi melalui JavaScript -->
@@ -64,10 +88,10 @@
                         <div class="ml-3">
                             <p id="notificationMessage" class="text-sm font-medium"></p>
                         </div>
-                        <div class="ml-4 flex-shrink-0 flex">
+                        <div class="flex flex-shrink-0 ml-4">
                             <button onclick="hideNotification()" class="inline-flex text-gray-400 hover:text-gray-500">
                                 <span class="sr-only">Close</span>
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </button>
@@ -146,18 +170,18 @@
 
                 <!-- Kolom Kanan - Jadwal -->
                 <div class="w-3/4 bg-white rounded-lg shadow"> <!-- Mengubah lebar kolom kanan -->
-                    <div class="grid grid-cols-6 border-b sticky -top-6 bg-white z-20 shadow-sm">
+                    <div class="grid sticky -top-6 z-20 grid-cols-6 bg-white border-b shadow-sm">
                         <div class="p-4 font-semibold border-r border-gray-300">Jam</div>
-                        <div class="p-4 font-semibold col-span-5 grid grid-cols-5">
-                            <div class="w-full border-r-2 border-gray-300 text-center">Senin</div>
-                            <div class="w-full border-r-2 border-gray-300 text-center">Selasa</div>
-                            <div class="w-full border-r-2 border-gray-300 text-center">Rabu</div>
-                            <div class="w-full border-r-2 border-gray-300 text-center">Kamis</div>
+                        <div class="grid grid-cols-5 col-span-5 p-4 font-semibold">
+                            <div class="w-full text-center border-r-2 border-gray-300">Senin</div>
+                            <div class="w-full text-center border-r-2 border-gray-300">Selasa</div>
+                            <div class="w-full text-center border-r-2 border-gray-300">Rabu</div>
+                            <div class="w-full text-center border-r-2 border-gray-300">Kamis</div>
                             <div class="w-full text-center">Jumat</div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-6 relative">
+                    <div class="grid relative grid-cols-6">
                         <!-- Kolom waktu -->
                         <div class="border-r sticky left-0 top-[42px] bg-white z-10">
                             <div class="border-b h-[100px] px-4 py-2 text-sm">07:00</div>
@@ -176,7 +200,7 @@
                         </div>
 
                         <!-- Kolom hari dengan grid col-span-5 -->
-                        <div class="col-span-5 grid grid-cols-5">
+                        <div class="grid grid-cols-5 col-span-5">
                             @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
                                 <div class="relative min-h-full border-r border-gray-300 {{ $loop->last ? '' : 'border-r-2' }}"
                                      id="jadwal-{{ strtolower($hari) }}">
@@ -197,20 +221,20 @@
     @endif
 
     <!-- Modal Konfirmasi -->
-    <div id="konfirmasiModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+    <div id="konfirmasiModal" class="hidden overflow-y-auto fixed inset-0 z-50">
+        <div class="flex justify-center items-center px-4 min-h-screen">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
 
             <!-- Modal Content -->
-            <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <div class="relative p-6 w-full max-w-md bg-white rounded-lg shadow-xl">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Pemilihan Jadwal</h3>
                 </div>
 
-                <div class="space-y-3 mb-4">
+                <div class="mb-4 space-y-3">
                     <p class="text-gray-600">Apakah Anda yakin ingin memilih jadwal berikut:</p>
-                    <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="p-3 bg-gray-50 rounded-lg">
                         <p class="font-medium text-gray-900" id="modalMataKuliah"></p>
                         <div class="mt-2 space-y-1 text-sm text-gray-600">
                             <p id="modalKode"></p>
@@ -237,20 +261,20 @@
     </div>
 
     <!-- Modal Konfirmasi Hapus -->
-    <div id="konfirmasiHapusModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
+    <div id="konfirmasiHapusModal" class="hidden overflow-y-auto fixed inset-0 z-50">
+        <div class="flex justify-center items-center px-4 min-h-screen">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
 
             <!-- Modal Content -->
-            <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <div class="relative p-6 w-full max-w-md bg-white rounded-lg shadow-xl">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Hapus Jadwal</h3>
                 </div>
 
-                <div class="space-y-3 mb-4">
+                <div class="mb-4 space-y-3">
                     <p class="text-gray-600">Apakah Anda yakin ingin menghapus jadwal berikut:</p>
-                    <div class="bg-gray-50 p-3 rounded-lg">
+                    <div class="p-3 bg-gray-50 rounded-lg">
                         <p class="font-medium text-gray-900" id="hapusModalMataKuliah"></p>
                         <div class="mt-2 space-y-1 text-sm text-gray-600">
                             <p id="hapusModalKode"></p>
@@ -498,7 +522,7 @@ $(document).ready(function() {
                 <div>
                     <h3 class="font-medium text-gray-900">${nama}</h3>
                     <p class="text-sm text-gray-700">${kode} (${sks} SKS) SMT ${semester} ${sifat}</p>
-                    ${hasSelectedJadwal ? '<p class="text-xs text-green-700 font-medium">Jadwal sudah dipilih</p>' : ''}
+                    ${hasSelectedJadwal ? '<p class="text-xs font-medium text-green-700">Jadwal sudah dipilih</p>' : ''}
                 </div>
                 <div class="flex items-center space-x-2">
                     <button class="p-2 toggle-jadwal" title="Sembunyikan/Tampilkan Jadwal">
@@ -796,9 +820,9 @@ $(document).ready(function() {
                          style="top: ${top}px; height: ${height}px; left: ${left}%; width: ${width}%; ${isHidden ? 'display: none;' : ''}"
                          data-kode="${kode}"
                          data-jadwal-id="${jadwal.id}">
-                        <div class="h-full flex flex-col justify-between">
+                        <div class="flex flex-col justify-between h-full">
                             <div>
-                                <p class="text-sm font-medium text-gray-900 leading-tight break-words" style="word-wrap: break-word; min-height: 2.5rem;">${jadwal.nama_mk}</p>
+                                <p class="text-sm font-medium leading-tight text-gray-900 break-words" style="word-wrap: break-word; min-height: 2.5rem;">${jadwal.nama_mk}</p>
                                 <p class="text-xs text-gray-700">${jadwal.waktu_mulai} - ${jadwal.waktu_selesai}</p>
                                 <p class="text-xs text-gray-700">Kelas ${jadwal.kelas} (${jadwal.ruang})</p>
                             </div>
@@ -806,7 +830,7 @@ $(document).ready(function() {
                                 <p class="text-xs ${jadwal.kuota_terisi >= jadwal.kuota ? 'text-red-600 font-semibold' : 'text-gray-700'}">
                                     Kuota: ${jadwal.kuota_terisi}/${jadwal.kuota}
                                 </p>
-                                ${jadwal.is_bertabrakan ? '<p class="text-xs text-red-600 font-medium">Bentrok dengan jadwal lain</p>' : ''}
+                                ${jadwal.is_bertabrakan ? '<p class="text-xs font-medium text-red-600">Bentrok dengan jadwal lain</p>' : ''}
                                 ${jadwal.is_selected ? '<p class="text-xs text-gray-500">Jadwal sudah dipilih</p>' : ''}
                             </div>
                         </div>
@@ -845,14 +869,14 @@ $(document).ready(function() {
         if (type === 'success') {
             notification.find('.border-l-4').removeClass('border-red-500').addClass('border-green-500');
             notificationIcon.html(`
-                <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
             `);
         } else {
             notification.find('.border-l-4').removeClass('border-green-500').addClass('border-red-500');
             notificationIcon.html(`
-                <svg class="h-6 w-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             `);
@@ -886,14 +910,14 @@ $(document).ready(function() {
 
             tbody.append(`
                 <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${no++}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.kode_mk}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.nama_mk}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${jadwal.kelas}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Baru</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${sks}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <button class="delete-jadwal text-red-600 hover:text-red-900"
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">${no++}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">${jadwal.kode_mk}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">${jadwal.nama_mk}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">${jadwal.kelas}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">Baru</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">${sks}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                        <button class="text-red-600 delete-jadwal hover:text-red-900"
                                 data-jadwal-id="${jadwal.id}"
                                 title="Hapus Jadwal">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
