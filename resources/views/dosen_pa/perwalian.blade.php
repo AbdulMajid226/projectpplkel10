@@ -84,25 +84,25 @@ function searchMahasiswa() {
                     const irsData = item.irs_data;
 
                     let detailHTML = `
-                        <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+                        <div class="p-6 mb-8 bg-white rounded-lg shadow-md">
                             <div class="grid grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <div class="mb-4">
-                                        <label class="block text-xl font-semibold text-gray-700 mb-1">Nama</label>
+                                        <label class="block mb-1 text-xl font-semibold text-gray-700">Nama</label>
                                         <p class="text-base font-medium text-gray-900">${mhs.nama}</p>
                                     </div>
                                     <div class="mb-1">
-                                        <label class="block text-xl font-semibold text-gray-700 mb-1">NIM</label>
+                                        <label class="block mb-1 text-xl font-semibold text-gray-700">NIM</label>
                                         <p class="text-base font-medium text-gray-900">${mhs.nim}</p>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="mb-4">
-                                        <label class="block text-xl font-semibold text-gray-700 mb-1">Angkatan</label>
+                                        <label class="block mb-1 text-xl font-semibold text-gray-700">Angkatan</label>
                                         <p class="text-base font-medium text-gray-900">${mhs.angkatan}</p>
                                     </div>
                                     <div class="mb-1">
-                                        <label class="block text-xl font-semibold text-gray-700 mb-1">Program Studi</label>
+                                        <label class="block mb-1 text-xl font-semibold text-gray-700">Program Studi</label>
                                         <p class="text-base font-medium text-gray-900">${mhs.program_studi.nama_prodi}</p>
                                     </div>
                                 </div>
@@ -110,11 +110,11 @@ function searchMahasiswa() {
 
                             <!-- History IRS -->
                             <div class="mt-6">
-                                <h3 class="text-lg font-semibold mb-4">History IRS</h3>
+                                <h3 class="mb-4 text-lg font-semibold">History IRS</h3>
                                 <div class="space-y-2">
                                     ${irsData.map(irs => `
-                                        <div class="border rounded-lg overflow-hidden">
-                                            <button class="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none flex justify-between items-center"
+                                        <div class="overflow-hidden border rounded-lg">
+                                            <button class="flex items-center justify-between w-full px-6 py-4 text-left bg-white hover:bg-gray-50 focus:outline-none"
                                                     onclick="toggleSemesterDetail('${mhs.nim}_${irs.semester}')">
                                                 <div class="flex items-center space-x-4">
                                                     <span class="text-lg font-semibold text-blue-600">Semester-${irs.semester}</span>
@@ -123,7 +123,7 @@ function searchMahasiswa() {
                                                 </div>
                                                 <div class="flex items-center space-x-4">
                                                     <span class="text-gray-600">Total SKS: ${irs.matakuliah.reduce((total, mk) => total + mk.sks, 0)}</span>
-                                                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-5 h-5 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                                     </svg>
                                                 </div>
@@ -134,14 +134,14 @@ function searchMahasiswa() {
                                                     <table class="min-w-full">
                                                         <thead class="bg-gray-50">
                                                             <tr>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">No</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kode</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Mata Kuliah</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kelas</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">SKS</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Ruang</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Status</th>
-                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Nama Dosen</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">No</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Kode</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Mata Kuliah</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Kelas</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">SKS</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Ruang</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Status</th>
+                                                                <th class="px-6 py-3 text-base font-semibold text-left text-gray-700 uppercase">Nama Dosen</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="divide-y divide-gray-200">
@@ -164,9 +164,9 @@ function searchMahasiswa() {
                                                     </table>
 
                                                     <!-- Tombol Print PDF -->
-                                                    <div class="bg-gray-50 px-6 py-3 border-t">
+                                                    <div class="px-6 py-3 border-t bg-gray-50">
                                                         <a href="/irs/print/${irs.semester}/${irs.thn_ajaran.replace('/', '_')}"
-                                                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
+                                                           class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-600 rounded-md shadow-sm hover:bg-blue-700">
                                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                       d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
