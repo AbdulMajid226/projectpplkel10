@@ -76,4 +76,10 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Waktu::class, 'waktu_id');
     }
+
+    public function dosen()
+    {
+        return $this->belongsToMany(Dosen::class, 'pengampuan_dosen', 'kode_mk', 'nidn')
+                    ->using(PengampuanDosen::class);
+    }
 }

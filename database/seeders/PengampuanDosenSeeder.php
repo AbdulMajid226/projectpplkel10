@@ -12,15 +12,15 @@ class PengampuanDosenSeeder extends Seeder
     {
         PengampuanDosen::insert([
             ['nidn' => '123456', 'kode_mk' => 'PAIK6101'],
-            ['nidn' => '123456', 'kode_mk' => 'PAIK6102'],
-            ['nidn' => '123456', 'kode_mk' => 'PAIK6103'],
-            ['nidn' => '123456', 'kode_mk' => 'PAIK6104'],
-            ['nidn' => '123456', 'kode_mk' => 'PAIK6105'],
-            ['nidn' => '223456', 'kode_mk' => 'PAIK6101'],
             ['nidn' => '223456', 'kode_mk' => 'PAIK6102'],
-            ['nidn' => '223456', 'kode_mk' => 'PAIK6103'],
-            ['nidn' => '223456', 'kode_mk' => 'PAIK6104'],
-            ['nidn' => '223456', 'kode_mk' => 'PAIK6105'],
+            ['nidn' => '323456', 'kode_mk' => 'PAIK6103'],
+            ['nidn' => '423456', 'kode_mk' => 'PAIK6104'],
+            ['nidn' => '523456', 'kode_mk' => 'PAIK6105'],
+            ['nidn' => '223456', 'kode_mk' => 'PAIK6101'],
+            ['nidn' => '323456', 'kode_mk' => 'PAIK6102'],
+            ['nidn' => '423456', 'kode_mk' => 'PAIK6103'],
+            ['nidn' => '523456', 'kode_mk' => 'PAIK6104'],
+            ['nidn' => '623456', 'kode_mk' => 'PAIK6105'],
 
             ['nidn' => '223456', 'kode_mk' => 'PAIK6201'],
             ['nidn' => '223456', 'kode_mk' => 'PAIK6202'],

@@ -77,34 +77,34 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">No</th>
-                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kode Mata Kuliah</th>
-                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Nama Mata Kuliah</th>
-                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Semester</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kode</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Mata Kuliah</th>
                                     <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kelas</th>
-                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Status</th>
                                     <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">SKS</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Ruang</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Status</th>
+                                    <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Nama Dosen</th>
+
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach($irs_per_semester['matakuliah'] as $index => $mk)
-                                <tr>
-                                    <td class="px-6 py-4">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4">{{ $mk['kode_mk'] }}</td>
-                                    <td class="px-6 py-4">{{ $mk['nama_mk'] }}</td>
-                                    <td class="px-6 py-4">{{ $mk['semester'] }}</td>
-                                    <td class="px-6 py-4">{{ $mk['kelas'] }}</td>
-                                    <td class="px-6 py-4">{{ $mk['status_pengambilan'] }}</td>
-                                    <td class="px-6 py-4">{{ $mk['sks'] }}</td>
-                                </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">{{ $index + 1 }}</td>
+                                        <td class="px-6 py-4">{{ $mk['kode_mk'] }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ $mk['nama_mk'] }}
+                                            <div class="text-sm text-gray-500">{{ $mk['waktu'] }}</div>
+                                        </td>
+                                        <td class="px-6 py-4">{{ $mk['kelas'] }}</td>
+                                        <td class="px-6 py-4">{{ $mk['sks'] }}</td>
+                                        <td class="px-6 py-4">{{ $mk['ruang'] }}</td>
+                                        <td class="px-6 py-4">{{ $mk['status_pengambilan'] }}</td>
+                                        <td class="px-6 py-4">{{ $mk['nama_dosen'] }}</td>
+                                    </tr>
                                 @endforeach
 
-                                <!-- Baris Total SKS -->
-                                <tr class="bg-gray-50 font-semibold">
-                                    <td colspan="6" class="px-6 py-4 text-right">Total SKS:</td>
-                                    <td class="px-6 py-4">
-                                        {{ $totalSks }}
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

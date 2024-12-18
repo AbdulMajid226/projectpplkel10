@@ -23,6 +23,11 @@ class Dosen extends Model
         return $this->belongsToMany(MataKuliah::class, 'pengampuan_dosen', 'nidn', 'kode_mk');
     }
 
+    public function jadwal()
+    {
+        return $this->belongsToMany(Jadwal::class, 'pengampuan_dosen', 'nidn', 'kode_mk');
+    }
+
     public function programStudi()
     {
         return $this->belongsTo(ProgramStudi::class, 'kode_prodi');
