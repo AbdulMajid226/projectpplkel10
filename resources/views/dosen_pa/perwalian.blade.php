@@ -7,7 +7,7 @@
 <div class="flex flex-col mb-8 md:flex-row md:items-center md:justify-between">
     <div>
         <h1 class="text-3xl font-bold text-gray-800">Mahasiswa Perwalian</h1>
-        <p class="mt-2 text-gray-600">Halaman ini menampilkan daftar mahasiswa perwalian</p>
+        <p class="mt-2 text-gray-600">Halaman ini menampilkan detail IRS mahasiswa perwalian</p>
     </div>
     <div class="mt-4 md:mt-0">
         <span class="px-4 py-2 text-sm font-semibold text-teal-800 bg-teal-100 rounded-full">
@@ -19,8 +19,8 @@
 
 <!-- Filter dan Pencarian -->
 <div class="flex flex-wrap gap-4 mb-6">
-    <select id="prodi" class="p-2 border rounded focus:outline-none focus:border-teal-500">
-        <option value="">Pilih Program Studi</option>
+    <select id="prodi" class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500">
+        <option value="" >Pilih Program Studi</option>
         <option value="ARS">Arsitektur</option>
         <option value="BIO">Biologi</option>
         <option value="ELK">Teknik Elektro</option>
@@ -31,7 +31,7 @@
         <option value="TI">Teknik Industri</option>
     </select>
 
-    <select id="angkatan" class="p-2 border rounded focus:outline-none focus:border-teal-500">
+    <select id="angkatan" class="w-48 p-2 border rounded focus:outline-none focus:border-teal-500">
         <option value="">Pilih Angkatan</option>
         @for($i = date('Y'); $i >= date('Y')-4; $i--)
             <option value="{{ $i }}">{{ $i }}</option>
@@ -40,7 +40,7 @@
 
     <input type="text"
         id="searchInput"
-        placeholder="Cari nama/NIM mahasiswa..."
+        placeholder="Nama/NIM mahasiswa..."
         class="p-2 border rounded focus:outline-none focus:border-teal-500">
 
     <button onclick="searchMahasiswa()"
@@ -134,13 +134,14 @@ function searchMahasiswa() {
                                                     <table class="min-w-full">
                                                         <thead class="bg-gray-50">
                                                             <tr>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode Mata Kuliah</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mata Kuliah</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kelas</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Semester</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">SKS</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">No</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kode</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Mata Kuliah</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Kelas</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">SKS</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Ruang</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Status</th>
+                                                                <th class="px-6 py-3 text-left text-base font-semibold text-gray-700 uppercase">Nama Dosen</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="divide-y divide-gray-200">
@@ -148,11 +149,15 @@ function searchMahasiswa() {
                                                                 <tr>
                                                                     <td class="px-6 py-4">${index + 1}</td>
                                                                     <td class="px-6 py-4">${mk.kode_mk}</td>
-                                                                    <td class="px-6 py-4">${mk.nama_mk}</td>
+                                                                    <td class="px-6 py-4">
+                                                                    ${mk.nama_mk}
+                                                                    <div class="text-sm text-gray-500">${mk.waktu}</div>
+                                                                    </td>
                                                                     <td class="px-6 py-4">${mk.kelas}</td>
-                                                                    <td class="px-6 py-4">${mk.semester}</td>
-                                                                    <td class="px-6 py-4">${mk.status_pengambilan}</td>
                                                                     <td class="px-6 py-4">${mk.sks}</td>
+                                                                    <td class="px-6 py-4">${mk.ruang}</td>
+                                                                    <td class="px-6 py-4">${mk.status_pengambilan}</td>
+                                                                    <td class="px-6 py-4">${mk.nama_dosen}</td>
                                                                 </tr>
                                                             `).join('')}
                                                         </tbody>
