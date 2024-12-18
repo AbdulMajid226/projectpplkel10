@@ -42,7 +42,18 @@ class IRS extends Model
     public static function getIRSByNIM($nim)
     {
         return self::with(['jadwal' => function($query) {
-            $query->select('jadwal.id as id_jadwal', 'jadwal.kode_mk', 'nama_mk', 'kelas', 'sks', 'semester')
+            $query->with(['dosen', 'ruang', 'waktu'])
+                ->select(
+                    'jadwal.id as id_jadwal',
+                    'jadwal.kode_mk',
+                    'jadwal.kelas',
+                    'jadwal.kode_ruang',
+                    'jadwal.hari',
+                    'jadwal.waktu_id',
+                    'mata_kuliah.nama as nama_mk',
+                    'mata_kuliah.sks',
+                    'mata_kuliah.semester'
+                )
                 ->join('mata_kuliah', 'jadwal.kode_mk', '=', 'mata_kuliah.kode_mk');
         }])
         ->select('irs.id', 'nim', 'semester', 'thn_ajaran', 'status_persetujuan')
@@ -55,15 +66,24 @@ class IRS extends Model
                 'thn_ajaran' => $irs->thn_ajaran,
                 'status_persetujuan' => $irs->status_persetujuan,
                 'matakuliah' => $irs->jadwal->map(function($jadwal) use ($irs) {
+                    $dosen = Dosen::whereHas('pengampuanDosen', function($query) use ($jadwal) {
+                        $query->where('pengampuan_dosen.kode_mk', '=', $jadwal->kode_mk);
+                    })->pluck('nama')->join(', ');
+
                     return [
                         'kode_mk' => $jadwal->kode_mk,
-                        'nama_mk' => MataKuliah::where('kode_mk', $jadwal->kode_mk)->value('nama'),
+                        'nama_mk' => $jadwal->nama_mk,
                         'kelas' => $jadwal->kelas,
                         'semester' => $jadwal->semester,
                         'status_pengambilan' => PengambilanIRS::where('id_irs', $irs->id)
                                                 ->where('id_jadwal', $jadwal->id_jadwal)
                                                 ->value('status_pengambilan'),
-                        'sks' => $jadwal->sks
+                        'sks' => $jadwal->sks,
+                        'ruang' => $jadwal->kode_ruang,
+                        'nama_dosen' => $dosen,
+                        'waktu' => $jadwal->hari . ' pukul ' .
+                                  substr($jadwal->waktu->waktu_mulai, 0, 5) . ' - ' .
+                                  substr($jadwal->waktu->waktu_selesai, 0, 5),
                     ];
                 })
             ];

@@ -147,13 +147,13 @@
                 <!-- Kolom Kanan - Jadwal -->
                 <div class="w-3/4 bg-white rounded-lg shadow"> <!-- Mengubah lebar kolom kanan -->
                     <div class="grid grid-cols-6 border-b sticky -top-6 bg-white z-20 shadow-sm">
-                        <div class="p-4 font-semibold">Jam</div>
-                        <div class="p-4 font-semibold col-span-5 grid grid-cols-5 gap-12"> <!-- Menambahkan gap untuk jarak yang lebih lebar -->
-                            <div class="w-1/5">Senin</div>
-                            <div class="w-1/5">Selasa</div>
-                            <div class="w-1/5">Rabu</div>
-                            <div class="w-1/5">Kamis</div>
-                            <div class="w-1/5">Jumat</div>
+                        <div class="p-4 font-semibold border-r border-gray-300">Jam</div>
+                        <div class="p-4 font-semibold col-span-5 grid grid-cols-5">
+                            <div class="w-full border-r-2 border-gray-300 text-center">Senin</div>
+                            <div class="w-full border-r-2 border-gray-300 text-center">Selasa</div>
+                            <div class="w-full border-r-2 border-gray-300 text-center">Rabu</div>
+                            <div class="w-full border-r-2 border-gray-300 text-center">Kamis</div>
+                            <div class="w-full text-center">Jumat</div>
                         </div>
                     </div>
 
