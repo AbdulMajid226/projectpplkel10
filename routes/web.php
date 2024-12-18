@@ -12,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use App\Models\IRS;
+use App\Http\Controllers\MahasiswaController;
 
 //LOGIN & AUTH
 Route::get('/', function () {
@@ -74,11 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('khs_mhs');
 
     // Tambahkan route baru dalam group middleware auth
-    Route::post('/irs/approve/{id}', [IRSController::class, 'approve'])->name('irs.approve');
 
-    Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
-
-    Route::get('/irs/{id}/detail', [IRSController::class, 'getDetail'])->name('irs.detail');
 
     Route::post('/list-mk-mhs/store', [IRSController::class, 'storeListMK'])->name('list-mk-mhs.store');
     Route::delete('/list-mk-mhs/delete/{kode_mk}', [IRSController::class, 'deleteListMK'])->name('list-mk-mhs.delete');
@@ -89,7 +86,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rute print IRS
     Route::get('/irs/print/{semester}/{tahun}', [IRSController::class, 'printIRS'])
-        ->name('mahasiswa.print_irs');
+        ->name('mahasiswa.print_irs')
+        ->middleware(['auth', 'verified']);
+
+
 
 });
 
@@ -123,6 +123,12 @@ Route::get('/perwalian', function () {
 
     return view('dosen_pa.perwalian', compact('jumlah_semester', 'irs_data'));
 })->middleware(['auth', 'verified'])->name('perwalian');
+Route::post('/irs/approve/{id}', [IRSController::class, 'approve'])->name('irs.approve');
+
+Route::post('/irs/cancel/{id}', [IRSController::class, 'cancelApproval'])->name('irs.cancel');
+
+Route::get('/irs/{id}/detail', [IRSController::class, 'getDetail'])->name('irs.detail');
+Route::get('/search-mahasiswa', [MahasiswaController::class, 'searchMahasiswa'])->name('mahasiswa.search');
 
 //Bagian Akademik
 Route::get('/dashboard_bagianAkademik', [RuangController::class, 'dashboard'])->name('dashboard_bagianAkademik');

@@ -71,7 +71,7 @@ class IRSController extends Controller
             $jadwalData = $jadwal->map(function($j) use ($kuotaTerisi, $jadwalDipilih, $mkDipilih, $jadwalWaktu) {
                 $isSelected = in_array($j->id, $jadwalDipilih->pluck('id_jadwal')->toArray());
                 $mkSudahDipilih = isset($mkDipilih[$j->kode_mk]);
-                
+
                 // Cek apakah jadwal ini bertabrakan dengan jadwal yang sudah dipilih
                 $isBertabrakan = false;
                 foreach ($jadwalWaktu as $jw) {
@@ -91,7 +91,7 @@ class IRSController extends Controller
                         }
                     }
                 }
-                
+
                 return [
                     'id' => (int)$j->id,
                     'kode_mk' => $j->kode_mk,
@@ -374,10 +374,10 @@ class IRSController extends Controller
         try {
             $mahasiswa = Auth::user()->mahasiswa;
             $mataKuliah = MataKuliah::findOrFail($request->kode_mk);
-            
+
             ListMkMhs::updateOrCreate(
                 [
-                    'nim' => $mahasiswa->nim, 
+                    'nim' => $mahasiswa->nim,
                     'kode_mk' => $request->kode_mk
                 ],
                 [
@@ -402,7 +402,7 @@ class IRSController extends Controller
     {
         try {
             $nim = Auth::user()->mahasiswa->nim;
-            
+
             ListMkMhs::where('nim', $nim)
                      ->where('kode_mk', $kode_mk)
                      ->delete();
@@ -423,7 +423,7 @@ class IRSController extends Controller
     {
         try {
             $mahasiswa = Auth::user()->mahasiswa;
-            
+
             $listMK = ListMkMhs::where('nim', $mahasiswa->nim)
                               ->where('semester', $mahasiswa->semester_aktif)
                               ->with('mataKuliah')
@@ -440,7 +440,7 @@ class IRSController extends Controller
             ], 500);
         }
     }
-    
+
     public function deletePengambilanIRS($id)
     {
         try {
@@ -468,14 +468,16 @@ class IRSController extends Controller
     public function printIRS($semester, $tahun)
     {
         try {
-            $mahasiswa = Auth::user()->mahasiswa;
-            
             // Get IRS data for the specific semester and tahun
-            $irs = IRS::where('nim', $mahasiswa->nim)
-                      ->where('semester', $semester)
+            $irs = IRS::where('semester', $semester)
                       ->where('thn_ajaran', str_replace('_', '/', $tahun))
-                      ->with(['mahasiswa.pembimbingAkademik', 'pengambilanIrs.jadwal.mataKuliah'])
-                      ->with(['mahasiswa.programStudi.fakultas'])
+                      ->with([
+                          'mahasiswa.pembimbingAkademik',
+                          'mahasiswa.programStudi.fakultas',
+                          'pengambilanIrs.jadwal.mataKuliah',
+                          'pengambilanIrs.jadwal.waktu',
+                          'pengambilanIrs.jadwal.ruang'
+                      ])
                       ->firstOrFail();
 
             $today = now()->isoFormat('D MMMM Y');
