@@ -28,6 +28,11 @@ class IRSController extends Controller
             // Ambil semester aktif mahasiswa
             $semesterAktif = $mahasiswa->semester_aktif;
 
+             // Cek status IRS untuk semester aktif
+             $irs = IRS::where('nim', $mahasiswa->nim)
+             ->where('semester', $semesterAktif)
+             ->first();
+
             // Ambil mata kuliah sesuai semester beserta jadwalnya
             $mataKuliah = MataKuliah::with(['jadwal' => function($query) {
                 $query->with(['waktu', 'ruang'])
@@ -115,7 +120,8 @@ class IRSController extends Controller
             return view('mahasiswa.buat_irs', [
                 'mahasiswa' => $mahasiswa,
                 'mataKuliah' => $mataKuliah,
-                'jadwal' => $jadwalData
+                'jadwal' => $jadwalData,
+                'irs' => $irs
             ]);
 
         } catch (\Exception $e) {
