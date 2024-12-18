@@ -4,9 +4,9 @@
 
 @section('content')
     @if(Auth::user()->mahasiswa->status !== 'Aktif')
-        <div class="flex flex-col justify-center items-center py-6 min-h-screen bg-gray-100">
+        <div class="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">
             <div class="p-8 text-center bg-white rounded-lg shadow-md">
-                <svg class="mx-auto w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-16 h-16 mx-auto text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -14,15 +14,15 @@
                 <p class="mt-2 text-gray-600">Status anda saat ini: {{ Auth::user()->mahasiswa->status }}</p>
                 <p class="mt-1 text-gray-600">Silahkan selesaikan registrasi terlebih dahulu</p>
                 <a href="{{ route('registrasi_mhs') }}"
-                   class="inline-block px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                   class="inline-block px-4 py-2 mt-4 text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600">
                     Lakukan Registrasi
                 </a>
             </div>
         </div>
     @elseif($irs && $irs->status_persetujuan === 'Sudah Disetujui')
-        <div class="flex flex-col justify-center items-center py-6 min-h-screen bg-gray-100">
-            <div class="p-8 max-w-lg text-center bg-white rounded-lg shadow-md">
-                <svg class="mx-auto w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex flex-col items-center justify-center min-h-screen py-6 bg-gray-100">
+            <div class="max-w-lg p-8 text-center bg-white rounded-lg shadow-md">
+                <svg class="w-16 h-16 mx-auto text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
@@ -34,7 +34,7 @@
                 </p>
                 <div class="mt-6 space-y-3">
                     <a href="{{ route('irs_mhs') }}"
-                       class="inline-block px-4 py-2 w-full text-white bg-blue-500 rounded-lg transition-colors hover:bg-blue-600">
+                       class="inline-block w-full px-4 py-2 text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600">
                         Lihat IRS Saya
                     </a>
                     <p class="text-sm text-gray-500">
@@ -44,14 +44,14 @@
             </div>
         </div>
     @else
-        <div class="container overflow-auto px-4 py-6 mx-auto" style="height: 100vh;width: 200vw;">
-            <div class="flex justify-between items-center mb-6">
+        <div class="container px-4 py-6 mx-auto overflow-auto" style="height: 100vh;width: 200vw;">
+            <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Buat IRS</h1>
                 <h1 class="text-2xl font-bold text-gray-800">IRS (3sks)</h1>
             </div>
 
             <!-- Tabel IRS yang sudah dipilih -->
-            <div class="overflow-hidden mb-6 bg-white rounded-lg shadow">
+            <div class="mb-6 overflow-hidden bg-white rounded-lg shadow">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -79,8 +79,8 @@
             </div>
 
             <!-- Notifikasi -->
-            <div id="notification" class="fixed top-4 right-4 z-50 transition-transform duration-300 transform translate-x-full">
-                <div class="p-4 max-w-sm bg-white rounded-lg border-l-4 shadow-lg">
+            <div id="notification" class="fixed z-50 transition-transform duration-300 transform translate-x-full top-4 right-4">
+                <div class="max-w-sm p-4 bg-white border-l-4 rounded-lg shadow-lg">
                     <div class="flex items-center">
                         <div id="notificationIcon" class="flex-shrink-0">
                             <!-- Icon akan diisi melalui JavaScript -->
@@ -102,7 +102,7 @@
 
             <div class="flex gap-6">
                 <!-- Kolom Kiri -->
-                <div class="space-y-6 w-1/4"> <!-- Mengurangi lebar kolom informasi akademik -->
+                <div class="w-1/4 space-y-6"> <!-- Mengurangi lebar kolom informasi akademik -->
                     <!-- Informasi Akademik -->
                     <div class="p-4 bg-white rounded-lg shadow">
                         <h2 class="mb-4 text-lg font-semibold">Informasi Akademik</h2>
@@ -119,7 +119,7 @@
                             <input type="text"
                                    id="searchMataKuliah"
                                    placeholder="Cari Mata Kuliah"
-                                   class="p-3 w-full rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                    autocomplete="off">
                             <button class="absolute top-3 right-3">
                                 <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,8 +129,8 @@
                         </div>
 
                         <!-- Dropdown hasil pencarian -->
-                        <div id="searchResults" class="hidden absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg">
-                            <div class="overflow-y-auto p-2 space-y-2 max-h-60">
+                        <div id="searchResults" class="absolute z-10 hidden w-full mt-1 bg-white rounded-lg shadow-lg">
+                            <div class="p-2 space-y-2 overflow-y-auto max-h-60">
                                 @if($mataKuliah && $mataKuliah->count() > 0)
                                     @foreach($mataKuliah as $mk)
                                     <div class="p-3 rounded-lg cursor-pointer hover:bg-gray-50 mata-kuliah-item"
@@ -140,7 +140,7 @@
                                          data-semester="{{ $mk->semester }}"
                                          data-sifat="{{ strtoupper($mk->sifat) }}">
                                         <h3 class="font-medium">{{ $mk->nama }}</h3>
-                                        <div class="flex justify-between items-center">
+                                        <div class="flex items-center justify-between">
                                             <p class="text-sm text-gray-600">{{ $mk->kode_mk }} SMT {{ $mk->semester }} {{ strtoupper($mk->sifat) }}</p>
                                             <p class="text-sm text-gray-500">{{ $mk->sks }} SKS</p>
                                         </div>
@@ -170,7 +170,7 @@
 
                 <!-- Kolom Kanan - Jadwal -->
                 <div class="w-3/4 bg-white rounded-lg shadow"> <!-- Mengubah lebar kolom kanan -->
-                    <div class="grid sticky -top-6 z-20 grid-cols-6 bg-white border-b shadow-sm">
+                    <div class="sticky z-20 grid grid-cols-6 bg-white border-b shadow-sm -top-6">
                         <div class="p-4 font-semibold border-r border-gray-300">Jam</div>
                         <div class="grid grid-cols-5 col-span-5 p-4 font-semibold">
                             <div class="w-full text-center border-r-2 border-gray-300">Senin</div>
@@ -181,7 +181,7 @@
                         </div>
                     </div>
 
-                    <div class="grid relative grid-cols-6">
+                    <div class="relative grid grid-cols-6">
                         <!-- Kolom waktu -->
                         <div class="border-r sticky left-0 top-[42px] bg-white z-10">
                             <div class="border-b h-[100px] px-4 py-2 text-sm">07:00</div>
@@ -221,20 +221,20 @@
     @endif
 
     <!-- Modal Konfirmasi -->
-    <div id="konfirmasiModal" class="hidden overflow-y-auto fixed inset-0 z-50">
-        <div class="flex justify-center items-center px-4 min-h-screen">
+    <div id="konfirmasiModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
 
             <!-- Modal Content -->
-            <div class="relative p-6 w-full max-w-md bg-white rounded-lg shadow-xl">
+            <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Pemilihan Jadwal</h3>
                 </div>
 
                 <div class="mb-4 space-y-3">
                     <p class="text-gray-600">Apakah Anda yakin ingin memilih jadwal berikut:</p>
-                    <div class="p-3 bg-gray-50 rounded-lg">
+                    <div class="p-3 rounded-lg bg-gray-50">
                         <p class="font-medium text-gray-900" id="modalMataKuliah"></p>
                         <div class="mt-2 space-y-1 text-sm text-gray-600">
                             <p id="modalKode"></p>
@@ -261,20 +261,20 @@
     </div>
 
     <!-- Modal Konfirmasi Hapus -->
-    <div id="konfirmasiHapusModal" class="hidden overflow-y-auto fixed inset-0 z-50">
-        <div class="flex justify-center items-center px-4 min-h-screen">
+    <div id="konfirmasiHapusModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black opacity-50"></div>
 
             <!-- Modal Content -->
-            <div class="relative p-6 w-full max-w-md bg-white rounded-lg shadow-xl">
+            <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Hapus Jadwal</h3>
                 </div>
 
                 <div class="mb-4 space-y-3">
                     <p class="text-gray-600">Apakah Anda yakin ingin menghapus jadwal berikut:</p>
-                    <div class="p-3 bg-gray-50 rounded-lg">
+                    <div class="p-3 rounded-lg bg-gray-50">
                         <p class="font-medium text-gray-900" id="hapusModalMataKuliah"></p>
                         <div class="mt-2 space-y-1 text-sm text-gray-600">
                             <p id="hapusModalKode"></p>
