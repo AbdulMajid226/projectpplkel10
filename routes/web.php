@@ -97,8 +97,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/dashboardpa', function () {
     $irsController = new IRSController();
 
-    $tahunAjaranAktif = 'Ganjil 2024/2025';
-
     $jumlahstatus = [
         'belumMengisi' => $irsController->countByStatus('Belum Mengisi'),
         'menungguPersetujuan' => $irsController->countByStatus('Menunggu Persetujuan'),
@@ -111,8 +109,10 @@ Route::get('/dashboardpa', function () {
         'disetujui' => $irsController->getIRSByStatus('Sudah Disetujui')
     ];
 
-    return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData', 'tahunAjaranAktif'));
+    return view('dosen_pa.dashboard', compact('jumlahstatus', 'irsData'));
 })->middleware(['auth', 'verified'])->name('dashboardpa');
+
+Route::delete('/irs/{id}/batalkan', [IRSController::class, 'batalkanIRS'])->name('irs.batalkan');
 
 
 Route::get('/perwalian', function () {
@@ -176,5 +176,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/mata-kuliah/{kode_mk}', [JadwalController::class, 'getMataKuliah'])
     ->name('mata-kuliah.get');
+
 
 require __DIR__.'/auth.php';

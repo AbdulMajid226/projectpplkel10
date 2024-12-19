@@ -493,4 +493,27 @@ class IRSController extends Controller
             return redirect()->back()->with('error', 'Gagal mencetak IRS: ' . $e->getMessage());
         }
     }
+
+    public function batalkanIRS($id)
+    {
+        try {
+            $irs = IRS::findOrFail($id);
+
+            // Hapus semua pengambilan IRS terkait
+            PengambilanIRS::where('id_irs', $irs->id)->delete();
+
+            // Hapus IRS
+            $irs->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'IRS berhasil dibatalkan'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membatalkan IRS: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

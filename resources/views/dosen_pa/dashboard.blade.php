@@ -158,16 +158,23 @@
                         <td class="px-4 py-2 border border-gray-300">{{ $irs->mahasiswa->angkatan }}</td>
                         <td class="px-4 py-2 border border-gray-300">0</td>
                         <td class="px-4 py-2 border border-gray-300">
-                            <button
-                                class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
-                                onclick="showDetail({{ $irs->id }})">
-                                Detail
-                            </button>
-                            <button
-                                class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                                onclick="cancelApproval({{ $irs->id }})">
-                                Batalkan Persetujuan
-                            </button>
+                            <div class="flex space-x-2">
+                                <button
+                                    class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                                    onclick="showDetail({{ $irs->id }})">
+                                    Detail
+                                </button>
+                                <button
+                                    class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                                    onclick="cancelApproval({{ $irs->id }})">
+                                    Batalkan Persetujuan
+                                </button>
+                                <button
+                                    class="px-3 py-1 text-white bg-rose-600 rounded hover:bg-rose-700"
+                                    onclick="batalkanIRS({{ $irs->id }})">
+                                    Batalkan IRS
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -442,6 +449,42 @@
                     }
                 });
             }
+        }
+
+        function batalkanIRS(irsId) {
+            showModal(
+                'Konfirmasi Pembatalan IRS',
+                'Apakah Anda yakin ingin membatalkan IRS ini? Semua data pengambilan mata kuliah akan dihapus.',
+                () => {
+                    fetch(`/irs/${irsId}/batalkan`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update jumlah status
+                            document.querySelector('[data-status="belumMengisi"]').textContent =
+                                parseInt(document.querySelector('[data-status="belumMengisi"]').textContent) + 1;
+                            document.querySelector('[data-status="disetujui"]').textContent =
+                                parseInt(document.querySelector('[data-status="disetujui"]').textContent) - 1;
+
+                            // Refresh halaman untuk memperbarui tabel
+                            window.location.reload();
+                        } else {
+                            alert('Gagal membatalkan IRS: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat membatalkan IRS');
+                    });
+                }
+            );
         }
     </script>
 @endsection
