@@ -116,12 +116,7 @@ Route::delete('/irs/{id}/batalkan', [IRSController::class, 'batalkanIRS'])->name
 
 
 Route::get('/perwalian', function () {
-    $nim = '24060122130001';
-    $jumlah_semester = IRS::countIRSByNIM($nim);
-
-    $irs_data = IRS::getIRSByNIM($nim);
-
-    return view('dosen_pa.perwalian', compact('jumlah_semester', 'irs_data'));
+    return view('dosen_pa.perwalian');
 })->middleware(['auth', 'verified'])->name('perwalian');
 Route::post('/irs/approve/{id}', [IRSController::class, 'approve'])->name('irs.approve');
 
