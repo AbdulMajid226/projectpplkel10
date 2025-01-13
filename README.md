@@ -1,66 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+![images](https://github.com/user-attachments/assets/156856f8-314e-4889-8931-73539a66d1b8)# Tugas Besar Pengembangan Berbasis Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Kelompok 10:
+1. Abdul Majid (24060122120035)
+2. Ghirsan Ahdani (24060122120019)
+3. Muflih Muhammad Imaduddin (24060122140103)
+4. Sultan Alamsyah Borneo Arifin (24060122130079)
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Deskripsi Proyek
+Proyek ini merupakan sistem manajemen pengelolaan ruang kuliah, jadwal, dan registrasi IRS (Isian Rencana Studi) berbasis WEB. Aplikasi ini bertujuan untuk mendukung aktivitas akademik dengan menyediakan fitur-fitur berikut:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### **Bagian Akademik:**
+- Melihat dashboard bagian akademik dan daftar pengajuan ruangan berdasarkan status persetujuan (Sudah Disetujui, Menunggu Persetujuan, atau Ditolak).
+  ![image](https://github.com/user-attachments/assets/7b01c7ea-fabf-44a0-921a-400ac60c63a8)
 
-## Learning Laravel
+- Mengelola ruang kuliah berdasarkan program studi.
+- Mengedit dan menghapus pengajuan ruang kuliah.
+- Mengajukan ruang kuliah baru.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### **Dekan:**
+- Melihat status pengajuan ruang melalui dashboard.
+- Menyetujui atau menolak pengajuan ruang kuliah.
+- Melakukan pengesahan jadwal perkuliahan tiap program studi.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **Kaprodi:**
+- Mengelola mata kuliah program studi.
+- Membuat jadwal perkuliahan untuk mata kuliah tertentu.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### **Mahasiswa:**
+- Melakukan registrasi dan aktivasi status mahasiswa.
+- Membuat IRS dengan memilih mata kuliah dan jadwal sesuai kapasitas maksimal SKS.
+- Menghindari bentrokan jadwal secara otomatis.
+- Melihat, menyembunyikan, dan menghapus jadwal pada IRS.
 
-## Laravel Sponsors
+### **Pembimbing Akademik:**
+- Melihat tabel IRS yang menunggu persetujuan.
+- Menyetujui IRS yang diajukan mahasiswa.
+- Memantau status IRS yang telah disetujui.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Teknologi yang Digunakan
+- **Frontend:** [HTML. Tailwind CSS, jQuery]
+- **Backend:** [Laravel]
+- **Database:** [SQlite]
+  
