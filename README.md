@@ -1,4 +1,4 @@
-Tugas Besar Pengembangan Berbasis Platform
+Tugas Besar Pengembangan Berbasis Platform dan Proyek Perangkat Lunak
 
 ## Kelompok 10:
 1. Abdul Majid (24060122120035)
